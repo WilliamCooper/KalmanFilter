@@ -1,0 +1,52 @@
+digraph GPC {
+  subgraph "cluster2" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "Calculate Kalman-gain\nmatrix K" -> "Update SV using K and z" -> "Update V using K" -> "Save corrected SV" [];
+    label="Kalman update step";
+  }
+  subgraph "cluster1" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "Next IRU measurements" -> "INS step forward" -> "tentative new SV" -> "Update covariance matrix V" [];
+    label="mechanization step";
+  }
+  subgraph "cluster0" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "INS alignment" -> "initial state vector (SV)" -> "initial error estimates" [weight=9];
+    label="initialization";
+  }
+    
+  size ="8,6";
+   node [style=filled, color=lightblue];
+  "Kalman-Filter Loop" [shape=Mdiamond];
+   node [style=filled, color=white];
+  ## {rank=same;"check for\nrequired variables";"Savitzky-Golay filter\napplied to velocity errors";"construct high-\nrate variables\nby interpolation";}
+  "INS alignment" [shape=box, width=3];
+  "initial state vector (SV)" [shape=box, width=3];
+  "initial error estimates" [shape=box, width=3];
+  "Next IRU measurements" [shape=box, width=2.5];
+  "INS step forward" [shape=box, width=2.5];
+  "tentative new SV" [shape=box, width=3];
+  "Update covariance matrix V" [shape=box, width=3];
+  "Calculate Kalman-gain\nmatrix K" [shape=box, width=3];
+  "Get corresponding measurements\nfrom GPS [z]" [shape=box, width=3];
+  "Update SV using K and z" [shape=box, width=3];
+  "Update V using K" [shape=box, width=3];
+  "Save corrected SV" [shape=box, width=3];
+  
+  "Kalman-Filter Loop" -> "INS alignment" [style="invis", weight=1];
+  "Kalman-Filter Loop" -> "Next IRU measurements" [style="invis", weight=1];
+  "Kalman-Filter Loop" -> "Calculate Kalman-gain\nmatrix K" [style="invis", weight=1];
+  "initial error estimates" -> "Next IRU measurements" [weight=8];
+  "Update covariance matrix V" -> "Calculate Kalman-gain\nmatrix K" [weight=8];
+  "Get corresponding measurements\nfrom GPS [z]" -> "Update SV using K and z" [weight=8];
+  # "CorrectPitch ()" -> "construct high-\nrate variables\nby interpolation" [weight=8];
+  # "set dimensions of matrix" -> "Return" [weight=1]
+  # "rotate to a-frame" -> "Return" [style="invis",weight=1]
+  # "interpolate for\nmissing values" -> "Savitzky-Golay filter\napplied to velocity errors" [color=red, weight=0]
+}

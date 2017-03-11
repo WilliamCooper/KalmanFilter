@@ -1,0 +1,1653 @@
+%% LyX 2.2.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[12pt,british,english]{article}
+\usepackage{mathptmx}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper]{geometry}
+\geometry{verbose,tmargin=3.54cm,bmargin=2.54cm,lmargin=2.54cm,rmargin=2.54cm,headheight=1cm,headsep=2cm,footskip=0.5cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{varioref}
+\usepackage{calc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[authoryear]{natbib}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\usepackage[unicode=true]
+ {hyperref}
+\usepackage{breakurl}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\providecommand{\LyX}{\texorpdfstring%
+  {L\kern-.1667em\lower.25em\hbox{Y}\kern-.125emX\@}
+  {LyX}}
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\newenvironment{lyxcode}
+{\par\begin{list}{}{
+\setlength{\rightmargin}{\leftmargin}
+\setlength{\listparindent}{0pt}% needed for AMS classes
+\raggedright
+\setlength{\itemsep}{0pt}
+\setlength{\parsep}{0pt}
+\normalfont\ttfamily}%
+ \item[]}
+{\end{list}}
+\newenvironment{lyxlist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+ \setlength{\leftmargin}{\labelwidth}
+ \addtolength{\leftmargin}{\labelsep}
+ \renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lylist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lylist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lylist}}
+\newcommand{\cc}[1]{\begin{lylist}{Attachments:00}
+\item [cc:] {#1}
+\end{lylist}}
+\newcommand{\attach}[1]{\begin{lylist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lylist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+
+\makeatother
+
+\begin{document}
+\EOLmemo 
+
+\global\addressee={KalmanFilter archive: workflow document}  % >>change "File" to the "To:" name desired
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{To:}}} & \the\addressee\tabularnewline
+\textsf{\textsc{\textcolor{blue}{From:}}} & William Cooper\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Subject:}}} & workflow for generating the Kalman filter Tech. Note\tabularnewline
+\end{tabular}
+
+\bigskip
+
+<<initialization,echo=FALSE,include=FALSE>>=
+
+
+library(knitr)
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+opts_chunk$set(fig.width=6, fig.height=5, fig.pos="center", digits=4)
+thisFileName <- "WorkflowAttitudeAngleNote"
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+require(ggplot2)
+require(grid)
+require(ggthemes)
+Directory <- DataDirectory ()
+Flight <- "rf01" 				# XXX change this
+Project = "DEEPWAVE"			 # XXX change this
+ProjectDir <- "DEEPWAVE"
+fname = sprintf("%s%s/%s%s.nc", Directory,ProjectDir,Project,Flight)
+Data <- getNetCDF (fname, standardVariables())		#XXX set variables needed here
+SaveRData <- sprintf("%s.Rdata", thisFileName)
+
+@
+
+\section{Purpose}
+
+This workflow description documents the steps leading to the code
+in ``KalmanFilterTechNote.Rnw'' and provides additional detail not
+in the report ``KalmanFilterTechNote.pdf.'' KalmanFilterTechNote.Rnw
+contains both text (in \LaTeX{} format) and R processing script for
+the analyses in the resulting report on the development of a Kalman
+filter for use with measurements from the NSF/NCAR Gulfstream V research
+aircraft. The description of workflow provided here includes the process
+of collecting the observations and processing them to data files,
+the data archives used, the steps required to generate the plots and
+other results including the instances where manual intervention is
+required to identify appropriate subsets of the data, the relevant
+R code and \LaTeX{} documents, and all the steps leading to the generation
+of the text in the technical note. \textquotedbl{}KalmanFilterTechNote.Rnw\textquotedbl{}
+is the definitive reference, but this overview and these diagrams
+will help explain the workflow at a general level and so should substitute
+for reading the R and \LaTeX{} code in most cases. The intent is
+to describe the workflow in sufficient detail to support replication
+of the analysis and figures presented in the report, to facilitate
+changes based on new data or new analysis approaches, and to make
+it practical to apply the proposed algorithms to data collected by
+research aircraft used in atmospheric studies.
+
+The document is intended for publication as an NCAR Technical Note.
+Some parts may be suitable to accompany a separate journal article
+that describes alternate and simpler methods for correcting attitude
+angles. Both this document and that proposed publication augment the
+material presented in the NCAR Technical Note ``Uncertainty in Measurements
+of Wind from the NSF/NCAR Gulfstream Aircraft'' \citet{Cooper2016ncartn}. 
+
+\section{Acquisition of the primary data}
+
+The measurements used in this report were collected using the NSF/NCAR
+GV research aircraft during the DEEPWAVE project of 2014. The onboard
+data-acquisition program 'aeros' recorded the data in digital format,
+and those data files were then processed by the program 'nimbus' to
+produce an archive in NetCDF format. The software management group
+of NCAR/EOL maintains a version-controlled archive of these programs,
+so if they are of interest they can be obtained by contacting the
+data-management group of EOL (\href{mailto:raf-dm@eol.ucar.edu}{at this }
+or \href{mailto:datahelp@eol.ucar.edu}{this} address). The data files
+available from NCAR/EOL can be found at links on \href{https://www.eol.ucar.edu/all-field-projects-and-deployments}{this URL}.
+The details of the processing algorithms including those for the calculation
+of wind are documented in this report on \href{https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA}{Processing Algorithms}
+and in \citet{Bulletin23}. These procedures as they pertain to the
+measurement of wind are also documented in \citet{Cooper2016ncartn}.
+The resulting data files contain measurements in scientific units
+and brief descriptions of each measurement, included as netCDF attributes
+for the files and for each variable.
+
+One special file was generated and used in KalmanFilterTechNote.Rnw,
+a netCDF file named DWIRUrf15HR.nc. It was generated by the program
+nimbus (version of January 2016) by specifying a 25-Hz data rate and
+by including the variables needed for the ``mechanization'' described
+in this report. That file is not part of the standard project archives
+and so must be obtained separately, as described in the ``Reproducibility''
+appendix to the report, but as used it is also saved as KalmanFilterTechNote.Rdata
+and can be used in that condensed form in the reference program.
+
+\section{The KalmanFilterTechNote.Rnw file}
+
+The .Rnw file is basically \LaTeX{} text, generated for simplicity
+using \LyX{} and exported to .Rnw format and then processed in RStudio
+(\citet{RStudio2012}). The .lyx file (KalmanFilterTechNote.lyx) will
+run equivalently and produce a PDF-format version of the manuscript.
+Within the .Rnw file or within the .lyx file there are ``chunks''
+of R code (\citet{Rlanguage}), delineated by a header having this
+format:
+\begin{lyxcode}
+\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\begin{lyxcode}
+<\textcompwordmark{}<title,~var=setting,~...>\textcompwordmark{}>=
+
+...R~code...
+
+@
+\end{lyxcode}
+%
+\end{minipage}}
+\end{lyxcode}
+These chunks generate plots and other results of analyses that are
+incorporated into the manuscript using 'knitr' (\citet{Xie2014a,Xie2014b}).
+In RStudio, the chunks appear as gray sections in the file when it
+is edited. Where tasks involve execution of R code, the chunk containing
+the code is referenced in the discussion below. Any results from the
+processing can be incorporated into the \LaTeX{} text via ``\textbackslash{}Sexpr\{\}''
+calls embedded in the \LaTeX{} portion of the file.
+
+Two ``switches'' serve to speed execution of the code: (1) ``ReloadData,''
+which when TRUE causes the original archive data files to be read;
+and the option ``CACHE'' which, when true, causes previously generated
+subsets of the results to be re-used as saved in a subdirectory ``cache.''
+Both are provided to speed execution in cases where small changes
+are made. When ReloadData is FALSE subsets of data files previously
+saved as ``Rdata'' files are restored to R data.frames, a process
+that is much faster than re-reading the original archive data file.
+If cache is FALSE all calculations are performed, but using ``cache=TRUE''
+is usually much faster after the first run. To ensure a clean run,
+set CACHE to be FALSE and remove all entries from the ``cache''
+subdirectory.
+
+After an introductory section, the program and the report are organized
+into three main sections: (1) calculation of the derivative of the
+state vector (position, aircraft velocity, and aircraft attitude angles)
+from the measured accelerations and rotation rates, leading to a trial
+``mechanization'' for validation by comparison to the INS-provided
+solution; (2) a set of special topics that deal with component studies
+like improvement in the variables used for rate of climb and angle
+of attack and retrieval of the original measurements from data archives
+where they are missing; and (3) a description of the Kalman filter
+itself, with illustrative results. These sections are discussed in
+detail in this workflow document, which is in turn generated by a
+\LyX{} file (``WorkflowKalmanFilter.lyx''). There is additional
+material and code at the end that adds the new variables to the data
+archive after correction by the Kalman filter.
+
+A top-level workflow diagram for the Kalman filter technical is presented
+in Fig.~\ref{fig:Kalman-filter-workflow}. The Table of Contents
+in the technical note provides an overview of the structure of the
+document, while Fig.~\ref{fig:Kalman-filter-workflow} focuses more
+on the logical flow of the routine that generates both the technical
+note and a new data file containing the measurements as corrected
+by the Kalman filter. 
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\textwidth]{FlowDiagrams/FlowChartKalmanFilterTN}
+\par\end{centering}
+\caption{Top-level workflow diagram for the Kalman filter technical note. Some
+items (e.g., ``run the main Kalman-filter loop'') are described
+in additional workflow diagrams below. \label{fig:Kalman-filter-workflow}}
+\end{figure}
+
+Some sections (mechanization, retrieval of IRU-provided measurements,
+simplified correction functions, and the Kalman-filter loop) have
+their own workflow diagrams in the sections where they are discussed.
+
+\section{Required R packages including Ranadu}
+
+The R code used for analysis reported in this paper relies heavily
+on a package of routines for R called ``Ranadu.'' This is a set
+of R scripts for working with the NetCDF archive data files produced
+by NCAR/EOL/RAF, and it includes some convenience routines for generating
+plots and performing other data-analysis tasks with the archived data.
+The Ranadu package is available at this \href{https://github.com/WilliamCooper/Ranadu.git}{GitHub address}.
+To run the R code referenced here, that package should be included
+in the R installation. The KalmanFilterTechNote.Rnw routine requires
+that package and also some others referenced in the file, including
+``knitr'', ``ggplot2'', ``grid'', ``ggthemes'', ``zoo'',
+``signal'' and ``numDeriv''. In addition, Ranadu requires ``ncdf4'',
+``tcltk'' and ``stats''. Some parts of ``Ranadu'' reference
+additional packages as needed, but they are not used in KalmanFilter.Rnw
+so do not need to be available for this routine to run.
+
+The data processing for this manuscript involved revising some parts
+of the Ranadu package, as listed below. The relative timing among
+measurements is particularly important in this study, so some development
+of utilities to aid in studies of timing was useful. The netCDF files
+sometimes have mixed rates, e.g., 5\_Hz for GPS-provided measurements
+and 25~Hz for some others including interpolation to 25~Hz from
+13~Hz for IRS-provided measurements. In ``Ranadu'', this is handled
+appropriately in the ``getNetCDF()'' routine, sometimes with the
+``ShiftInTime()'' routine to adjust for delays among the variables
+and the ``SmoothInterp()'' routine to interpolate for missing values
+and smooth the variables. Most of the plots are generated using ``ggplotWAC()''
+or ``plotWAC()'', which are simple convenience routines that set
+various options preferred by the author before calling the R ``ggplot()''
+or ``plot()'' routines.
+
+\subsection{Ranadu::getNetCDF () modifications}
+
+To handle data files with mixed-rate variables (e.g., 5-Hz GPS but
+25-Hz IRS and others at 1 Hz), this script for reading the netCDF
+data files incorporates code to produce a single-rate R data.frame.
+For this purpose, there is a function ``IntFilter()'' in that script
+that interpolates and filters variables. The RAF data archives follow
+the convention that each sample is tagged with a time that is the
+\emph{beginning} of the time interval, not the center. For example,
+for 50-Hz samples averaged to one second, the recorded variable represents
+the average of 50 samples beginning at the specified time and so should
+be interpreted as a sample average at 0.5~s past that specified time.
+The ``IntFilter()'' routine observes this convention by interpolating
+a low-rate sample to the specified higher rate and then shifting the
+resulting time series forward in time by half the original time interval,
+with duplication of the first measurement to fill the initial 1/2-period
+slots and also replication of the trailing 1/2-period slots that are
+not filled by the linear interpolation routine. Tests verified that
+this provided an appropriate representation of the measurement as
+interpolated to the higher rate and shifted forward to match other
+higher-rate measurements.
+
+\subsection{Ranadu::ShiftInTime ()\label{subsec:ShiftInTime}}
+
+To shift time series variables forward or backward, this new function
+was added to the ``Ranadu'' package. The function interpolates the
+supplied time series to a higher rate (125~Hz), uses the R function
+``stats::approx()'' for linear interpolation, shifts the interpolated
+series an appropriate number of bins forward or backward (duplicating
+or truncating the end values as necessary), optionally applies a Savitzgky-Golay
+smoothing filter, and then returns an appropriate subset to represent
+the shifted time series at the original sample rate.
+
+\subsection{Ranadu::XformLA ()\label{subsec:XformLA}}
+
+At many places the mechanization and Kalman-filter algorithms require
+transformation from the aircraft or $a$-frame reference coordinates
+to a local-level Earth-relative frame or $l$-frame in which the \{x,
+y, z\} coordinates are respectively east, north, and up. This transformation
+was coded as a new ``Ranadu'' function. This function takes as input
+a data.frame containing the attitude angles measured by the INS in
+variables named PITCH, ROLL, and THDG (true heading), all in units
+of degrees. It transforms an $a$-frame vector to an $l$-frame vector
+and returns the result. It would be preferable to do this in vectorized
+form, but such a representation hasn't yet been found, so the function
+uses a loop. As noted in the routine, the approach using R 'apply()'
+functions was slower than the loop, but that is because the specific
+approach tried here is likely unnecessarily convoluted. This is an
+area of needed improvement, but the loop as coded is practical and
+adequate for this study. The routine also accepts an ``inverse''
+argument with default value FALSE; when true, the transformation is
+from the \emph{l-}frame to the \emph{a-}frame instead.
+
+The transformation coded in this routine was obtained in standard
+ways using rotations $\phi$ about the roll axis, then $\theta$ about
+the pitch axis, and then $\psi$ about the heading axis. The text
+lists sources for this transformation, but they differ from the matrix
+used here in that this transformation starts from what is called here
+the $a$-frame or aircraft reference frame with $x$ forward, $y$
+starboard, and $z$ downward and transforms to the local frame or
+$l$-frame with $x$ east, $y$ north, and $z$ upward. The transformation
+matrix $\mathbf{R}_{a}^{l}$ is obtained as follows, where the first
+matrix changes the axis definitions:\\
+\[
+\mathbf{R}_{a}^{l}=\left(\begin{array}{ccc}
+0 & 1 & 0\\
+1 & 0 & 0\\
+0 & 0 & -1
+\end{array}\right)\left(\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right)\left(\begin{array}{ccc}
+\cos\theta & 0 & -\sin\theta\\
+0 & 1 & 0\\
+\sin\theta & 0 & \cos\theta
+\end{array}\right)\left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \cos\phi & \sin\phi\\
+0 & -\sin\phi & \cos\phi
+\end{array}\right)
+\]
+\\
+\begin{equation}
+R_{a}^{l}=\begin{bmatrix}\sin\psi\cos\theta & \sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi & \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi\\
+\cos\psi\cos\theta & \cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi & -\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi\\
+-\sin\theta & \cos\theta\sin\phi & -\cos\theta\cos\phi
+\end{bmatrix}\label{eq:XformLA}
+\end{equation}
+
+Two references for this transformation are listed in the manuscript.
+As checks, the transformations given in those two references (Eq.~2.6
+in \citet{Bulletin23} and Eq.~2-82 in \citet{noureldin2013fundamentals})
+were further transformed to give directly the $a$-frame-to-$l$-frame
+transformation, with signs of rotation angles as required, and each
+led to (\ref{eq:XformLA}). 
+
+It seemed useful to check that this transformation gives $l$-frame
+accelerations in reasonable agreement with those measured by GPS,
+so several checks were performed. One, reported in the manuscript,
+used a circle maneuver flown during DEEPWAVE research flight 15. The
+circle maneuvers are discussed in considerable detail in Sect.~7.1
+of \citet{Cooper2016ncartn}, where plots of the flight track in a
+coordinate frame drifting with the wind show that the Lagrangian tracks
+are close approximations to circles. They were flown under control
+of the flight management system of the aircraft, which was able to
+maintain constant roll angle to a tolerance of a fraction of a degree.
+Two circles were flown in left turns, then two additional circles
+were flown in right turns. The ground-speed components measured by
+GPS were differentiated to obtain reference measurements of the corresponding
+acceleration components, again using the approach of replacing missing
+values by interpolation and then using fitted Savitzgy-Golay polynomials
+to find the derivatives. In this case, because the conditions changed
+too rapidly for the long extents used in the pitch-correction algorithm,
+the length of the polynomials was reduced to 21 1-Hz measurements
+for the horizontal components and 7 1-Hz measurements for the vertical
+component of acceleration. The results are shown in Fig.~1 of the
+technical note. The agreement through several maneuvers supports the
+validity of the transformation used to determing \emph{l-}frame transformations
+from the measured accelerations in the \emph{a-}frame.
+
+Several other checks were performed also but have not been described
+in the manuscript. One important case was to consider a pitch maneuver
+in which the pitch was varied cyclically with about a 20-s period,
+with wings level but with airspeed and altitude varying. The maneuver
+flown on DEEPWAVE flight 15, 4:25:00\textendash 4:28:30 UTC, showed
+strong oscillations in the vertical acceleration, and again the body
+accelerations transformed to the $l$-frame matched will the accelerations
+deduced from the changes in vertical speed measured by the GPS receiver. 
+
+\section{Comments on ``The components of the derivatives''}
+
+The calculations are explained in the document, but it may be useful
+to elaborate on some of the choices that were made in regard to corrections
+for inertial effects. Such corrections enter during calculation of
+the accelerations and again during calculations of the rate of change
+in attitude angles.
+
+\subsection{Position derivative}
+
+The position state variables are latitude, longitude, and altitude.
+Their derivatives are related to the velocity state variable as follows
+(cf.~\citet[pages 47--48 and 175]{noureldin2013fundamentals}):
+\begin{enumerate}
+\item $d\lambda/dt=v_{n}/(R_{m}+z)$ where $\lambda$ is the latitude, $v_{n}$
+is the northward ground speed of the aircraft, $z$ the altitude,
+and $R_{m}$ the radius of the Earth about a meridional circle, taken
+to be\\
+\begin{equation}
+R_{m}=R_{e}\frac{(1-\epsilon^{2})}{(1-\epsilon^{2}\sin^{2}\lambda)^{3/2}}\label{eq:Rm}
+\end{equation}
+with the equatorial radius $R_{e}=6378137\,$m and the Earth's eccentricity
+$\epsilon=0.08181919.$
+\begin{enumerate}
+\item $d\Psi/dt=v_{e}/((R_{n}+z)\cos\lambda)$ where $\Psi$ is the longitude,
+$v_{e}$ is the eastward ground speed of the aircraft, and $R_{n}$
+the normal radius of the Earth's ellipsoid, taken to be\\
+\begin{equation}
+R_{n}=R_{e}\frac{1}{(1-\epsilon^{2}\sin^{2}\lambda)^{1/2}}\,\,\,\,\,.\label{eq:Rn}
+\end{equation}
+\item $dz/dt=v_{u}$ where $v_{u}$ is the vertical component of the aircraft
+motion. For the Kalman filter, the new variable ``ROC'' will be
+used for $v_{u}$; for the trial mechanization to duplicate the INS
+integration, the INS-provided variable VSPD was used.
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Velocity derivative (acceleration)}
+
+There are two corrections needed if the accelerations measured in
+the a-frame are to be used in the l-frame. First, a correction must
+be made for the Coriolis acceleration that arises from motion relative
+to a spherical Earch. In addition, a correction is needed because
+the l-frame itself moves and remains oriented to match the local-level
+orientation. Evaluation of the typical magnitudes arising from the
+inertial terms indicates that the corrections are minor but not negligible,
+and their omission leads to significant accumulated errors during
+mechanization. 
+
+The Coriolis acceleration is\\
+\begin{equation}
+\boldsymbol{C}_{c}=-2\boldsymbol{\Omega}_{e}\times\boldsymbol{V}\label{eq:Coriolis}
+\end{equation}
+where $\boldsymbol{\Omega_{e}}$ is the angular rotation rate of the
+Earch and $\boldsymbol{V}$ is the velocity of the aircraft relative
+to the Earth. 
+
+In the R code, this equation and others involving vector cross products
+are represented by skew-symmetric matrices, so this choice merits
+some explanation. Strangely, core R mathematical functions do not
+include the cross product needed by (\ref{eq:Coriolis}). Instead,
+in R, the ``cross product'' has a different meaning. Of course,
+there are many solutions that contributors have produced that could
+be used, but it seemed awkward to use a non-standard package for such
+a basic function and it seemed appropriate to select a solution that
+ensured reproducibility in the future. The representation of the cross
+product via a skew-symmetric matrix provides such a solution, but
+it is likely to be unfamiliar to many readers so an elaboration is
+provided here: If an angular-rotation vector has coordinates $\boldsymbol{{\bf \omega}}=(\omega_{1},\,\omega_{2},\,\omega_{3})$
+then the skew-symmetric representation is \\
+\begin{equation}
+\boldsymbol{S}=\left(\begin{array}{ccc}
+0 & -\omega_{3} & \omega_{2}\\
+\omega_{3} & 0 & -\omega_{1}\\
+-\omega_{2} & \omega_{1} & 0
+\end{array}\right)\label{eq:skew-symmetric}
+\end{equation}
+Then the cross produce $\boldsymbol{\omega}\times\boldsymbol{\mathbf{V}}$
+can be found by matrix multiplication via $\boldsymbol{S\thinspace V}$
+with $\boldsymbol{V}$ the column matrix representing the velocity.
+This equality can be verified by comparing the result of the matrix
+multiplication to the standard formula for the vector product. In
+particular, the vector representing the rotation of the Earth ($\omega_{ie}^{l}$,
+where the notation denotes the rotation rate of the Earth relative
+to an inertial frame, as observed in the l-frame) has components (0,
+$\omega_{e}\cos\lambda,$ $\omega_{e}\sin\lambda$) where $\omega_{e}$
+is the rotation rate and $\lambda$ is the latitude, so the Coriolis
+acceleration can be represented by\\
+\begin{equation}
+\boldsymbol{C}_{c}=-2\omega_{e}\left(\begin{array}{ccc}
+0 & -\sin\lambda & \cos\lambda\\
+\sin\lambda & 0 & 0\\
+-\cos\lambda & 0 & 0
+\end{array}\right)\left(\begin{array}{c}
+V_{1}\\
+V_{2}\\
+V_{3}
+\end{array}\right)\label{eq:Cor-matrix}
+\end{equation}
+This is the form chosen to represent the Coriolis acceleration in
+the derivative function.
+
+\citet{noureldin2013fundamentals}, p.~179, give the components of
+the rotation rate of the l-frame relative to the Earth, as expressed
+in the l-frame, as $\omega_{el}^{l}=(-V_{2}/(R_{m}+h),\,V_{1}/(R_{n}+h),\,V_{1}\tan\lambda/(R_{n}+h)$
+where $R_{m}$ and $R_{n}$ are respectively the meridional and normal
+radii of the earth, and $h$ is the altitude above the Earth. Expressed
+as a skew-symmetric matrix, this is the other component used to correct
+the measured accelerations when transforming from the a-frame to the
+l-frame. The resulting equation for the required correction can be
+expressed as follows:\\
+\begin{equation}
+\mathbf{\Delta\boldsymbol{\dot{\mathbf{v}}}=}-(2\boldsymbol{\Omega}_{ie}^{l}+\boldsymbol{\Omega}_{el}^{l})\mathbf{v}^{(l)}\label{eq:rotation-correction}
+\end{equation}
+where the rotation matrices, respectively representing the Earth's
+rotation and the $l$-frame rotation, are\\
+\begin{equation}
+\boldsymbol{\Omega}_{ie}^{l}=\left[\begin{array}{ccc}
+0 & -\omega^{e}\sin\lambda & \omega^{e}\cos\lambda\\
+\omega^{e}\sin\lambda & 0 & 0\\
+-\omega^{e}\cos\lambda & 0 & 0
+\end{array}\right]\label{eq:first-omega-eq}
+\end{equation}
+\begin{equation}
+\boldsymbol{\Omega}_{el}^{l}=\left[\begin{array}{ccc}
+0 & \frac{-v_{e}\tan\lambda}{R_{N}+z} & \frac{v_{e}}{R_{N}+z}\\
+\frac{v_{e}\tan\lambda}{R_{N}+z} & 0 & \frac{v_{n}}{R_{M}+z}\\
+\frac{-v_{e}}{R_{N}+z} & \frac{-v_{n}}{R_{M}+z} & 0
+\end{array}\right]\label{eq:second-omega-equation}
+\end{equation}
+with $\omega^{e}=7.292\times10^{-5}$ the angular rate of rotation
+of the Earth. 
+
+Without some feedback, the vertical component is unstable, so the
+INS uses feedback based on the pressure altitude to control the third
+component of aircraft velocity. To obtain an analogous variable for
+comparison, a similar feedback loop was used for the third component
+arising from this new mechanization. A conventional feedback loop
+uses three coefficients specified in terms of a parameter $\zeta$
+as \{$C_{0},\,C_{1},\,C_{2})=\{3$$\zeta$, 4$\zeta^{2}$, 2$\zeta^{3}$).
+In an attempt to duplicate the INS reference source, the reference
+altitude was calculated as the pressure altitude corresponding to
+the avionics-supplied value of the pressure, but this still gave a
+small offset from the INS values so it appears that a different pressure
+source must be used by the INS. The loop was implemented in the conventional
+way according to the algorithm in the next box:\\
+\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\texttt{initialize:}
+
+~~~~wp3F=0; hxF=0; hxxF=0; hi3F=PALT{[}1{]};
+
+for each ith time step of time change dt:
+
+~~~~wp3F += (sv{[}6{]} - C1{*}hxF - C2{*}hxxF) {*} dt; \#\# sv
+is the state vector; sv{[}6{]} is vertical speed
+
+~~~~hi3F += (wp3F - C0{*}hxF) {*} dt;
+
+~~~~hxF = HI3F-PALT{[}i{]};
+
+~~~~hxxF += hxF{*}dt;
+
+~~~~sv{[}6{]} = (sv{[}6{]} + wp3F)/2;
+
+~~~~sv{[}3{]} = hi3F; \#\# sv{[}3{]} is then the altitude of the
+aircraft
+
+~~~~{[}save sv{[}3{]} and sv{[}6{]} as the values of the aircraft-state
+vector vs time{]}%
+\end{minipage}}
+
+\subsection{Attitude angles}
+
+The approach to finding the derivatives of the attitude angles is
+to find the derivative ($\dot{R_{a}^{l}})$ of the transformation
+matrix from the a-frame to the l-frame and then find the attitude-angle
+derivatives from the definition of the transformation matrix.\footnote{This material relies heavily on the development in \citet{noureldin2013fundamentals},
+pp.~178\textendash 180.} The steps are these:
+\begin{enumerate}
+\item The IRU measures the rotation rate $\omega_{ia}^{a}$ of the a-frame
+relative to an inertial frame, as observed in the a-frame. In the
+a-frame, the roll axis is the x-axis forward along the longitudinal
+axis of the aircraft, the pitch axis is the y-axis to starboard, and
+the yaw axis is the downward z-axis but with a sign reversal arising
+from the inverse relationship between yaw angle and heading angle,
+so $\omega_{ia}^{a}=(\dot{\theta},\dot{\phi},\dot{\Psi})=(\mathrm{BROLLR},\,\mathrm{BPITCHR},\,-\mathrm{BYAWR)}$
+where the latter are the variables as recorded in the data file. As
+a skew-symmetric matrix such as discussed above, this rotation rate
+is represented as\\
+\begin{equation}
+\Omega_{ia}^{a}=\left[\begin{array}{ccc}
+0 & -\dot{\Psi} & -\dot{\theta}\\
+\dot{\Psi} & 0 & \dot{\phi}\\
+\dot{\theta} & -\dot{\phi} & 0
+\end{array}\right]\label{eq:Oiaa}
+\end{equation}
+\item The rotation rate needed to find the derivative of the transformation
+matrix ($\dot{R_{a}^{l}})$ is instead the rotation rate $\omega_{la}^{a}$of
+the a-frame relative to the l-frame, as observed in the a-frame. This
+differs from $\omega_{ia}^{a}$ by the rotation rate of the l-frame
+relative to the a-frame, as observed in an inertial frame ($\omega_{il}^{a}$):
+$\omega_{la}^{a}=\omega_{ia}^{a}-\omega_{il}^{a}$. Transforming $\omega_{la}^{a}$
+from the a-frame to the l-frame then gives the desired derivative
+$\dot{R_{a}^{l}}$.
+\item As for velocity, the term $\omega_{il}^{a}$ contains two contributions,
+one from the rotation of the Earth ($\omega_{ie}^{a}$) and the second
+from the rotation of the l-frame relative to an inertial frame ($\omega_{el}^{a}$).
+These can be obtained by transforming $\omega_{ie}^{l}$ and $\omega_{el}^{l}$
+as defined in the previous subsection to the a-frame. The appropriate
+transformation is the inverse of $R_{a}^{l}$, denoted $R_{l}^{a}=t(R_{a}^{l}$)
+where ``$t()"$ denotes the matrix transpose operator: $\omega_{ie}^{a}=R_{l}^{a}\omega_{ie}^{l}$
+and $\omega_{el}^{a}=R_{l}^{a}\omega_{el}^{l}$. In the code, this
+is replaced by the skew-symmetric equivalent: If $\boldsymbol{\Omega}^{l}$
+is the skew-symmetric representation of $\omega_{ie}^{l}+\omega_{el}^{l}$,
+with skew-symmetric representations given by (\ref{eq:first-omega-eq})
+and (\ref{eq:second-omega-equation}) above. The skew-symmetric representation
+in the a-frame, following the model for transformation of skew-symmetric
+matrices, is then $\boldsymbol{\Omega}^{a}=R_{l}^{a}\boldsymbol{\Omega}^{l}R_{a}^{l}$. 
+\item Expressing $\omega_{ia}^{a}$ also as a skew-symmetric matrix, following
+(\ref{eq:skew-symmetric}), and subtracting $\boldsymbol{\Omega}^{a}$
+from it, gives a skew-symmetric matrix that, when multiplied by $R_{a}^{l}$,
+gives the desired derivative $\dot{\boldsymbol{R}_{a}^{l}}=\mathbf{R}_{a}^{l}(\boldsymbol{\Omega}_{ia}^{a}-\boldsymbol{\Omega}^{a})$.
+(See \citet{noureldin2013fundamentals}, p.~180.) 
+\item The attitude angles can be found from the definitions of the transformation
+matrix, as specified by (\ref{eq:XformLA}):
+\begin{eqnarray}
+\theta & = & \arcsin(-R_{l}^{a}[3,1])\nonumber \\
+\phi & = & \arctan2(R_{l}^{a}[3,2],\,-R_{l}^{a}[3,3])\label{eq:aa-from-R}\\
+\Psi & = & \arctan2(R_{l}^{a}[1,1],\,R_{l}^{a}[2,1])\nonumber 
+\end{eqnarray}
+The derivatives of the attitude angles are then given by the derivatives
+of the arcsin and arctan functions:\\
+\begin{eqnarray}
+\frac{d(\arcsin(x))}{dx} & = & \frac{1}{\sqrt{1-x^{2}}}\nonumber \\
+\frac{d(\arctan(x))}{dx} & = & \frac{1}{1+x^{2}}\nonumber \\
+\dot{\theta} & = & \frac{-1}{\sqrt{1-R_{l}^{a}[3,1]^{2}}}\dot{R}_{l}^{a}[3,1]\label{eq:pdot}\\
+\dot{\phi} & = & \frac{1}{1+\left(R_{l}^{a}[3,2]/R_{l}^{a}[3.3]\right)^{2}}\frac{R_{l}^{a}[3,2]}{R_{l}^{a}[3,3]}\left(\frac{\dot{R}_{l}^{a}[3,3]}{R_{l}^{a}[3,3]}-\frac{\dot{R}_{l}^{a}[3,2]}{R_{l}^{a}[3,2]}\right)\label{eq:rdot}\\
+\dot{\psi} & = & \frac{1}{1+\left(R_{l}^{a}[1,1]/R_{l}^{a}[2,1]\right)^{2}}\frac{R_{l}^{a}[1,1]}{R_{l}^{a}[2,1]}\left(\frac{\dot{R}_{l}^{a}[1,1]}{R_{l}^{a}[1,1]}-\frac{\dot{R}_{l}^{a}[2,1]}{R_{l}^{a}[2,1]}\right)\nonumber \\
+ & = & \frac{1}{1+\left(R_{l}^{a}[1,1]/R_{l}^{a}[2,1]\right)^{2}}\left(\frac{\dot{R}_{l}^{a}[1,1]}{R_{l}^{a}[2,1]}-\frac{\dot{R}_{l}^{a}[2,1]R_{l}^{a}[1,1]}{R_{l}^{a}[2,1]^{2}}\right)\label{eq:hdot}
+\end{eqnarray}
+Because $R_{l}^{1}[2,1]$ (equal to $\cos\psi\cos\theta$) can pass
+through zero for heading of 90 or 270$^{\circ},$ some numerical problems
+arise when the last equation is used. (Avoiding similar problems at
+the zero for $R_{l}^{a}[1,1]$ is the justification for using the
+second form of the last equation.) For small $R_{l}^{a}[2,1]$, the
+last equation becomes\\
+\begin{equation}
+\dot{\psi}\approx\left(\frac{R_{l}^{a}[2,1]\dot{R}_{l}^{a}[1,1]}{R_{l}^{a}[1,1]^{2}}-\frac{\dot{R}_{l}^{a}[2,1]}{R_{l}^{a}[1,1]}\right)\label{eq:hdot-approx}
+\end{equation}
+which avoids the singularity, so this form is used when the absolute
+value of $R_{l}^{a}[2,1]$ is smaller than $R_{l}^{a}[1,1]/10$.
+\end{enumerate}
+
+\subsection{The function ``STMFV()''}
+
+To standardize calculation of the derivatives of the state vector
+for both mechanization and the Kalman filter, the code was incorporated
+into a function \texttt{STMFV(D, .components, .aaframe)}. The first
+argument is either a data.frame, vector, or matrix containing the
+nine components of the state vector and the six a-frame measurements
+from the IRU. If multiple rows are included, all are processed and
+a matrix of derivatives is returned that has the original number of
+rows and\texttt{ .components} components; this is included to accommodate
+either the mechanization section that uses a nine-component state
+vector or the Kalman-filter section that uses a 15-component error-state
+vector. The argument \texttt{.aaframe} defaults to 'a' and attitude
+angles are assumed to be in the a-frame. The other option 'l' is not
+used; this was a provision for calculating all derivatives in terms
+of a state vector with all components in the l-frame, which was used
+during testing but not in the final program. As coded, STMFV () assumes
+that the measurements from the IRU (accelerations and rotation rates)
+have been added to the aircraft-state vector for convenience. This
+function is called for each time step during mechanization, and it
+then serves as the function argument to the Jacobian calculation that
+finds the error-state transition matrix used by the Kalman filter.
+The code is in the R chunk called ``chunks/STMFV.R'' to make it
+available to the processing program for the Technical Note and also
+for subsequent use in the data processing script ``KalmanFilter.R''
+that applies the Kalman filter to other data files.
+
+\subsection{Discussion of the ``Tests of the derivatives'' section}
+
+\subsubsection{Time shifts}
+
+An important part of the work that is background to this section was
+determining the time shifts to apply to various measurements from
+the INS. The ``initialization'' chunk of R code applies these time
+shifts, using the ``Ranadu::ShiftInTime()'' function. The time shifts
+quoted in the text were determined by varying the shifts specified
+in that section and observing the result by plotting the plot generated
+in the ``plot-acc'' chunk but modified to display only the pitch
+maneuver (3::16:00 to 3:18:00) and observing the difference between
+the measured values and the values determined from the derivatives
+of the velocity measurements. This was not done systematically but
+rather by trial-and-error to find a combination of time shifts that
+showed small fluctuations during the maneuver. These results are sensitive
+to pitch and roll as well because, in the case of pitch, gravity is
+resolved into a longitudinal component of acceleration that affects
+the comparison to BLONGA, and in the case of roll small roll angles
+created similar contributions to the lateral acceleration represented
+by BLATA. In the exploration of time shifts, the measured accelerations
+were assumed to have the same time delays, and similar assumptions
+were made about the pitch-roll pair and the set of velocities. With
+the listed shifts, the residual errors (shown in Tables 1 and 2 of
+the Technical Note) were so small that further refinement did not
+seem warranted.
+
+\subsubsection{Tables 1 and 2}
+
+These tables show results from regression fits obtained using the
+R function ``lm()''. Fit results including the coefficients, the
+standard deviation of residuals from the fit, and the square of the
+correlation coefficient are entered directly into the tables from
+the results of the fits, via the ``\textbackslash{}Sexpr()'' function.
+The values included in the tables are calculated in the R-code chunk
+named ``check-accelerations''. The details for obtaining the entries
+in Table 2, which are used as calibrations of the accelerometers,
+are as follows:
+\begin{enumerate}
+\item Differentiate the GPS-provided velocity components (GGVEW, GGVNS,
+GGVSPD) via the R routine signal::sgolayfilt() with appropriate argument
+that returns the first derivative of the filtered function. Cubic
+Savitzky-Golay polynomials spanning 11 25-Hz measurements were used,
+which effectively imposes a high-pass cutoff of about 8~Hz and so
+applies only minor smoothing while retaining high temporal resolution
+in the derivatives. 
+\item Apply an appropriate rotation correction as discussed above, but with
+reversed sign, to these accelerations.
+\item Transform the resulting accelerations to the \emph{a-}frame using
+the same function XformLA() discussed above but with the argument
+``.inverse'' set TRUE to give the transformation from the \emph{l-}frame
+to the \emph{a-}frame instead.
+\item Use the R routine ``lm()'' to find the linear-model fit relating
+the IRU-measured accelerations to the GPS-derived accelerations. The
+coefficients from that fit are those quoted in the document.
+\item One subtle circularity needs mention here: The coefficients obtained
+are obtained from the original measurements as stored in the data.frame
+Data, but the resulting calibration was already applied earlier and
+saved in the data.frame SP that is used for the mechanization loop.
+These calibrations were inserted manually into the statements near
+the end of R-code chunk ``INS-data'', in the section following the
+comment ``adjustments''. As mentioned in the main report, no calibration
+was applied to the measurements ``BLATA'' because the IRU-provided
+and GPS-derived lateral accelerations were consistently small and
+the calibration did not appear sufficiently reliable to trust, especially
+because the result was significantly different from the identity calibration
+that reasonably characterized the other two components of measured
+acceleration.\marginpar{check this}
+\end{enumerate}
+
+\subsubsection{Generation of Figure 1\label{subsec:Generation-of-Figure}}
+
+Many of the figures in the Technical Note were generated following
+the same model, so that model is described here. The plot is generated
+by a call to the Ranadu function \texttt{Ranadu::ggplotWAC()}, which
+uses the faceting capability of the R package ggplot2 to construct
+multiple plots with the same time scale. The code is in R chunk ``plot-acc''.
+
+Many of the plots were generated in multiple-panel displays. This
+was straightforward in standard R graphics, using the ``layout()''
+and ``par()'' functions, so the standard R plot function was used
+in first drafts. However, plotting with ggplot2 produced plots with
+better appearance. The construction of multiple-panel figures was
+tried in two ways, first using viewports and then using facets. With
+viewports, it was difficult to get the panels to align vertically
+without much tailoring of margins, but facets handled this automatically
+so that was the method used in the final version. The procedure is
+worth documenting here because it took some exploration. This was
+built into a revision of the function ``Ranadu::ggplotWAC(),'' which
+is used as follows:
+\begin{enumerate}
+\item Construct a new data.frame that contains only the variables that will
+appear on the plot, along with the ``Time'' variable (which should
+be first). Variables should be in lines/panel format, i.e., all variables
+for the top panel, all for the next-to-top, etc. 
+\item Call ggplotWAC() with these new arguments: 
+\begin{enumerate}
+\item panels: the number of panels or facets, aligned vertically.
+\item labelL: the names to appear in the legend for the lines. Only one
+legend appears for all panels. Example: c(``IRU'', ``GPS'').
+\item labelP: the names to appear at the right of each panel. Example: c(``longitudinal'',
+``lateral'', ``upward'').
+\item theme.version: 1 to use a theme with minor adaptations for the faceted
+plots.
+\end{enumerate}
+\item The procedure that ggplotWAC() uses is as follows:
+\begin{enumerate}
+\item Define two groups, VarGroup and PanelGroup, to describe the structure
+specified by the new arguments.
+\item ``melt'' the data.frame to a long-format data.frame, with ``Time''
+as the id.var, and include the two new groups in the data.frame definition.
+\item Use the ggplotWAC() arguments for cols, lwd, and lty in groups for
+each panel, with replication as needed. Each panel must be the same. 
+\item Construct the initial plot definition using ggplot, using x=Time,
+y=value, colour=VarGroup, linetype=VarGroup in the aesthetic specification. 
+\item Add ``geom\_line(aes(size=VarGroup))'' to this definition to plot
+the lines.
+\item Use appropriate manual scale definitions to set the desired colors,
+line types, and line widths in order to get consistent plot lines
+and legend.
+\item Add ``facet\_grid()'' with first argument ``PanelGroup'' as included
+in the data.frame definition.
+\item Tailor desired aspects of the plotting theme.
+\end{enumerate}
+\end{enumerate}
+The routine then returns a plot definition, and that definition can
+be tailored further using ``theme()'' elements if desired or printed
+without further modification.
+
+An example is this code that generates the plot of attitude angles
+(generating Fig.~2 that appears in Sect.~2.4):
+\begin{lyxcode}
+d~<-~with(Data{[}setRange(Data,~32000,~35500),~{]},~
+
+~~~~~~~~~~data.frame(Time,~PITCH,~PITCHX,~10{*}DPITCH,~ROLL,~ROLLX,~10{*}DROLL,
+
+~~~~~~~~~~~~~~~~~~~~~THDG,~THDGX,~10{*}DTHDG))
+
+ggplotWAC~(d,~col=c('blue',~'red',~'forestgreen'),~
+
+~~~~~~~~~~ylab=expression~(paste~('attitude~angles~{[}',~degree,~'{]}')),
+
+~~~~~~~~~~lwd=c(1.4,~0.8,~1),~lty=c(1,~42,~1),~panels=3,
+
+~~~~~~~~~~labelL=c('original',~'new',~'10{*}diff'),
+
+~~~~~~~~~~labelP=c('pitch',~'roll',~'heading'),
+
+~~~~~~~~~~legend.position=c(0.8,~0.97),~theme.version=1)
+\end{lyxcode}
+
+\subsection{Discussion of the ``Mechanization'' section}
+
+\subsubsection{The algorithm}
+
+The following box contains an algorithmic flow chart describing the
+mechanization scheme, which is also diagrammed in Fig.~\ref{fig:mechanization-workflow}:
+\begin{lyxcode}
+\fbox{\begin{minipage}[t]{1\columnwidth - 2\fboxsep - 2\fboxrule}%
+\begin{lyxcode}
+Initialize~a~time-series~matrix~of~aircraft-state~vectors;
+\begin{lyxcode}
+\#\#~Each~row:~three~position~coordinates,~
+
+\#\#~~~~~~~~~~~three~velocity~coordinates,~
+
+\#\#~~~~~~~~~~~three~attitude-angle~coordinates~
+\end{lyxcode}
+Add~the~measured~accelerations,~rotations~(M)~to~the~same~matrix;
+
+Define~(STMFV(sv,M))~that~returns~the~matrix~of~derivatives~D;
+\begin{lyxcode}
+\#\#~each~row~D$_{i}$~is~the~derivative~of~sv$_{i}$~
+
+\#\#~~~~~~~~~~~~with~respect~to~time,~given~M$_{i}$
+\end{lyxcode}
+For~each~time~(index~i)~in~the~data~set,~at~intervals~$\Delta$t:
+\begin{lyxcode}
+Propagate~the~state~vector~forward~one~time~step,~~\\
+~~~~~~~~~~via~sv{[}i+1{]}$\leftarrow$sv{[}i{]}+D{[}i{]}$\Delta$t;
+
+Save~the~resulting~new~state~vector~sv{[}i+1{]}
+\end{lyxcode}
+\end{lyxcode}
+%
+\end{minipage}}
+\end{lyxcode}
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\textwidth]{FlowDiagrams/FlowChartMechanization}
+\par\end{centering}
+\caption{Workflow diagram for the mechanization test in the technical note.
+Some items (e.g., ``run the main Kalman-filter loop'') are described
+in additional workflow diagrams below. \label{fig:mechanization-workflow}}
+\end{figure}
+
+The core of the mechanization is the function STMFV() discussed in
+Sect.~5.3 above. Various references have provided ``cookbook''
+equations for the required derivatives. In particular, the approach
+followed was that described by \citet{noureldin2013fundamentals},
+but with some differences arising primarily from use of the aircraft-coordinate
+frame or \emph{a-}frame instead of the \emph{b-}frame (body frame)
+used in that source. In addition, the derivatives of the attitude-angle
+components were calculated differently, so some detail regarding this
+function is appropriate.
+
+\subsubsection{Time shifts}
+
+Before the step-wise integration, some adjustments were made to the
+measurements. To ensure against missing values, interpolation was
+used to fill in a very small number of missing values in the measurements
+from the IRU. In addition, some of the measurements were shifted in
+time to compensate for delays in recording of the variables. This
+shifting is a part of normal processing, but the mechanization is
+very sensitive to timing errors so some fine tuning was used. The
+procedure was discussed in connection with the Ranadu::ShiftInTime()
+function discussed above. In addition, a few errors in interpolation
+were introduced to the heading variable by this process, so a special
+loop searched for these errors (four in the data set used) and corrected
+them. The problem arose from a deficiency in the ShiftInTime() function
+that still needs to be corrected.
+
+\subsubsection{The integration}
+
+After initializing the aircraft-state vector to match that from the
+INS at a point near the start of the flight, the mechanization proceeded
+by taking time steps where the changes in the aircraft-state vector
+were determined by the preceding derivative function. The Technical
+Note describes the initialization and the sequence of time steps.
+For convenience, the measurements of acceleration and rotation rate
+from the IRU were added to the state vector with each time step so
+that those measurements were transferred to the function \texttt{STMFV()}
+when it was called. The integration was done either by simple Euler
+integration or via a fourth order Runge-Kutta scheme, with indistinguishable
+results. A special test and correction were used to ensure that the
+heading remained in the range from 0 to $2\pi$. 
+
+\subsubsection{The results}
+
+Like Fig.~1, Figs.~2 and 3 showing results of the mechanization
+were also generated using the ``Ranadu::ggplotWAC()'' convenience
+function, which calls functions that are part of ggplot2 with some
+assigned settings. Details are presented above (\vpageref{subsec:Generation-of-Figure}).
+All three of these figures were generated during the same processing
+step that produced the text document, and they were incorporated into
+that document using the R package ``knitr'' to place the figures
+appropriately in the resulting LaTeX file. During the mechanization,
+the aircraft-state vector was saved in variables in an R data.frame
+called SP, and at the end these variables were added back to the original
+data.frame (called Data) as new variables with names like LATX, LONX,
+ALTX, ... that correspond to the original INS-produced variables LAT,
+LON, ALT. These variables were then used in plot commands to generate
+the figures in the subsections that compare the results for attitude
+angles, velocity components, and position.
+
+\section{Elaboration on the ancillary functions}
+
+\subsection{Rate of climb}
+
+This is discussed fully in the Techical Note and the memo referenced
+there.
+
+\subsection{Retrieving IRU measurements}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\textwidth]{FlowDiagrams/FlowChartRetrieval}
+\par\end{centering}
+\caption{Workflow diagram for the retrieval of the measurements originally
+provided by the IRU. If these are missing from the data file being
+used, they are added by this procedure.\label{fig:retrieval-workflow}}
+\end{figure}
+A workflow diagram for this section is presented as Fig.~\ref{fig:retrieval-workflow}.
+The two parts shown in this figure are independent and are discussed
+separately below. The yellow box is an expanded description of the
+box leading into it, to show how that derivative is found. The R implementation
+of the code in the technical note (``KalmanFilter.R'') include a
+branch that constructs these retrieved values when the IRU-provided
+measurements (BLATA, BLONGA, BNORMA, BPITCHR, BROLLR, BYAWR) are not
+present in the original data file.
+
+\subsubsection{Rotation rates}
+
+Item 1 in this subsection of the Technical Note prescribes starting
+with analytical expressions for the derivative of the transformation
+matrix. Those analytical expressions are developed in this Workflow
+Document, as follows: 
+
+The rotation rates and accelerations measured by the IRU \{BPITCHR,
+BROLLR, BYAWR, BLATA, BLONGA, BNORMA\} are the rotation rates and
+accelerations of the a-frame relative to an inertial frame. Without
+Coriolis corrections, retrieving the original measurements would be
+straightforward: Differentiate the measured angles and components
+of the aircraft velocity and transform the results to the a-frame.
+However, the inertial contributions from motion and rotation of the
+a-frame, while minor, are not negligible. The needed corrections are
+developed in this section, to complement the outlined solutions presented
+in the technical note.
+
+The derivatives of the attitude angles were expressed in terms of
+the transformation matrix $\mathbf{R}_{a}^{l}$ and its time derivative
+by (\ref{eq:pdot})\textendash (\ref{eq:hdot}). Here the reverse
+procedure, finding the derivative of the transformation matrix from
+the derivatives of the attitude angles, is needed. Equation~(\ref{eq:XformLA})
+can be differentiated to express that derivative, which will have
+these components, where dots over symbols indicate time derivatives:
+\begin{quotation}
+{[}1,1{]}: dR{[}1,1{]}dt = d($\sin\psi\cos\theta$)/dt $\rightarrow$
+
+\hskip1.1truein$\dot{\psi}\cos\psi\cos\theta-\dot{\theta}\sin\psi\sin\theta$
+
+{[}1,2{]}: $d(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\psi}(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)+\dot{\theta}\sin\psi\cos\theta\sin\phi$
+
+\hskip1.5truein$+\dot{\phi}(\sin\psi\sin\theta\cos\phi-\cos\psi\sin\phi)$
+
+{[}1,3{]}: $d(\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\psi}(-\sin\psi\sin\phi-\cos\psi\sin\theta\cos\phi)+\dot{\theta}(-\sin\psi\cos\theta\cos\phi)$
+
+\hskip1.5truein$+\dot{\phi}(\cos\psi\cos\phi+\sin\psi\sin\theta\sin\phi)$
+
+{[}2,1{]}: $d(\cos\psi\cos\theta)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\psi}(-\sin\psi\cos\theta)+\dot{\theta}(-\cos\psi\sin\theta)$
+
+{[}2.2{]}: $d(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\psi}(-\sin\psi\sin\theta\sin\phi-\cos\psi\cos\phi)+\dot{\theta}\cos\psi\cos\theta\sin\phi$
+
+\hskip1.5truein$+\dot{\phi}(\cos\psi\sin\theta\cos\phi+\sin\psi\sin\phi)$
+
+{[}2.3{]}: $d(-\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\psi}(\sin\psi\sin\theta\cos\phi-\cos\psi\sin\phi)+\dot{\theta}(-\cos\psi\cos\theta\cos\phi)$
+
+\hskip1.5truein$+\dot{\phi}(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)$
+
+{[}3,1{]}: $d(-\sin\theta)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\theta}(-\cos\theta)$
+
+{[}3,2{]}: $d(\cos\theta\sin\phi)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\theta}(-\sin\theta\sin\phi)+\dot{\phi}\cos\theta\cos\phi$
+
+{[}3,3{]}: $d(-\cos\theta\cos\phi)/dt\rightarrow$
+
+\hskip1.1truein$\dot{\theta}\sin\theta\cos\phi+\dot{\phi}\cos\theta\sin\phi$
+\end{quotation}
+where arrows indicate that the differentiation of the left side leads
+to the right side of the equations. The remainder of the retrieval
+of rotation rate is described in the Technical Note, preceding and
+via (6)\textendash (8) in that document. 
+
+From the skew-symmetric representation of the rotation rates as measured
+in the a-frame, the individual components of the rotation-rate vector
+can be extracted. For example, the {[}3,1{]} component of the result
+is $-$BPITCHR.
+
+\subsubsection{Accelerations}
+
+The accelerations in the a-frame are retrieved as described in the
+Technical Note, but some additional detail is provided here. The detailed
+steps used are these:
+\begin{enumerate}
+\item Construct a vector representing the aircraft motion from the variables
+\{VEW, VNS, VSPD\} as produced by the INS.
+\item Interpolate where there are missing values to avoid failure of the
+filter function in the next step. The routine used was that provided
+by the ``na.approx~()'' function in the ``zoo'' package for R.
+\item Differentiate the time series, either using the R function ``diff~()''
+or, to introduce some smoothing, Savitzgy-Golay polynomials. The ``sgolayfilt~()''
+function in the ``signal'' package for R was used, and the derivative
+was determined over 11 1-Hz samples. With an appropriate argument,
+this function returns the derivative when called with the time series
+as an argument.
+\item For the third (vertical) component, change the sign and subtract the
+acceleration of gravity.
+\item Add the rotation correction (usually subtracted during translation
+from the a-frame to the l-frame) as calculated by the function ``RotationCorrection~()''.
+This function determines the same correction used in the derivative
+function ``STMFV()'' but is coded independently. (That duplication
+could be removed to avoid later introduction of an inconsistency between
+the two functions.) The correction can be explained by discussing
+the following code for that function. Argument ``.data'' is an R
+data.frame containing the latitude and altitude in variables .data\$LAT
+and .data\$GGALT. The vector ``.V'' is the l-frame vector representing
+aircraft velocity. The function treats the input arguments as arrays,
+so it will provide corrections for the entire flight on one call if
+provided a full-flight data.frame and velocity matrix. When used to
+correct just one vector, the dimensions of ``.V'' must be changed
+to 1x3 for consistency with the vectorized structure of the function.\\
+\begin{minipage}[t]{1\columnwidth}%
+\begin{lyxcode}
+RotationCorrection~<-~function~(.data,~.V)~\{
+
+~~omegaE~<-~StandardConstant~('Omega')~\#\#~Earth's~angular~velocity
+
+~~C~<-~vector~('numeric',~3{*}(DL~<-~nrow(.data)));~dim(C)~<-~c(DL,3)
+
+~~if~(DL~==~1)~\{dim~(.V)~<-~c(1,3)\}~~~~\#\#~consistency~w/~vectorization
+
+~~lat~<-~.data\$LAT~{*}~pi~/~180~~~~~~~~~~\#\#~convert~to~radians
+
+~~sinLat~<-~sin(lat);~cosLat~<-~cos(lat);~tanLat~<-~tan(lat)
+
+~~Ree~<-~6378137;~Ecc~<-~0.08181919~~~~\#\#~constants~for~Earth~radii
+
+~~Rn~<-~Ree~/~(1~-~(Ecc~{*}~sinLat)\textasciicircum{}2)\textasciicircum{}0.5~
+
+~~Rm~<-~Rn~{*}~(1~-~Ecc\textasciicircum{}2)~/~(1~-~(Ecc~{*}~sinLat)\textasciicircum{}2)~+~.data\$GGALT
+
+~~Rn~<-~Rn~+~.data\$GGALT
+
+~~omega~<-~as.vector~(-.V{[},2{]}~/~Rm,~2~{*}~omegaE~{*}~cosLat~+~.V{[},1{]}~/~Rn,
+
+~~~~~~~~~~~~~~~~~~~~~~2~{*}~omegaE~{*}~sinLat~+~.V{[},1{]}~{*}~tanLat~/~Rn)
+
+~~dim(omega)~<-~c(DL,~3)
+
+~~zro~<-~rep(0,~DL)
+
+~~\#\#~skew-symmetric~representation:
+
+~~M~<-~array~(c(zro,~-omega{[}3{]},~omega{[}2{]},~omega{[}3{]},~zro,~-omega{[}1{]},
+
+~~~~~~~~~~~~~~~~~-omega{[}2{]},~omega{[}1{]},~zro),~dim=c(DL,~3,~3))~~~~~
+
+~~MP~<-~aperm(M)
+
+~~\#\#~R~uses~column-major~representation~of~matrices.~
+
+~~\#\#~Need~matrix~multiplication,~each~row:
+
+~~for~(i~in~1:DL)~\{C{[}i,{]}~<-~MP{[},,i{]}~\%{*}\%~.V{[}i,{]}\}~~~
+
+~~return~(C)
+
+\}
+\end{lyxcode}
+%
+\end{minipage}
+\item Apply the transformation matrix that transforms from the l-frame to
+the a-frame. This is the transpose of (\ref{eq:XformLA}).
+\item Subtract the acceleration of gravity from the third component.
+\end{enumerate}
+
+\subsection{The ``simpler'' functions}
+
+\subsubsection{Pitch correction}
+
+The technical note describes this in detail, and complementary descriptions
+are available as referenced there (with some plots of the effect of
+the correction) and also in the workflow document for the previous
+technical note, available \href{https://drive.google.com/open?id=0B1kIUH45ca5AZEp3N3VVd09NVTA}{at this link}.
+Some additional detail regarding the function (Ranadu::CorrectPitch())
+that calculates the correction to pitch is included here. 
+
+<<pitch-correction-workflow, include=FALSE, eval=FALSE, fig.cap="General workflow diagram for the Ranadu function CorrectPitch(), which returns error values of pitch and roll that should be subtracted from the measurements.">>=
+
+library (DiagrammeR)
+setwd ("~/RStudio/KalmanFilter")
+grViz ("./DGM-PC.dot", engine='dot')
+
+@
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\textwidth]{FlowDiagrams/CorrectPitchFlow}
+\par\end{centering}
+\caption{Workflow diagram for the Ranadu function CorrectPitch(), which returns
+estimates of errors in measurements of pitch and roll. The returned
+values, with units of degrees, should be subtracted from the measurements
+to obtain corrected values.\label{fig:pitch-correction-workflow}}
+\end{figure}
+
+A workflow diagram for the function is shown in Fig.~\ref{fig:pitch-correction-workflow}.
+The steps in the algorithm are these:
+\begin{enumerate}
+\item Prepare the data.frame: {[}``preprocessing'' box in the diagram{]}
+
+\begin{enumerate}
+\item Test to see if all required variables are present in the input data.frame;
+return 0 otherwise.
+\item Determine the data rate of the input data.frame from the time difference
+between samples. If it is higher than 1~Hz, extract a working 1-Hz
+data frame to use for the calculations. This greatly execution time
+for high-rate files. 
+\item Allow for either LAT or LATC to provide the latitude required for
+the gravity routine.
+\item Interpolate to fill in missing values for VNS, VEW, GGVNS, GGVEW,
+using the zoo::na.approx() function. If there are remaining missing-value
+elements in the time series (which can occur if the gaps exceed 1000~s),
+set the values to zero for those regions to avoid failure at the next
+step. The variable MaxGap in the function determines the maximum gap
+for interpolation; it can be changed only by changing the code.
+\end{enumerate}
+\item Calculate the derivatives: {[}``calculate derivatives'' box in the
+diagram{]}
+
+\begin{quotation}
+Determine the derivatives of the error terms (VNS-GGVNS) and (VEW-GGVEW)
+using third-order Savitzky-Golay filters, specifically the R function
+signal::sgolayfilt(). Use a span of 1013 points (changeable via an
+argument to CorrectPitch()) and calculate the first derivative by
+supplying an appropriate argument (m=1) to the filter routine.
+\end{quotation}
+\item Find the errors in pitch and roll: {[}``find pitch/roll errors''
+box in the diagram{]}
+
+\begin{enumerate}
+\item Calculate the acceleration of gravity as a function of latitude and
+altitude using the Ranadu function Gravity() and divide the derivatives
+(with appropriate sign) by this value to get the $l$-frame errors
+in pitch and roll.
+\item Transform the result to the $a$-frame using manuscript equation (27).
+(This should eventually be changed to (\ref{eq:errors-in-a-frame})
+in this workflow document to get better results in and near turns.)
+\end{enumerate}
+\item Construct the matrix to return, which has rows matching the input
+data.frame and two columns, the first representing the pitch error
+and the second the roll error. {[}``construct matrix to return''
+box in the diagram{]}
+
+\begin{enumerate}
+\item If the data rate of the original data.frame is higher than 1~Hz,
+interpolate the working 1-Hz data.frame to the original rate, again
+using zoo::na.approx() for linear interpolation.
+\item Concatenate the two vectors representing the pitch and roll errors
+to one vector.
+\item Convert to an appropriate matrix with dimensions {[}DL,2{]} where
+DL is the length of the original data.frame. This conversion uses
+``dim()'' with the concatenated vector. 
+\end{enumerate}
+\item Return a two-dimensional array with the two components being the $a$-frame
+errors in pitch and roll, so that the result can be used to obtain
+corrected values of the pitch and roll via\\
+\texttt{~~~~PITCHC <- D\$PITCH - CorrectPitch (D){[},1{]}}~\\
+\texttt{~~~~ROLLC ~<- D\$ROLL - CorrectPitch (D){[},2{]}}
+\end{enumerate}
+All steps in this function are vectorized, to operate on the entire
+time series in vectorized function calls. Even for high-rate data.frames,
+the processing involves little delay: On a modest linux desktop system,
+processing a 7-h 25-Hz file takes about 2~s.
+
+The uncertainty in the pitch correction expected from this function
+is not discussed in the technical note, so some comments regarding
+uncertainty are included here. \citet{Cooper2016ncartn} estimated
+that the uncertainty in the pitch correction arising from the uncertainty
+in determining the derivatives is smaller than 0.0001$^{\circ}$.
+Some elaboration leading to that estimate is presented here. Modern
+GPS receivers, especially if augmented by special signals or special
+processing, produce 1-Hz measurements with uncertainty of around 0.03\,m\,s$^{-1}$(\citet{Cooper2016ncartn}).
+The consistency of the Schuler oscillation, as illustrated by Figs.~6
+and 7 of the technical note, suggests that derivatives in velocity
+can be determined by averaging over periods of at least 10 min or
+more, so if the ground-speed measurements from the INS have uncertainty
+of about 0.03\,m\,s$^{-1}$ (where variance spectra for the 1-Hz
+measurements begin to show noise), the uncertainty in differences
+between these two signals might be expected to be $0.03\,\sqrt{2}\approx0.04$\,m\,s$^{-1}$,
+and averaged over 10~min or perhaps 60 autocorrelation times the
+resulting difference could be resolved to $0.04/\sqrt{60}\approx0.005$\,m\,s$^{-1}$.
+Over intervals separated by 10\,min, the derivative then might be
+determined with an uncertainty of $0.005\times1/600\approx10^{-5}$\,m\,s$^{-2}$,
+leading to an uncertainty in the pitch correction from technical note
+Eqn.~(10) of about 10$^{-6}$ or 0.00005$^{\circ}$. Third-order
+Savitzky-Golay polynomials of order $m$ reduce noise in an average
+by a factor of $\sqrt{(3(3m^{2}-7)/4m(m^{2}-4)}\simeq0.05$ for m=1013
+or $0.06$ for m=601. Then for $0.04*0.06=0.0024$m/s, 600-s separation
+gives acceleration uncertainty of about $0.0024/600=4e-6$ or pitch
+uncertainty of 2e-5$^{\circ}$. Therefore this contribution to uncertainty
+in the correction has been neglected. Differences between the estimate
+determined from the ``CorrectPitch()'' function and from the Kalman
+filter, shown in Fig.~9 of the technical note, are mostly smaller
+than 0.01$^{\circ}$, which suggests about this level of confidence
+in the results. Much of the discrepancy in that figure arises from
+measurements in turns, where the ``CorrectPitch()'' function applies
+an approximate correction for the angle transformation from the \emph{l-}frame
+to the \emph{a-}frame that has some error in turns. That function
+could be improved by the exact transformation.
+
+\subsubsection{Heading correction}
+
+The technical note itself contains a complete description of this
+algorithm, so no additional information is included here except for
+the following flow chart (Fig.~\ref{fig:heading-correction-workflow})
+that indicates the structure of the associated function Ranadu::CorrectHeading().
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\textwidth]{FlowDiagrams/CorrectHeadingFlow}
+\par\end{centering}
+\caption{Workflow diagram for the Ranadu function CorrectHeading(), which returns
+estimates of errors in the measurement of heading. The returned values,
+with units of degrees, should be subtracted from the measurements
+to obtain corrected values.\label{fig:heading-correction-workflow}}
+\end{figure}
+
+
+\subsection{Angle of attack}
+
+The discussion in the Technical Note, supplemented by the memo referenced
+there, should be adequate for this section.
+
+\section{Discussion of Section 4 (the Kalman filter)}
+
+\subsection{General comments on the structure and the algorithm}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=0.9\textwidth]{FlowDiagrams/FlowKalmanLoop}
+\par\end{centering}
+\caption{Workflow diagram for the main loop of the Kalman filter. The yellow
+box contains the steps that are repeated for each time step, using
+the equations listed in the algorithm summary in the technical note.
+\label{fig:Kalman-loop-workflow}}
+\end{figure}
+The structure and algorithm are discussed in detail in the technical
+note. A flowchart describing the algorithm and the processing related
+to the Kalman filter is shown in Fig.~\ref{fig:Kalman-loop-workflow}.
+This diagram may be helpful when reading the description of the algorithm
+in the technical note. These elaborating comments may also be worth
+recording here:
+\begin{enumerate}
+\item The process of smoothing the results after the processing loop finishes
+is described in places distributed through several subsections of
+the technical note where various plots of the results are shown, so
+a summary here may be useful:
+\begin{enumerate}
+\item When extrapolating from the Kalman-filter time step to the data time
+step, the extrapolation is performed by the R routine ``stats::approx()'',
+and after extrapolation the result is smoothed by a Savitzky-Golay
+polynomial of 4th order that spans 75~s in the output data, and the
+start and end of the resulting time series are padded so that the
+final series matches the original series in time and in length.
+\item For position and velocity components, a low-pass Butterworth filter
+is used (with cutoff frequency corresponding to a period of 600~s)
+to smooth the error-state components.
+\item For latitude and longitude, the variables after correction are filtered
+again using a low-pass Butterworth filter with cutoff frequency corresponding
+to a period of 10~s, to eliminate resolution noise in the original
+measurements.
+\item For pitch and roll, the corrections after extrapolation are transformed
+to the \emph{l-}frame, filtered using a low-pass Butterworth filter
+with 900~s cutoff period, and then transformed back to the \emph{a-}frame
+where they are used to correct the original measurements.
+\item Heading is treated in a special way by using a weighted spline applied
+to the corrections from the Kalman filter, where the weight factor
+is the inverse of the corresponding variance from the Kalman filter.
+That spline is then used to determine the time history of the heading
+correction, and that correction from the spline fit is used to correct
+the measurement of heading.
+\end{enumerate}
+\item The calculation of the transition matrix in principle can be done
+outside the processing loop. This matrix is not required for every
+time step in the state vector, but only for every time used in the
+inner loop, so only a subset needs to be calculated and saved. After
+completion of the calculations in the inner loop, the corrections
+that are obtained can then be extrapolated to times between the larger
+time step used in the inner loop. In this way high-rate data files,
+with measurements more frequent than 1~Hz, can be processed almost
+as fast as standard-rate files.
+\end{enumerate}
+
+\subsection{The vectors and matrices}
+
+The main report defines some vectors and matrices used in the error-state
+Kalman filter. Here some of the associated R-code and variables are
+included to make these definitions specific.
+\begin{lyxlist}{00.00.0000}
+\item [{SVE}] At initialization, the \uline{e}\emph{\uline{rror-state
+vector}}\emph{ }is set to SVE <- c(DZ{[}1, 1:6{]}, rep(0, 9)) where
+DZ{[}1, 1:6{]} is a vector containing the initial values of the differences
+between the first six INS-provided state variables and the corresponding
+GPS-provided variables. That is, DZ=c(LAT-GGLAT, LON-GGLON, ZROC-GGALT,
+VEW-GGVEW, VNS-GGVNS, ROC-GGVSPD) where all values are read from the
+data archive at the initial time. All angular quantities at initialization
+and during the integration are used in units of radians, including
+latitude and longitude.
+\item [{dcm}] The \emph{\uline{error-state transition matrix}} $\boldsymbol{T}_{k,k-1}$is
+calculated, for a specified time during the integration, as follows:\\
+$\bullet$ ~~The 15 components of the state vector sv from the INS
+mechanization are read from the data archive.\\
+$\bullet$ ~~dcm <- jacobian (STMFV, sv, .aaframe='l') {*} dt {*}
+NSTEP + diag(15)\\
+The argument to the jacobian function is the derivative function STMFV
+discussed above, the state vector, and .aaframe which in this case
+specifies that the attitude angles should be the \emph{a-}frame values,
+as is discussed below. The variable dt contains the time interval
+between samples, but for increased speed the integration is performed
+in larger time steps specified by NSTEP, here set to 5~s.
+\item [{CV}] The \emph{\uline{covariance matrix}} is updated during
+the integration, but it is set initially using values specified in
+the technical note. The squares of these values are entered into the
+diagonal elements of CV, and off-diagonal elements are left zero at
+the start of the integration. These values were selected to be reasonably
+consistent with the specifications of the INS where known.
+\item [{K}] The \emph{\uline{Kalman-gain matrix}} will be discussed
+in subsequent sections. It is calculated independently at each step
+during the integration, so it does not need to be initialized.
+\item [{DZ}] The \emph{\uline{measurement-error vector}}\emph{ }as determined
+from comparison between the INS-provided variables and the corresponding
+GPS-provided values. This is initialized in a data.frame at the start
+of the integration, where that data.frame contains all the measurements
+from the flight. For the error-state Kalman filter, 1-Hz measurements
+were sufficient, so a standard-rate data file was used. The values
+for each time during the integration are then extracted from that
+data.frame. Some preliminary steps were included:\\
+$\bullet$ interpolation to provide any missing-value measurements\\
+$\bullet$ optionally, smoothing with a third order Savitzky-Golay
+polynomial spanning 11 s.
+\item [{H}] The \emph{\uline{observation matrix}} for the initial implementation
+is a 15$\times$6 matrix that indicates that the six components of
+the measurement-error vector DZ correspond to the first 6 components
+of the error-state vector. In R convention ordering (which stores
+matrices in column-major order), H has 6 rows and 15 columns.
+\item [{Q~and~R}] The \emph{\uline{measurement-noise matrices}} that
+apply to the error-state vector and the measurement-error vector,
+respectively. These are not adjusted during the integration, so they
+need to be specified using reasonable values. Those values can depend
+on functions of the aircraft-state vector, so the matrix does not
+necessarily remain the same for each step in the integration, but
+they can be specified prior to the integration and saved in data.frames
+so that appropriate values can be read during the integration. They
+are best specified iteratively, by finding adjustments that produce
+results consistent with the error estimates, so the process here will
+be to start with a simple specification for each matrix and then later
+consider how this specification should be changed. For Q, the initial
+choice was a diagonal matrix as specified in the text. There are important
+off-diagonal elements that should be included, e.g., to represent
+strong coupling between the pitch error and the latitude error, but
+this will be reconsidered later. 
+\end{lyxlist}
+
+\subsection{Detecting the error in heading}
+
+The discussion in the technical note is extensive so no expansion
+is provided here. The addition of a seventh component to the measurement-error
+vector is not conventional and it may be redundant in the sense that
+the Kalman filter already makes appropriate adjustment to the errors
+to minimize errors in velocity so using the direction of the acceleration
+provided by differentiating the GPS-based measurements does not add
+information not already present. However, because heading is treated
+specially because of the large uncertainty involved in its estimated
+error, the inclusion of this term appears to improve performance of
+the correction scheme as tuned in this application. There is a controlling
+factor, ``MH'', that if set to zero will suppress the effect of
+this added term.
+
+\subsection{Smoothing the errors in pitch and roll.}
+
+Section \ref{subsec:XformLA} and Eq.~(\ref{eq:XformLA}) defined
+and justified the transformation from an \emph{a-}frame vector to
+an \emph{l-}frame vector. Here that transformation is adapted to the
+errors in pitch and roll. Approximate equations (technical note Eqn.~27)
+are discussed in Sect.~4.4.3 of the technical note, but exact equations
+are used in the code. Those equations are developed here.
+
+In the \emph{a-}frame where pitch and roll are measured, the roll
+angle is defined as the reverse of the rotation about the \emph{a-}frame
+forward axis required to level the wings, and the pitch angle is the
+reverse of the subsequent rotation about the starboard axis required
+to level the fuselage. The \emph{l-}frame error in pitch is defined
+to be the platform misalignment with tilt to the south \uline{after
+the roll error is removed},, while the \emph{l-}frame error in roll
+is the component of platform misalignment toward the east. If the
+\emph{l-}frame errors are known, one can find the \emph{a-}frame errors
+by considering a unit vector $\boldsymbol{u}^{(l)}$ normal to the
+sensed platform alignment in the approximately upward \emph{l-}frame
+direction, with components that would result from rotating a unit
+vector that points in the \emph{l-}frame \emph{z} direction by the
+pitch error ($\delta\theta{}^{(l)})$ about the x-axis and then by
+the roll error ($\delta\phi^{(l)}$) about the y-axis. The result
+of these two rotations is\\
+\begin{eqnarray*}
+\boldsymbol{u}^{(l)} & = & \begin{bmatrix}\cos(\delta\phi^{(l)}) & 0 & \sin(\delta\phi^{(l)})\\
+0 & 1 & 0\\
+-\sin(\delta\phi^{(l)}) & 0 & \cos(\delta\phi^{(l)})
+\end{bmatrix}\begin{bmatrix}1 & 0 & 0\\
+0 & \cos(\delta\theta^{(l)}) & -\sin(\delta\theta^{(l)})\\
+0 & \sin(\delta\theta^{(l)}) & \cos(\delta\theta^{(l)})
+\end{bmatrix}\begin{bmatrix}0\\
+0\\
+1
+\end{bmatrix}\\
+ & = & \left[\begin{array}{c}
+\sin(\delta\phi^{(l)})\cos(\delta\theta^{(l)})\\
+-\sin(\delta\theta^{(l)})\\
+\cos(\delta\theta^{(l)})\cos(\delta\phi^{(l)})
+\end{array}\right]\simeq\begin{bmatrix}\delta\phi^{(l)}\\
+-\delta\theta^{(l)}\\
+1
+\end{bmatrix}
+\end{eqnarray*}
+\\
+Transformed to the \emph{a-}frame via the inverse of (\ref{eq:XformLA}),
+this unit vector becomes\\
+\begin{eqnarray*}
+\boldsymbol{u}^{(a)} & = & (R_{l}^{a})^{\intercal}\boldsymbol{u}^{(l)}\\
+ & = & \begin{bmatrix}\sin\psi\cos\theta\thinspace\delta\phi^{(l)}-\cos\psi\cos\theta\thinspace\delta\theta^{(l)}-\sin\theta\\
+(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\thinspace\delta\phi^{(l)}-(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(l)}+\cos\theta\sin\phi\\
+(\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi)\thinspace\delta\phi^{(l)}+(\cos\psi\sin\theta\cos\phi+\sin\psi\sin\phi)\thinspace\delta\theta^{(l)}-\cos\theta\cos\phi
+\end{bmatrix}
+\end{eqnarray*}
+
+The difference between this unit vector and the corresponding unit
+vector obtained without any errors in pitch or roll is then\\
+\[
+\delta\boldsymbol{u}^{(a)}=\begin{bmatrix}-\cos\psi\cos\theta\thinspace\delta\theta^{(l)}+\sin\psi\cos\theta\thinspace\delta\phi^{(l)}\\
+-(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(l)}+(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\thinspace\delta\phi^{(l)}\\
+(\cos\psi\sin\theta\cos\phi+\sin\psi\sin\phi)\thinspace\delta\theta^{(l)}+(\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi)\thinspace\delta\phi^{(l)}
+\end{bmatrix}
+\]
+In the \emph{a-}frame, the error in roll is $\delta\phi^{(a)}=\delta u_{y}^{(a)}$
+and the error in pitch is\\
+ 
+\[
+\delta\theta^{(a)}=-\cos(\delta\phi^{(a)})\delta u_{x}^{(a)}\simeq-\delta u_{x}^{(a)}\,\,\,\,,
+\]
+so the transformation of (small) errors from the \emph{l-}frame to
+the \emph{a-}frame is\\
+\begin{eqnarray}
+\delta\theta^{(a)} & = & \cos\psi\cos\theta\thinspace\delta\theta^{(l)}-\sin\psi\cos\theta\thinspace\delta\phi^{(l)}\approx\cos\psi\thinspace\delta\theta^{(l)}-\sin\psi\thinspace\delta\phi^{(l)}\nonumber \\
+\delta\phi^{(a)} & = & -(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(l)}+(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\thinspace\delta\phi^{(l)}\label{eq:errors-in-a-frame}\\
+ & \approx & \cos\phi(\sin\psi\,\delta\theta^{(l)}+\cos\psi\thinspace\delta\phi^{(l)})\nonumber 
+\end{eqnarray}
+where the approximations are that $\cos\theta\approx1$ and $\sin\theta\approx0$.
+These are reasonable because the pitch angle seldom exceeds a few
+degrees, but a similar approximation cannot be made for roll because
+the roll becomes significant in turns through the factor $\cos\phi$
+in the last equation.
+
+Equations (\ref{eq:errors-in-a-frame}), without approximation, were
+coded into the function XPitch(). That function also has an argument
+.inverse that, when true, calculates to reverse transformation from
+the \emph{a-}frame to the \emph{l-}frame, obtained from the inverse
+of (\ref{eq:errors-in-a-frame}). Because the transformation is not
+orthonormal, the result is not simply the transpose; it is given by\\
+\[
+\delta\theta^{(l)}=\frac{1}{\cos\theta\cos\phi}\left[(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\,\delta\theta^{(a)}+\sin\psi\cos\theta\thinspace\delta\phi^{(a)}\right]
+\]
+\begin{eqnarray*}
+\delta\phi^{(l)} & = & \frac{1}{\cos\theta\cos\phi}\left[(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(a)}+\cos\psi\cos\theta\thinspace\delta\phi^{(a)}\right]
+\end{eqnarray*}
+
+
+\subsection{Generation of Figs.~6\textendash 11 in the technical note}
+
+These figures mostly follow the procedure discussed above (cf.~Sect.~\ref{subsec:Generation-of-Figure})
+for Figs.~1\textendash 3. The faceting capability of the R package
+``ggplot2'' was used to produce these multi-panel plots. One new
+feature in Figs.~8 and 9 is the addition of a shaded ribbon to show
+the uncertainty estimate about the correction from the Kalman filter.
+This is constructed by defining a special data.frame that contains
+the upper and lower limits of the desired ribbon, ``melting'' that
+data.frame as for the basic plot, and using the function ``geom\_ribbon()''
+from ggplot2 to add the ribbon. Figure~11 also is different; it uses
+the ``position'' argument to ``Ranadu::ggplotWAC()'' to define
+the stacked panels, and it forces the ordinate scales to be the same
+to keep the size of the panels the same.
+
+\section{Discussion of Section 5 (new variables for wind)}
+
+\subsection{Calculating the wind}
+
+The function ``Ranadu::WindProcessor()'' calculates new values of
+the wind by duplicating the standard calculations, with the exception
+that it includes a correction for the motion of the GPS antenna where
+relevant. The procedures are documented in \citet{Bulletin23}, and
+the code is available in the GitHub archive for Ranadu.
+
+This section includes plots of variance spectra showing the character
+of the new variables after correction by the Kalman filter. The generation
+of these plots is a departure from the effort to make this study reproducible,
+because the plots were generated using copyrighted code (from \citet{Press:1992:NRC:148286}).
+The plots therefore were generated outside the R program and were
+inserted as figures. The specific algorithm used is that described
+on pp.~568\textendash 575 of that reference. The C code that generates
+these figures, without the copyrighted routines, is saved with this
+project archive as ``otto.c''.
+
+\subsection{Adding new variables to the netCDF file}
+
+The template included in the technical note is the model used for
+adding variables. The code actually used in is R chunk ``modify-new-netcdf.R,''
+which is shared with the processing code ``KalmanFilter.R'' that
+is designed to process existing NCAR/EOL/RAF data files in netCDF
+format and add variables after correction by this Kalman Filter. The
+netCDF interface is based on the R package ``ncdf4'' (\citet{ncdf4}). 
+
+\subsection*{}
+
+\subsection*{}
+\selectlanguage{british}%
+
+\subsection*{}
+
+\selectlanguage{english}%
+\clearpage
+
+\selectlanguage{british}%
+\bibliographystyle{copernicus}
+\bibliography{WAC}
+
+\selectlanguage{english}%
+\begin{center}
+\textsf{\textcolor{blue}{\textendash{} End of Memo \textendash{}}}
+\par\end{center}
+
+\clearpage{}
+
+Reproducibility information for this workflow document:
+
+\begin{tabular}{ll}
+\textsf{\textsc{\textcolor{blue}{Project:}}} & WorkflowKalmanFilter\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}} & WorkflowKalmanFilter.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Contains:}}} & attachment list below\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}} & WorkflowKalmanFilter.Rnw\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Diagrams:}}} & dot/{*}, FlowDiagrams/{*}\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}} & https://github.com/WilliamCooper/KalmanFilter.git\tabularnewline
+\end{tabular}
+
+\attachm{WorkflowKalmanFilter.Rnw\\WorkflowKalmanFilter.pdf\\WAC.bib\\dot/*\\FlowDiagrams/*\\otto.c\\SessionInfo}
+%\cc{first attachment\\second\\3rd att}
+%\attach{attachment}
+%\attachm{first\\second} %\cc{first attachment\\second\\3rd att}
+<<save-system-info, echo=FALSE>>= 
+cat (toLatex(sessionInfo()), file="SessionInfo")
+
+@ 
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+system (sprintf("zip WorkflowKalmanFilter.zip WorkflowKalmanFilter.Rnw WorkflowKalmanFilter.pdf WAC.bib    ./dot/* ./FlowDiagrams/* otto.c SessionInfo"))
+
+@ 
+
+% \attach{attachment}
+
+% \attachm{ProgramFile\\Document.pdf\\SaveRData}
+% remember otto.c
+
+%\cc{first attachment\\second\\3rd att}
+\end{document}

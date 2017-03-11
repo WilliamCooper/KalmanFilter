@@ -1,0 +1,67 @@
+digraph GPC {
+  subgraph "cluster4" {
+    node [style=filled, color=white, fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "check for\nrequired variables" -> "extract 1-Hz data\nif necessary" -> "interpolate where\nvariables missing" [weight=9];
+    fontcolor=darkgreen;
+    label="preprocessing";
+  }
+  subgraph "cluster3" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(b)" -> "Savitzky-Golay filter\napplied to velocity errors" [minlen="0.01",weight=20];
+    fontcolor=darkgreen;
+    label="calculate derivatives";
+  }
+  subgraph "cluster1" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "construct high-\nrate variables\nby interpolation" -> "concatenate to matrix" -> "set dimensions\nof matrix" [weight=30];
+    fontcolor=darkgreen;
+    label="construct matrix to return";
+  }
+    subgraph "cluster2" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "divide derivatives\nby g" -> "rotate to a-frame" [];
+    fontcolor=darkgreen;
+    label="find pitch/roll errors";
+  }
+  size ="8,6";
+   node [style=filled, color=lightblue];
+  "CorrectPitch ()" [shape=Mdiamond];
+  "Return" [shape=Msquare];
+   node [style=filled, color=white];
+   "(a)" [shape=point, color=gray, style="filled"]
+   "(b)" [shape=point, color=gray, style="filled"]
+   "(c)" [shape=point, color=gray, style="filled"]
+   "(d)" [shape=point, color=gray, style="filled"]
+  ## {rank=same;"check for\nrequired variables";"Savitzky-Golay filter\napplied to velocity errors";"construct high-\nrate variables\nby interpolation";}
+  "Savitzky-Golay filter\napplied to velocity errors" [shape=box, width=3];
+  "construct high-\nrate variables\nby interpolation" [shape=box,width=2];
+  "divide derivatives\nby g" [shape=box, width=2];
+  "rotate to a-frame" [shape=box, width=2];
+  "check for\nrequired variables" [shape=box, width=2];
+  "extract 1-Hz data\nif necessary" [shape=box, width=2];
+  "interpolate where\nvariables missing" [shape=box, width=2];
+  "concatenate to matrix" [shape=box, width=2.6];
+  "set dimensions\nof matrix" [shape=box, width=2];
+  "CorrectPitch ()" -> "check for\nrequired variables" [weight=1];
+  "CorrectPitch ()" -> "(d)" [style="invis",weight=19];
+  "(d)" -> "construct high-\nrate variables\nby interpolation" [minlen="0.1",weight=20];
+  "CorrectPitch ()" -> "(b)" [style="invis",weight=18];
+  "Savitzky-Golay filter\napplied to velocity errors" -> "divide derivatives\nby g" [weight=8];
+  # "interpolate where\nvariables missing" -> "construct high-\nrate variables\nby interpolation" [weight=1]
+  "set dimensions\nof matrix" -> "Return" [weight=20];
+  "interpolate where\nvariables missing" -> "(a)" [weight=10];
+  "rotate to a-frame" -> "(c)" [weight=28];
+  # "interpolate where\nvariables missing" -> "Return" [style='invis',weight=1];
+  "(a)" -> "(b)" [style=dashed, color=red, weight=1];
+  "(d)" -> "(c)" [style=dashed, dir=back,color=red,weight=0]
+  # "interpolate for\nmissing values" -> "Savitzky-Golay filter\napplied to velocity errors" [color=red, weight=0]
+  # {rank = same; "check for\nrequired variables" "Savitzky-Golay filter\napplied to velocity errors" "construct high-\nrate variables\nby interpolation"}
+}

@@ -427,11 +427,11 @@ library(reshape2)    ## used with ggplot facet plots
 library(grid)
 options(stringsAsFactors=FALSE)
 
-CACHE <- TRUE
+CACHE <- FALSE
 
 ## temporary; remove once Ranadu is updated
-source ('~/RStudio/Ranadu/R/theme_WAC.R')
-source ('~/RStudio/Ranadu/R/getNetCDF.R')
+# source ('~/RStudio/Ranadu/R/theme_WAC.R')
+# source ('~/RStudio/Ranadu/R/getNetCDF.R')
 
 setwd ('~/RStudio/Ranadu/KalmanFilter')
 Directory <- DataDirectory ()
@@ -909,6 +909,12 @@ c06 <- summary(fn3)$coef[1]
 c16 <- summary(fn3)$coef[2]
 s6 <- summary(fn3)$sigma
 r6 <- summary(fn3)$r.squared
+
+@
+
+<<NN1>>=
+
+## this is a separate chunk to ensure setting this option when cache=TRUE in the preceding chunk
 options(digits=5)
 
 @
@@ -1059,7 +1065,7 @@ accelerations in the remainder of this technical note.
 # op <- par (mar=c(2,4,1,1)+0.1)
 # r <- setRange(D1, 33330, 33515)
 
-source ('~/RStudio/Ranadu/R/ggplotWAC.R')
+# source ('~/RStudio/Ranadu/R/ggplotWAC.R')
 # grid.newpage()
 D1$AA1 <- AA[,1]
 D1$AA2 <- AA[,2]
@@ -1426,13 +1432,13 @@ ProjectDir <- "DEEPWAVE"
 fname = sprintf("%s%s/%srf%s.nc", Directory, ProjectDir, Project, Flight)
 
 ReloadData <- TRUE
+ReloadData <- FALSE
 SaveRData2 <- sprintf("%s2.Rdata", thisFileName)
 if (ReloadData) {
   source ('chunks/AcquireData.R')
   ## add ROC variable
   source ('chunks/ROC.R')
-  ## need to save lots more here -- check environment
-  save (Data, file=SaveRData2)
+  save (list=c('Data', 'DL', 'dt', 'Rate', 'tau', 'VarList', 'VROC'), file=SaveRData2)
 } else {
   load(file=SaveRData2)
 }
@@ -2881,18 +2887,37 @@ D1$CROC <- -Cor[, 6]
 D1$CPITCH <- -Cor[, 7] / Cradeg
 D1$CROLL <- -Cor[, 8] / Cradeg
 D1$CTHDG <- -Cor[, 9] / Cradeg
+XPitch <- function (dP, dR, hdg, p, r, .inverse=FALSE) {
+  sh <- sin(hdg); ch <- cos(hdg); sp <- sin(p); cp <- cos(p); sr <- sin(r); cr <- cos(r)
+  if (.inverse) {
+    dPX <- ch*cp * dP - sh*cp * dR
+    dRX <- -(ch*sp*sr - sh*cr) * dP + (sh*sp*sr + ch*cr) * dR
+ } else {
+    dPX <- ((sh*sp*sr + ch*cr) * dP + sh*cp * dR) / (cp*cr)
+    dRX <- ((ch*sp*sr - sh*cr) * dP + ch*cp * dR) / (cp*cr)
+  }
+  return(matrix(c(dPX, dRX), ncol=2))
+}
 
 .hdg <- D1$THDG * Cradeg
-D1$CPL <- (cos(.hdg)*Cor[,7]+sin(.hdg)*Cor[,8]) / Cradeg
-D1$CRL <- (-sin(.hdg)*Cor[,7]+cos(.hdg)*Cor[,8]) / Cradeg
+.p <- D1$PITCH * Cradeg
+.r <- D1$ROLL * Cradeg
+dPx <- XPitch (Cor[,7], Cor[,8], .hdg, .p, .r)
+# D1$CPL <- (cos(.hdg)*Cor[,7]+sin(.hdg)*Cor[,8]) / Cradeg
+# D1$CRL <- (-sin(.hdg)*Cor[,7]+cos(.hdg)*Cor[,8]) / Cradeg
+D1$CPL <- dPx[,1] / Cradeg
+D1$CRL <- dPx[,2] / Cradeg
 D1$SDCPL <- sqrt(cos(.hdg)^2*VCor[,7]+sin(.hdg)^2*VCor[,8]) / (30*Cradeg)
 D1$SDCRL <- sqrt(sin(.hdg)^2*VCor[,7]+cos(.hdg)^2*VCor[,8]) / (30*Cradeg)
 D1$SDCPA <- sqrt(cos(.hdg)^2*D1$SDCPL^2 + sin(.hdg)^2*D1$SDCRL^2)
 D1$SDCRA <- sqrt(sin(.hdg)^2*D1$SDCPL^2 + cos(.hdg)^2*D1$SDCRL^2)
 D1$CPLF <- signal::filtfilt (signal::butter (3, 1/900), D1$CPL)
 D1$CRLF <- signal::filtfilt (signal::butter (3, 1/900), D1$CRL)
-D1$CPAF <- cos(.hdg)*D1$CPLF - sin(.hdg)*D1$CRLF
-D1$CRAF <- sin(.hdg)*D1$CPLF + cos(.hdg)*D1$CRLF
+dPxa <- XPitch (D1$CPLF, D1$CRLF, .hdg, .p, .r, .inverse=TRUE)
+# D1$CPAF <- cos(.hdg)*D1$CPLF - sin(.hdg)*D1$CRLF
+# D1$CRAF <- sin(.hdg)*D1$CPLF + cos(.hdg)*D1$CRLF
+D1$CPAF <- dPxa[,1]
+D1$CRAF <- dPxa[,2]
 ## save corrected values, obtained by subtracting the smoothed a-frame corrections:
 D1$PITCHKF <- D1$PITCH - D1$CPAF
 D1$ROLLKF <- D1$ROLL - D1$CRAF

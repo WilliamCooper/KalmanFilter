@@ -1,0 +1,76 @@
+digraph GPC {
+  subgraph "cluster4" {
+    node [style=filled, color=white, fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "define position derivatives" -> "define velocity derivatives" -> "determine corrections\nfor inertial effects" -> "define angle derivatives" [weight=9];
+    "define angle derivatives" -> "(a)" [minlen="0.1",weight=9];
+    fontcolor=darkgreen;
+    label="construct the\nderivative function";
+  }
+  subgraph "cluster3" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(b)" -> "read state-vector\nvariables" [minlen="0.1", weight=20];
+    "read state-vector\nvariables"  -> "add IRU measurements\nto state-vector matrix" -> "calculate the derivative\n of the state vector" [weight=20];
+    "calculate the derivative\n of the state vector"  -> "(c)" [minlen=0.1,weight=20];
+    fontcolor=darkgreen;
+    label="initialize the\nstate vector";
+  }
+  subgraph "cluster2" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(d)" -> "define starting values\nfor state vector" [minlen="0.1", weight=20];
+    "define starting values\nfor state vector" -> "for each\ntime step" [weight=100];
+    "for each\ntime step" -> "increment using\nthe derivatives" [minlen=0.1,weight=5];
+    "for each\ntime step" -> "plot the results" [style=dashed,weight=35];
+    "save the\nresult" -> "for each\ntime step" [weight=1];
+    subgraph "cluster1" {
+      style=filled;
+      color=lightyellow;
+      "increment using\nthe derivatives" -> "save the\nresult" [weight=20];
+    }
+    "save the\nresult" -> "plot the results" [style="invis",weight=1];
+    #{rank = same; "plot the results" "save the\nresult"} 
+    fontcolor=darkgreen;
+    label="mechanization loop";
+  }
+  size ="8,6";
+   node [style=filled, color=lightblue];
+  "Mechanization" [shape=Mdiamond];
+  "END" [shape=Msquare];
+   node [style=filled, color=white];
+   "for each\ntime step" [shape=diamond, color=lightyellow, style=filled];
+   "(a)" [shape=point, color=gray, style="filled"]
+   "(b)" [shape=point, color=gray, style="filled"]
+   "(c)" [shape=point, color=gray, style="filled"]
+   "(d)" [shape=point, color=gray, style="filled"]
+   # "(e)" [shape=point, color=gray, style="filled"]
+   "Mechanization" -> "define position derivatives" [weight=5]
+   "Mechanization" -> "(b)" [style="invis",weight=13];
+   "Mechanization" -> "(d)" [style="invis",weight=5];
+   "plot the results" -> "END";
+  ## {rank=same;"check for\nrequired variables";"Savitzky-Golay filter\napplied to velocity errors";"construct high-\nrate variables\nby interpolation";}
+  # "get GPS l-frame accelerations\nusing a Savitzky-Golay filter" [shape=box, width=3];
+  # "reconstruct input-rate\nheading correction\nfrom spline fit" [shape=box,width=2.5];
+  # "check for\nrequired variables" [shape=box, width=2];
+  # "extract 1-Hz data\nif necessary" [shape=box, width=2];
+  # "interpolate for\nmissing variables" [shape=box, width=2];
+  # "CorrectHeading ()" -> "check for\nrequired variables" [weight=1];
+  # "CorrectHeading ()" -> "(d)" [style="invis",weight=19];
+  # "CorrectHeading ()" -> "(f)" [style="invis",weight=20];
+  # "(f)" ->  "reconstruct input-rate\nheading correction\nfrom spline fit" [minlen="0.1",weight=20];
+  # "CorrectHeading ()" -> "(b)" [style="invis",weight=18];
+  # "interpolate for\nmissing variables" -> "construct high-\nrate variables\nby interpolation" [weight=1]
+  # "reconstruct input-rate\nheading correction\nfrom spline fit" -> "Return" [weight=20];
+  # "interpolate for\nmissing variables" -> "(a)" [weight=10];
+  # "use a spline fit" -> "(e)" [weight=10];
+  # "correct for inertial\neffects and smooth" -> "(c)" [weight=10];
+  # "interpolate for\nmissing variables" -> "Return" [style='invis',weight=1];
+  "(a)" -> "(b)" [style=dashed, color=red, weight=1];
+  "(d)" -> "(c)" [style=dashed, dir=back,color=red,weight=0];
+  # "interpolate for\nmissing values" -> "Savitzky-Golay filter\napplied to velocity errors" [color=red, weight=0]
+  # {rank = same; "check for\nrequired variables" "Savitzky-Golay filter\napplied to velocity errors" "construct high-\nrate variables\nby interpolation"}
+}

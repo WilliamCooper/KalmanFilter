@@ -1,0 +1,82 @@
+\begin{thebibliography}{10}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Cooper et~al.(2016)Cooper, Friesen, Hayman, Jensen, Lenschow,
+  Romashkin, Schanot, Spuler, Stith, and Wolff]{Cooper2016ncartn}
+W.~A. Cooper, R.~B. Friesen, M.~Hayman, J.~B. Jensen, D.~H. Lenschow, P.~A.
+  Romashkin, A.~J. Schanot, S.~M. Spuler, J.~L. Stith, and C.~Wolff.
+\newblock {Characterization of uncertainty in measurements of wind from the
+  NSF/NCAR Gulfstream V research aircraft}.
+\newblock proposed NCAR technical note, undergoing review NCAR/TN-XXX+STR,
+  Earth Observing Laboratory, NCAR, Boulder, CO, USA, jan 2016.
+\newblock URL
+  \url{https://drive.google.com/open?id=0B1kIUH45ca5AT2NwVFpqRFNOZ0U}.
+
+\bibitem[Gilbert and Varadhan(2016)]{numDeriv}
+Paul Gilbert and Ravi Varadhan.
+\newblock \emph{numDeriv: Accurate Numerical Derivatives}, 2016.
+\newblock URL \url{https://CRAN.R-project.org/package=numDeriv}.
+\newblock R package version 2016.8-1.
+
+\bibitem[Lenschow and Spyers-Duran(1989)]{Bulletin23}
+D.~H. Lenschow and P.~Spyers-Duran.
+\newblock {Measurement techniques: air motion sensing}.
+\newblock Technical report, National Center for Atmospheric Research, 1989.
+\newblock URL \url{https://www.eol.ucar.edu/raf/Bulletins/bulletin23.html}.
+
+\bibitem[Noureldin et~al.(2013)Noureldin, Karamat, and
+  Georgy]{noureldin2013fundamentals}
+A.~Noureldin, T.B. Karamat, and J.~Georgy.
+\newblock \emph{Fundamentals of Inertial Navigation, Satellite-based
+  Positioning and their Integration}.
+\newblock SpringerLink : B{\"u}cher. Springer Berlin Heidelberg, 2013.
+\newblock ISBN 978-3-642-30465-1.
+\newblock \doi{10.1007/978-3-642-30466-8}.
+\newblock URL \url{https://books.google.com/books?id=qGbsW6sDr7YC}.
+
+\bibitem[{{R Core Team}}(2016)]{Rlanguage}
+{{R Core Team}}.
+\newblock \emph{{R: A language and environment for statistical computing}}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2016.
+\newblock URL \url{http://www.R-project.org}.
+
+\bibitem[RStudio(2009)]{RStudio2012}
+RStudio.
+\newblock \emph{RStudio: Integrated development environment for R (Version
+  0.98.879)}, 2009.
+\newblock URL \url{http://www.rstudio.org}.
+
+\bibitem[Schuler({1923})]{Schuler1923}
+M.~Schuler.
+\newblock {The perturbation of pendulum and gyroscope instruments by
+  acceleration of the vehicle}.
+\newblock \emph{{Physik. Z.}}, {24}\penalty0 ({16}):\penalty0 {344--357},
+  {1923}.
+\newblock URL \url{{http://www.webcitation.org/6JBR8WNRq}}.
+
+\bibitem[Wickham(2009)]{wickham2009}
+H.~Wickham.
+\newblock \emph{ggplot2: elegant graphics for data analysis}.
+\newblock Springer New York, 2009.
+\newblock ISBN 978-0-387-98140-6.
+\newblock URL \url{http://had.co.nz/ggplot2/book}.
+
+\bibitem[Xie(2013)]{Xie2014a}
+Y.~Xie.
+\newblock \emph{Dynamic Documents with {R} and knitr}.
+\newblock Chapman and Hall/CRC, Boca Raton, Florida, 2013.
+\newblock URL \url{http://yihui.name/knitr/}.
+\newblock ISBN 978-1482203530.
+
+\bibitem[Xie(2014)]{Xie2014b}
+Y.~Xie.
+\newblock \emph{knitr: A general-purpose package for dynamic report generation
+  in R}, 2014.
+\newblock URL \url{http://yihui.name/knitr/}.
+\newblock R package version 1.6.
+
+\end{thebibliography}

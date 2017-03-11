@@ -1,0 +1,74 @@
+digraph GPC {
+  subgraph "cluster4" {
+    node [style=filled, color=white, fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "initialize covariance\nmatrix V" -> "define noise\nmatrices N, Q" -> "define the\nobservation matrix" -> "load components of\nthe error vector" -> "correct error vector\nfor location of GPS\nantenna" -> "add 7th component\nto error vector\nfor heading error" -> "calculate the\ntransition matrix" [weight=9];
+    "calculate the\ntransition matrix" -> "(a)" [minlen="0.1",weight=9];
+    fontcolor=darkgreen;
+    label="initialize";
+  }
+  subgraph "cluster3" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(b)" -> "define starting values\nfor the error state"  [minlen="0.1", weight=20];
+    "define starting values\nfor the error state" -> "for each\ntime"  [weight=20];
+    subgraph "cluster0" {
+      style=filled;
+      color=lightyellow;
+      "increment the error-state" -> "increment V" -> "calculate the Kalman gain K" -> "update the error-state" -> "update V" ->       "save the error state and V\nfor this time step" [weight=10];
+      "(c)" -> "save the error state and V\nfor this time step" [minlen="0.1", dir=back,weight=50];
+      fontcolor=darkgreen;
+      label="steps in the inner loop";
+    }
+    "for each\ntime" -> "increment the error-state" [minlen="0.1", weight=70];
+    # "(c)" -> "for each\ntime"  [weight=20];
+    
+    "END" [shape=Msquare, style=filled, color=lightblue];
+    "for each\ntime" -> "smooth the corrections\nand/or state vector" [weight=1];
+    # "for each\ntime" -> "smooth the corrections\nand/or state vector" [dir=back,style="invis",label="done"];
+    "smooth the corrections\nand/or state vector" -> "apply interpolated\ncorrections" -> "save corrected variables\nin data.frame" -> "END" [weight=1];
+    "(c)" -> "for each\ntime" [style=dashed, color=red, weight=30];   
+    # {rank=same; "(c)" "save the error state and V\nfor this time step"}
+    fontcolor=darkgreen;
+    label="inner loop";
+  }
+
+  size ="5,8";
+   node [style=filled, color=lightblue];
+  "Kalman Loop" [shape=Mdiamond];
+   node [style=filled, color=white];
+   "for each\ntime" [shape=diamond, color=lightyellow, style=filled];
+   "(a)" [shape=point, color=gray, style="filled"]
+   "(b)" [shape=point, color=gray, style="filled"]
+   "(b)" -> "for each\ntime" [style="invis", weight=10];
+   "(c)" [shape=point, color=gray, style="filled"]
+   # "(d)" [shape=point, color=gray, style="filled"]
+   # "(e)" [shape=point, color=gray, style="filled"]
+   # "(c)" -> "for each\ntime";
+   "Kalman Loop" -> "initialize covariance\nmatrix V" [weight=60]
+   "Kalman Loop" -> "(b)" [style="invis",weight=60];
+   # "Kalman Loop" -> "(d)" [style="invis",weight=5];
+  ## {rank=same;"check for\nrequired variables";"Savitzky-Golay filter\napplied to velocity errors";"construct high-\nrate variables\nby interpolation";}
+  # "get GPS l-frame accelerations\nusing a Savitzky-Golay filter" [shape=box, width=3];
+  # "reconstruct input-rate\nheading correction\nfrom spline fit" [shape=box,width=2.5];
+  # "check for\nrequired variables" [shape=box, width=2];
+  # "extract 1-Hz data\nif necessary" [shape=box, width=2];
+  # "interpolate for\nmissing variables" [shape=box, width=2];
+  # "CorrectHeading ()" -> "check for\nrequired variables" [weight=1];
+  # "CorrectHeading ()" -> "(d)" [style="invis",weight=19];
+  # "CorrectHeading ()" -> "(f)" [style="invis",weight=20];
+  # "(f)" ->  "reconstruct input-rate\nheading correction\nfrom spline fit" [minlen="0.1",weight=20];
+  # "CorrectHeading ()" -> "(b)" [style="invis",weight=18];
+  # "interpolate for\nmissing variables" -> "construct high-\nrate variables\nby interpolation" [weight=1]
+  # "reconstruct input-rate\nheading correction\nfrom spline fit" -> "Return" [weight=20];
+  # "interpolate for\nmissing variables" -> "(a)" [weight=10];
+  # "use a spline fit" -> "(e)" [weight=10];
+  # "correct for inertial\neffects and smooth" -> "(c)" [weight=10];
+  # "interpolate for\nmissing variables" -> "Return" [style='invis',weight=1];
+  "(a)" -> "(b)" [style=dashed, color=red, weight=5];
+  # "(d)" -> "(c)" [style=dashed, dir=back,color=red,weight=0];
+  # "interpolate for\nmissing values" -> "Savitzky-Golay filter\napplied to velocity errors" [color=red, weight=0]
+  # {rank = same; "check for\nrequired variables" "Savitzky-Golay filter\napplied to velocity errors" "construct high-\nrate variables\nby interpolation"}
+}

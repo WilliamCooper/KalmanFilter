@@ -1,0 +1,78 @@
+digraph GPC {
+  subgraph "cluster4" {
+    node [style=filled, color=white, fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "construct derivative\nfunction STMFV" -> "run a mechanization\nbased on STMFV" -> "compare results to\nthe INS-provided solution" [weight=9];
+    "compare results to\nthe INS-provided solution" -> "(a)" [minlen="0.1",weight=9];
+    fontcolor=darkgreen;
+    label="construct and test\nthe derivative function";
+  }
+  subgraph "cluster3" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(b)" -> "new variable for\nrate of climb" [minlen="0.1", weight=20];
+    "new variable for\nrate of climb" -> "retrieval of IRU-\nprovided measurements" -> "develop simplified\ncorrection functions" -> "new empirical representation\nof angle of attack" [weight=20];
+    "new empirical representation\nof angle of attack" -> "(c)" [minlen=0.1,weight=20];
+    fontcolor=darkgreen;
+    label="develop ancillary functions";
+  }
+  subgraph "cluster2" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(d)" -> "initialize variance matrices" [minlen="0.1", weight=20];
+    "initialize variance matrices" -> "initialize error-state\nvector" -> "run the main\nKalman-filter loop" -> "save corrections and\nthe corrected state vector" -> "plot the results" [weight=30];
+    "plot the results" -> "(e)" [minlen=0.1,weight=30];
+    fontcolor=darkgreen;
+    label="Kalman filter processor";
+  }
+    subgraph "cluster1" {
+    node [style=filled,color=white,fontcolor=blue];
+    style=filled;
+    color=lightgrey;
+    "(f)" -> "copy original\nnetCDF file" [minlen=0.1, weight=20];
+    "copy original\nnetCDF file" -> "add new variables\nand attributes" -> "close and write\nthe new file" [weight=10];
+    fontcolor=darkgreen;
+    label="produce revised data file";
+  }
+  size ="8,6";
+   node [style=filled, color=lightblue];
+  "The Technical Note" [shape=Mdiamond];
+  "END" [shape=Msquare];
+   node [style=filled, color=white];
+   "(a)" [shape=point, color=gray, style="filled"]
+   "(b)" [shape=point, color=gray, style="filled"]
+   "(c)" [shape=point, color=gray, style="filled"]
+   "(d)" [shape=point, color=gray, style="filled"]
+   "(e)" [shape=point, color=gray, style="filled"]
+   "(f)" [shape=point, color=gray, style="filled"]
+   "The Technical Note" -> "construct derivative\nfunction STMFV" [weight=5]
+   "The Technical Note" -> "(b)" [style="invis",weight=15];
+   "The Technical Note" -> "(d)" [style="invis",weight=5];
+   "The Technical Note" -> "(f)" [style="invis",weight=5];
+   "close and write\nthe new file" -> "END";
+  ## {rank=same;"check for\nrequired variables";"Savitzky-Golay filter\napplied to velocity errors";"construct high-\nrate variables\nby interpolation";}
+  # "get GPS l-frame accelerations\nusing a Savitzky-Golay filter" [shape=box, width=3];
+  # "reconstruct input-rate\nheading correction\nfrom spline fit" [shape=box,width=2.5];
+  # "check for\nrequired variables" [shape=box, width=2];
+  # "extract 1-Hz data\nif necessary" [shape=box, width=2];
+  # "interpolate for\nmissing variables" [shape=box, width=2];
+  # "CorrectHeading ()" -> "check for\nrequired variables" [weight=1];
+  # "CorrectHeading ()" -> "(d)" [style="invis",weight=19];
+  # "CorrectHeading ()" -> "(f)" [style="invis",weight=20];
+  # "(f)" ->  "reconstruct input-rate\nheading correction\nfrom spline fit" [minlen="0.1",weight=20];
+  # "CorrectHeading ()" -> "(b)" [style="invis",weight=18];
+  # "interpolate for\nmissing variables" -> "construct high-\nrate variables\nby interpolation" [weight=1]
+  # "reconstruct input-rate\nheading correction\nfrom spline fit" -> "Return" [weight=20];
+  # "interpolate for\nmissing variables" -> "(a)" [weight=10];
+  # "use a spline fit" -> "(e)" [weight=10];
+  # "correct for inertial\neffects and smooth" -> "(c)" [weight=10];
+  # "interpolate for\nmissing variables" -> "Return" [style='invis',weight=1];
+  "(a)" -> "(b)" [style=dashed, color=red, weight=1];
+  "(d)" -> "(c)" [style=dashed, dir=back,color=red,weight=0];
+  "(f)" -> "(e)" [style=dashed, dir=back,color=red, weight=1];
+  # "interpolate for\nmissing values" -> "Savitzky-Golay filter\napplied to velocity errors" [color=red, weight=0]
+  # {rank = same; "check for\nrequired variables" "Savitzky-Golay filter\napplied to velocity errors" "construct high-\nrate variables\nby interpolation"}
+}
