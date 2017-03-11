@@ -227,11 +227,14 @@ and processing were performed by the Research Aviation Facility, Earth
 Observing Laboratory, National Center for Atmospheric Research (NCAR).
 The analyses reported here were mostly performed using R\citet{Rlanguage},
 with \index{RStudio}RStudio \citet{RStudio2012} and \index{knitr}knitr
-\citet{Xie2014a,Xie2014b}. Substantial use also was made of the \index{ggplot2}\index{R language!package!ggplot2}ggplot2
-package \citet{wickham2009} for R. The code used for the Kalman filter
-relies on the Jacobian function\index{function!Jacobian} in the R
-\index{R language!package!numDeriv}package ``numDeriv'' \index{Jacobian!numerical evaluation}version
-2016.8-1; cf.~\citet{numDeriv}.
+\citet{Xie2014a,Xie2014b}. Data files in netCDF format have been
+read and written using the R \index{R language!package!ncdf4}package
+``ncdf4''; cf.~\citet{ncdf4}. Substantial use also was made of
+the \index{ggplot2}\index{R language!package!ggplot2}ggplot2 package
+\citet{wickham2009} for R. The code used for the Kalman filter relies
+on the Jacobian function\index{function!Jacobian} in the R \index{R language!package!numDeriv}package
+``numDeriv'' \index{Jacobian!numerical evaluation}version 2016.8-1;
+cf.~\citet{numDeriv}.
 
 \thispagestyle{plain}\clearpage{}
 
@@ -427,7 +430,7 @@ library(reshape2)    ## used with ggplot facet plots
 library(grid)
 options(stringsAsFactors=FALSE)
 
-CACHE <- FALSE
+CACHE <- TRUE
 
 ## temporary; remove once Ranadu is updated
 # source ('~/RStudio/Ranadu/R/theme_WAC.R')
@@ -2836,7 +2839,7 @@ for (j in 1:15) {
   if (j > 6) {next}
   Cor[, j] <- zoo::na.approx (as.vector (Cor[, j]), maxgap=1000, na.rm=FALSE)
   Cor[is.na(Cor[, j]), j] <- 0
-  Cor[, j] <- signal::filtfilt (signal::butter (3, 1/600), Cor[, j])
+  Cor[, j] <- signal::filtfilt (signal::butter (3, 2/600), Cor[, j])
 }
 # Cor7 <- Cor[, 7]
 # VC7 <- VCor[, 7]
@@ -2887,6 +2890,7 @@ D1$CROC <- -Cor[, 6]
 D1$CPITCH <- -Cor[, 7] / Cradeg
 D1$CROLL <- -Cor[, 8] / Cradeg
 D1$CTHDG <- -Cor[, 9] / Cradeg
+
 XPitch <- function (dP, dR, hdg, p, r, .inverse=FALSE) {
   sh <- sin(hdg); ch <- cos(hdg); sp <- sin(p); cp <- cos(p); sr <- sin(r); cr <- cos(r)
   if (.inverse) {
@@ -3160,7 +3164,9 @@ The approximate transformation for level flight is\\
 \end{eqnarray}
 where $\theta$, $\phi$ and $\psi$ denote pitch, roll and heading,
 respectively, and the superscripts in parentheses indicate the reference
-frame. After this transformation is applied to the \index{error-state vector}error-state
+frame.\footnote{The transformation used in the code was the exact transformation,
+valid in turns. The full equations are given in the workflow document,
+Sect.~7.2.} After this transformation is applied to the \index{error-state vector}error-state
 vector produced by the Kalman filter, the pitch and roll errors in
 the \emph{l-}frame\index{reference frame!l-frame@\emph{l-}frame}
 are as shown in \index{reference frame!transformation}Fig.~\ref{fig:errors-in-pitch}.\index{filter!cutoff frequency}\index{error!pitch!Kalman-filter result}
@@ -4018,8 +4024,16 @@ of primary variables for various measurements thus is preserved.
 \textsf{\textsc{\textcolor{blue}{Contains:}}}  & attachment list below\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Program:}}}  & KalmanFilterTechNote.Rnw\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Original Data:}}}  & /scr/raf\_data/DEEPWAVE/\index{DEEPWAVE research project} \tabularnewline
-\textsf{\textsc{\textcolor{blue}{Git:}}}  & \index{GitHub repository}https://github.com/WilliamCooper/KalmanFilterTechNote.git\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Workflow Document:}}}  & WorkflowKalmanFilter.pdf\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}}  & \index{GitHub repository}https://github.com/WilliamCooper/KalmanFilter.git\tabularnewline
 \end{tabular}
+
+\attachm{KalmanFilterTechNote.Rnw\\
+KalmanFilterTechNote.pdf\\
+WorkflowKalmanFilter.pdf\\
+WAC.bib\\
+chunks/{*}\\
+SessionInfo}
 
 \clearpage
 \phantomsection \addcontentsline{toc}{section}{References}
@@ -4043,4 +4057,11 @@ of primary variables for various measurements thus is preserved.
 \vfill\eject
 \clearpage
 \addcontentsline{toc}{section}{End}
+
+<<make-zip-archive, INCLUDE=TRUE>>=
+
+system (sprintf("zip KalmanFilterTechNote.zip KalmanFilterTechNote.Rnw KalmanFilterTechNote.pdf WorkflowKalmanFilter.pdf WAC.bib ./chunks/* SessionInfo"))
+
+@ 
+
 \end{document}
