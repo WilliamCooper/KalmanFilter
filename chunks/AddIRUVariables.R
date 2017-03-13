@@ -10,14 +10,14 @@
 ## The following are accelerations determined from derivatives of the INS andGPS velocities.
 ## These should match the measured accelerations after transformation to the l-frame
 ## and application of the rotation correction:
+D1 <- Data
 D1$vndot <- signal::sgolayfilt (D1$VNS, 3, .span, m=1) * Rate  # m=1 for first deriv.
 D1$vedot <- signal::sgolayfilt (D1$VEW, 3, .span, m=1) * Rate
 D1$vudot <- signal::sgolayfilt (D1$VSPD, 3, .span, m=1) * Rate
 ## transform to the a-frame for comparison to the IRU:
 G <- D1$Grav
 VL <- matrix(c(D1$VEW, D1$VNS, D1$VSPD), ncol=3)
-LA <- matrix (c(D1$vedot, D1$vndot, -D1$vudot - G), ncol=3) 
-     + RotationCorrection (D1, VL) 
+LA <- matrix (c(D1$vedot, D1$vndot, -D1$vudot - G), ncol=3) + RotationCorrection (D1, VL) 
 AA <- XformLA (D1, LA, .inverse=TRUE)
 AA[,3] <- AA[,3] - G
 Data$BLONGA <- AA[, 1]
@@ -55,13 +55,12 @@ RdM <- aperm (array (Rd, dim=c(nrow(D1),3,3)))
 OmegaA <- array (dim=c(nrow(D1),3,3))
 
 for (i in 1:nrow(D1)) {
-  sv <- with(D1[i,], c(LAT, LON, ALT, VEW, VNS, VSPD, PITCH, ROLL, THDG, 
-                       BPITCHR, BROLLR, BYAWR, BLATA, BLONGA, BNORMA))
+  sv <- with(D1[i,], c(LAT, LON, ALT, VEW, VNS, VSPD, PITCH, ROLL, THDG)) 
   rlm <- XformLA (data.frame(PITCH=sv[7], ROLL=sv[8], THDG=sv[9]))
   sv[c(1:2,7:12)] <- sv[c(1:2, 7:12)] * Cradeg
-  omega <- as.vector (c(-sv[5] / Rm, 
-                        OmegaE*cos(sv[1])+sv[4]/(Rn),
-                        OmegaE*sin(sv[1])+sv[4]*tan(sv[1])/Rn), mode='numeric')
+  omega <- as.vector (c(-sv[5] / D1$Rm[i], 
+                        OmegaE*cos(sv[1])+sv[4]/(D1$Rn[i]),
+                        OmegaE*sin(sv[1])+sv[4]*tan(sv[1])/D1$Rn[i]), mode='numeric')
   ## signs account for b-frame to a-frame: reverse sign of 3, swap 1 and 2
   Oill <- aperm(matrix (c(0, omega[3], omega[2], -omega[3], 0, -omega[1], -omega[2], omega[1], 0), ncol=3))
   Oilb <- Oill %*% rlm

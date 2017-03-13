@@ -1,26 +1,21 @@
 # Kalman-loop.R
 
-DL <- nrow (D1)
-NSTEP <- 5      ## update time
 SVEF <- array(dim=c(DL/NSTEP, 15))
 CVEF <- array(dim=c(DL/NSTEP, 15))
 ## initialize error state vector
 SVE <- rep (0, 15)  ## respectively: (lat,lon,alt) (vew,vns,vspd),
 ## (pitch,roll,thdg) (rot. rates) (accel components)
 SVE[1:6] <- DZ[1, 1:6]
-## pitch and roll errors are going to be those in the l-frame
 SVE[7:9] <- 0  ## might initialize using pitch/roll/heading-correction functions here
 ## start with zero for gyro and accelerometer errors
 SVEF[1, ] <- SVE
 CVEF[1, ] <- diag (CV)
-# RCV <- RCV * 1000; RCV[3,3] <- RCV[3,3]/100; RCV[6,6] <- RCV[6,6]/100
-# Q <- Q * 0.1; Q[3,3] <- Q[3,3] * 100; Q[6,6] <- Q[6,6] * 100
 pctL <- 0
-MH <- 0    ## 0 suppresses use of deltaPsi as error in heading
+MH <- 1    ## 0 suppresses use of deltaPsi as error in heading
 for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   pct <- as.integer(100*i/DL)
-  # if (pct %% 10 == 0 && pct != pctL) {print (sprintf ('pct done is %d', pct));pctL <- pct}
-  SV <- with(D1[i, ], data.frame(LAT, LON, ALT, VEW, VNS, ROC, PITCH, ROLL, THDG,
+  if (pct %% 5 == 0 && pct != pctL) {print (sprintf ('Kalman-loop %d%% done', pct));pctL <- pct}
+  SV <- with(D1[i, ], data.frame(LAT, LON, ZROC, VEW, VNS, ROC, PITCH, ROLL, THDG,
                                  BPITCHR, BROLLR, BYAWR, BLATA, BLONGA, BNORMA))
   SV[c(1,2,7:12)] <- SV[c(1,2,7:12)] * Cradeg
   Rn <- D1$Rn[i]
@@ -28,7 +23,7 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   Grav <- D1$Grav[i]
   sv <- as.vector (SV, mode='numeric')
   # stmf <- STMFV (sv)
-  dcm <- jacobian (STMFV, sv, .aaframe='a') * dt * NSTEP + diag(15)
+  dcm <- jacobian (STMFV, sv) * dt * NSTEP + diag(15)
   ## modify to include this?
   ## modify this to include decaying error terms for the measurements:
   # dcm[10,10] <- dcm[11,11] <- dcm[12,12] <- -1/tau
@@ -50,7 +45,6 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   
   ## update the covariance matrix:
   CV <- dcm %*% (CV %*% t(dcm)) + Q
-  ## the Kalman gain:
   if (is.na(D1$sdPsi[i]) || (sqrt(D1$LACCX[i]^2+D1$LACCY[i]^2) < 1)) {
     H[7,9] <- 0
     # DZ[i, 7] <- NA
@@ -58,6 +52,7 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
     H[7,9] <- MH
     RCV[7, 7] <- 10*D1$sdPsi[i]^2
   }
+  ## the Kalman gain:
   Kb <- solve (H %*% CV %*% t(H) + RCV)
   K <- CV %*% t(H) %*% Kb
   DZZ <- DZ[i, ] - H %*% SVE
@@ -75,25 +70,28 @@ IntFilter <- function (X, inRate, outRate) {
   A <- stats::approx (x, X, n=length(X)*ratio-ratio+1)
   T <- A$y
   T <- signal::filter(signal::sgolay(4,75),T)
-  ## now shift to match 25-Hz:
+  ## now shift to match Rate:
   n <- as.integer (ratio / 2)
   NL = length(T)
   T <- c(rep(T[1],n), T, rep(T[NL],ratio-n-1))  ## OK, even or odd ratio
   return (T)
 }
+## check for size mis-match
+DLSV <- dim(SVEF)[1]
+Xtra <- DL - NSTEP * DLSV
 Cor <- vector('numeric', DL*15)
 dim (Cor) <- c(DL, 15)
 VCor <- vector ('numeric', DL*15)
 dim (VCor) <- c(DL, 15)
 X <- SVEF[, 1]
 for (j in 1:15) {
-  Cor[, j] <- IntFilter (SVEF[, j], 1, NSTEP)
-  VCor[, j] <- IntFilter (CVEF[, j], 1, NSTEP)
+  Cor[, j] <- c(IntFilter (SVEF[, j], 1, NSTEP), rep (SVEF[DLSV, j], Xtra))
+  VCor[, j] <- c(IntFilter (CVEF[, j], 1, NSTEP), rep (CVEF[DLSV, j], Xtra))
   VCor[VCor[,j] < 0] <- 0 
   if (j > 6) {next}
   Cor[, j] <- zoo::na.approx (as.vector (Cor[, j]), maxgap=1000, na.rm=FALSE)
   Cor[is.na(Cor[, j]), j] <- 0
-  Cor[, j] <- signal::filtfilt (signal::butter (3, 1/600), Cor[, j])
+  Cor[, j] <- signal::filtfilt (signal::butter (3, 2/600), Cor[, j])
 }
 # Cor7 <- Cor[, 7]
 # VC7 <- VCor[, 7]
@@ -111,7 +109,7 @@ D1$LATKF[is.na(D1$LATKF)] <- 0
 D1$LONKF[is.na(D1$LONKF)] <- 0
 D1$LATKF <- signal::filtfilt (signal::butter (3, 2/(10*Rate)), D1$LATKF)
 D1$LONKF <- signal::filtfilt (signal::butter (3, 2/(10*Rate)), D1$LONKF)
-D1$ALTKF <- D1$ALT - Cor[, 3]
+D1$ALTKF <- D1$ZROC - Cor[, 3]
 D1$VEWKF <- D1$VEW - Cor[, 4]
 D1$VNSKF <- D1$VNS - Cor[, 5]
 D1$ROCKF <- D1$ROC - Cor[, 6]
@@ -145,27 +143,40 @@ D1$CPITCH <- -Cor[, 7] / Cradeg
 D1$CROLL <- -Cor[, 8] / Cradeg
 D1$CTHDG <- -Cor[, 9] / Cradeg
 
+XPitch <- function (dP, dR, hdg, p, r, .inverse=FALSE) {
+  sh <- sin(hdg); ch <- cos(hdg); sp <- sin(p); cp <- cos(p); sr <- sin(r); cr <- cos(r)
+  if (.inverse) {
+    dPX <- ch*cp * dP - sh*cp * dR
+    dRX <- -(ch*sp*sr - sh*cr) * dP + (sh*sp*sr + ch*cr) * dR
+  } else {
+    dPX <- ((sh*sp*sr + ch*cr) * dP + sh*cp * dR) / (cp*cr)
+    dRX <- ((ch*sp*sr - sh*cr) * dP + ch*cp * dR) / (cp*cr)
+  }
+  return(matrix(c(dPX, dRX), ncol=2))
+}
+
 .hdg <- D1$THDG * Cradeg
-D1$CPL <- (cos(.hdg)*Cor[,7]+sin(.hdg)*Cor[,8]) / Cradeg
-D1$CRL <- (-sin(.hdg)*Cor[,7]+cos(.hdg)*Cor[,8]) / Cradeg
-D1$SDCPL <- sqrt(cos(.hdg)^2*VCor[,7]+sin(.hdg)^2*VCor[,8]) / (Cradeg * 30)
-D1$SDCRL <- sqrt(sin(.hdg)^2*VCor[,7]+cos(.hdg)^2*VCor[,8]) / (Cradeg * 30)
+.p <- D1$PITCH * Cradeg
+.r <- D1$ROLL * Cradeg
+dPx <- XPitch (Cor[,7], Cor[,8], .hdg, .p, .r)
+D1$CPL <- dPx[,1] / Cradeg
+D1$CRL <- dPx[,2] / Cradeg
+D1$SDCPL <- sqrt(cos(.hdg)^2*VCor[,7]+sin(.hdg)^2*VCor[,8]) / (30*Cradeg)
+D1$SDCRL <- sqrt(sin(.hdg)^2*VCor[,7]+cos(.hdg)^2*VCor[,8]) / (30*Cradeg)
 D1$SDCPA <- sqrt(cos(.hdg)^2*D1$SDCPL^2 + sin(.hdg)^2*D1$SDCRL^2)
 D1$SDCRA <- sqrt(sin(.hdg)^2*D1$SDCPL^2 + cos(.hdg)^2*D1$SDCRL^2)
 D1$CPLF <- signal::filtfilt (signal::butter (3, 1/900), D1$CPL)
 D1$CRLF <- signal::filtfilt (signal::butter (3, 1/900), D1$CRL)
-D1$CPAF <- cos(.hdg)*D1$CPLF - sin(.hdg)*D1$CRLF
-D1$CRAF <- sin(.hdg)*D1$CPLF + cos(.hdg)*D1$CRLF
+dPxa <- XPitch (D1$CPLF, D1$CRLF, .hdg, .p, .r, .inverse=TRUE)
+D1$CPAF <- dPxa[,1]
+D1$CRAF <- dPxa[,2]
 ## save corrected values, obtained by subtracting the smoothed a-frame corrections:
 D1$PITCHKF <- D1$PITCH - D1$CPAF
 D1$ROLLKF <- D1$ROLL - D1$CRAF
 
 HE <- VCor[,9]
 HE[HE < 0.00001] <- 0.00001
-# lineWAC(D1$Time[r], D1$THDG[r]/1000, col='brown', lwd=0.7)
-# lineWAC(D1$Time, D1$CTHDG-HE, col='magenta', lwd=0.7)
-# lineWAC(D1$Time, D1$CTHDG+HE, col='magenta', lwd=0.7)
-# D1$CTHDG <- SmoothInterp (D1$CTHDG, .Length=181)
 SS <- smooth.spline(D1$Time, D1$CTHDG, w=1/HE, spar=1.1)
 D1$HCS <- predict(SS, as.numeric(D1$Time))$y
 D1$THDGKF <- D1$THDG - D1$HCS    ## save the corrected heading
+

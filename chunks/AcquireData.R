@@ -9,6 +9,8 @@ NeedIRU <- TRUE
 if (('BLATA' %in% FI$Variables) && ('BYAWR' %in% FI$Variables)) {
   NeedIRU <- FALSE
 }
+## SPECIAL TEST ######
+# NeedIRU <- TRUE
 VROC <- 'GGVSPD'
 if (VROC %in% FI$Variables) {
 } else {
@@ -28,17 +30,23 @@ if (NeedIRU) {
   VarList <- c('LAT', 'LON', 'ALT', 'GGLAT', 'GGLON', 'GGALT',
                'VEW', 'VNS', 'VSPD', 'GGVEW', 'GGVNS', VROC,
                'PITCH', 'ROLL', 'THDG', 'TASX', 'ATTACK', 'SSLIP', 
-               'PSXC', 'ATX', 'ACINS')
+               'PSXC', 'ATX', 'ACINS', 'ADIFR', 'QCF', 'BDIFR')
   Data <- getNetCDF (fname, VarList)
+  Data$Grav <- Gravity (Data$LAT, Data$GGALT)
+  Data$Rn <- Ree / (1 - (Ecc*sin(Data$GGLAT*Cradeg))^2)^0.5 + Data$GGALT
+  Data$Rm <- Data$Rn * (1-Ecc^2) / (1-(Ecc*sin(Data$GGLAT*Cradeg))^2) + Data$GGALT
   source ('chunks/AddIRUVariables.R')
   VarList <- c(VarList, 'BPITCHR', 'BROLLR', 'BYAWR', 'BLATA', 'BLONGA', 'BNORMA')
 } else {
   VarList <- c('LAT', 'LON', 'ALT', 'GGLAT', 'GGLON', 'GGALT',
                'VEW', 'VNS', 'VSPD', 'GGVEW', 'GGVNS', VROC,
                'PITCH', 'ROLL', 'THDG', 'TASX', 'ATTACK', 'SSLIP', 
-               'PSXC', 'ATX', 'ACINS', 
+               'PSXC', 'ATX', 'ACINS', 'ADIFR', 'QCF', 'BDIFR',
                'BLATA', 'BLONGA', 'BNORMA', 'BPITCHR', 'BROLLR', 'BYAWR')
   Data <- getNetCDF (fname, VarList)
+  Data$Grav <- Gravity (Data$LAT, Data$GGALT)
+  Data$Rn <- Ree / (1 - (Ecc*sin(Data$GGLAT*Cradeg))^2)^0.5 + Data$GGALT
+  Data$Rm <- Data$Rn * (1-Ecc^2) / (1-(Ecc*sin(Data$GGLAT*Cradeg))^2) + Data$GGALT
 }
 
 Data$Grav <- Gravity (Data$LAT, Data$GGALT)
@@ -55,9 +63,7 @@ if ('TimeLag' %in% names(Z)) {
 }
 Data$THDG <- (Data$THDG - THDGoffset) %% 360
 DL <- nrow(Data)
-Data$Rn <- Ree / (1 - (Ecc*sin(Data$GGLAT*Cradeg))^2)^0.5 + Data$GGALT
-Data$Rm <- Data$Rn * (1-Ecc^2) / (1-(Ecc*sin(Data$GGLAT*Cradeg))^2) + Data$GGALT
-Data$Grav <- Gravity (Data$LAT, Data$GGALT)
+
 #interpolate if necessary: otherwise later filters fail
 MaxGap <- 1000
 for (V in VarList) {
@@ -88,3 +94,4 @@ Data$LACCZ <- signal::sgolayfilt (Data$LACCZ, 3, .span, m=0)
 .thdg <- Data$THDG * Cradeg
 Data$PITCHL <- Data$PITCH * cos (.thdg) + Data$ROLL * sin (.thdg)
 Data$ROLLL <-  -Data$PITCH * sin (.thdg) + Data$ROLL * cos (.thdg)
+

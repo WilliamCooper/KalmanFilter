@@ -6,16 +6,18 @@ VarList <- c('TASX', 'ATTACK', 'SSLIP', 'GGVEW', 'GGVNS', VROC, 'VEW', 'VNS', 'T
 VarListRef <- VarList
 FI <- DataFileInfo (fname)
 VarList <- VarListRef
-if ('GGVSPD' %in% FI$Variables) {
-} else if ('GGVSPDB' %in% FI$Variables) {
-  VarList [which (VarList == 'GGVSPD')] <- 'GGVSPDB'
-} else if ('VSPD_A' %in% FI$Variables) {
-  VarList [which (VarList == 'GGVSPD')] <- 'VSPD_A'
-} else if ('VSPD_G' %in% FI$Variables) {
-  VarList [which (VarList == 'GGVSPD')] <- 'VSPD_G'
-} else {
-  print ('ERROR: no VSPD variable found')
-  exit()
+
+if (!('GGVSPD' %in% FI$Variables)) {
+  if ('GGVSPDB' %in% FI$Variables) {
+    VarList [which (VarList == 'GGVSPD')] <- 'GGVSPDB'
+  } else if ('VSPD_A' %in% FI$Variables) {
+    VarList [which (VarList == 'GGVSPD')] <- 'VSPD_A'
+  } else if ('VSPD_G' %in% FI$Variables) {
+    VarList [which (VarList == 'GGVSPD')] <- 'VSPD_G'
+  } else {
+    print ('ERROR: no VSPD variable found')
+    exit()
+  }
 }
 for (Var in VarList) {
   if (!(Var %in% FI$Variables)) {
@@ -40,18 +42,21 @@ DATT <- D1  ## save to ensure that attributes are preserved
 
 ## variables to add to the netCDF file:
 VarNew <- c('LATKF', 'LONKF', 'ALTKF', 'VEWKF', 'VNSKF', 'ROCKF', 'PITCHKF', 'ROLLKF', 'THDGKF',
-            'WDKF', 'WSKF', 'WIKF', 'WIKFG', 'WICC', 'WDCC', 'WSCC', 'UXKF', 'VYKF')
+            'WDKF', 'WSKF', 'WIKF', 'WICC', 'WDCC', 'WSCC', 'UXKF', 'VYKF', 
+            'AKKF', 'SSKF')
 VarOld <- c('LAT', 'LON', 'ALT', 'VEW', 'VNS', 'VSPD', 'PITCH', 'ROLL', 'THDG', 
-            'WD', 'WS', 'WI', 'WIC', 'WIC', 'WDC', 'WSC', 'UXC', 'VYC')
+            'WD', 'WS', 'WI', 'WIC', 'WDC', 'WSC', 'UXC', 'VYC', 'AKRD', 'SSRD')
 VarUnits <- c('degrees', 'degrees', 'm', 'm/s', 'm/s', 'm/s', 'degrees', 'degrees', 'degrees',
-              'degrees', 'm/s', 'm/s', 'm/s', 'm/s', 'degrees', 'm/s', 'm/s', 'm/s')
-VarLongName <- c('latitude, KF', 'longitude, KF', 'altitude MSL, KF',
+              'degrees', 'm/s', 'm/s', 'm/s', 'degrees', 'm/s', 'm/s', 'm/s',
+              'degrees', 'degrees')
+VarStdName <- c('latitude, KF', 'longitude, KF', 'altitude MSL, KF',
                  'eastward groundspeed, KF', 'northward groundspeed, KF', 'rate of climb, KF',
                  'pitch, KF', 'roll, KF', 'heading, KF',
                  'wind direction, KF', 'wind speed, KF', 'vertical wind, KF', 
                  'vertical wind, KF and GGVSPD', 'WIC recalc', 'WDC recalc', 'WSC recalc',
-                 'longitudinal wind, KF', 'lateral wind, KF')
-VarStdName <- c('INS latitude, Kalman-filter-corrected',
+                 'longitudinal wind, KF', 'lateral wind, KF', 
+                 'angle of attack, KF', 'sideslip, KF')
+VarLongName <- c('INS latitude, Kalman-filter-corrected',
                 'INS longitude, Kalman-filter-corrected',
                 'INS altitude, Kalman-filter-corrected',
                 'INS eastward ground speed, Kalman-filter-corrected',
@@ -63,17 +68,18 @@ VarStdName <- c('INS latitude, Kalman-filter-corrected',
                 'horizontal wind direction, Kalman-filter-corrected',
                 'horizontal wind speed, Kalman-filter-corrected',
                 'vertical wind speed, Kalman-filter-corrected',
-                'vertical wind speed, Kalman-filter-corrected but using GPS VSPD',
                 'original WIC, recalculated',
                 'original WDC, recalculated',
                 'original WSC, recalculated',
                 'longitudinal component of the horizontal wind, Kalman-filter-corrected',
-                'lateral component of the horizontal wind, Kalman-filter-corrected')
+                'lateral component of the horizontal wind, Kalman-filter-corrected',
+                'angle of attack, from Kalman-filter routine', 'sideslip, from Kalman-filter routine')
 
 ## create the new variables
-nv <- length (VarNew)
 varCDF <- list ()
-for (i in 1:nv) {
+for (i in 1:length(VarNew)) {
+  if (VarNew[i] == 'AKKF' && !UpdateAKRD) {next}
+  if (VarNew[i] == 'SSKF' && !UpdateSSRD) {next}
   varCDF[[i]] <- ncvar_def (VarNew[i],  
                             units=VarUnits[i], 
                             dim=Dim, 
@@ -95,3 +101,4 @@ for (i in 1:nv) {
   }
 }
 nc_close (newfile)
+

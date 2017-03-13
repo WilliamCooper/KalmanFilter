@@ -1,4 +1,4 @@
-## wind-calculation.R
+# wind-calculation.R
 
 ## get the wind variables:
 DataW <- D1
@@ -26,3 +26,4 @@ DataW$GGVSPD <- D1[, VROC]
 DataN <- WindProcessor(DataW, CompF=FALSE)    ## suppress comp filter and GPS lever arm)
 D1$WIKFG <- DataN$WIN
 sdWIdif <- sd(D1$WIKF[r]-D1$WICC[r], na.rm=TRUE)
+
