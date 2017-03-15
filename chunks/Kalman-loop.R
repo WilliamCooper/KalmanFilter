@@ -12,9 +12,13 @@ SVEF[1, ] <- SVE
 CVEF[1, ] <- diag (CV)
 pctL <- 0
 MH <- 1    ## 0 suppresses use of deltaPsi as error in heading
+
 for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   pct <- as.integer(100*i/DL)
-  if (pct %% 5 == 0 && pct != pctL) {print (sprintf ('Kalman-loop %d%% done', pct));pctL <- pct}
+  if (pct %% 5 == 0 && pct != pctL) {
+    print (sprintf ('Kalman-loop %d%% done', pct))
+    pctL <- pct
+  }
   SV <- with(D1[i, ], data.frame(LAT, LON, ZROC, VEW, VNS, ROC, PITCH, ROLL, THDG,
                                  BPITCHR, BROLLR, BYAWR, BLATA, BLONGA, BNORMA))
   SV[c(1,2,7:12)] <- SV[c(1,2,7:12)] * Cradeg

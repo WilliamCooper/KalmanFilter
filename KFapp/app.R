@@ -12,17 +12,17 @@ suppressMessages (suppressWarnings (
   library(Ranadu, quietly=TRUE, warn.conflicts=FALSE))
 )
 ## global stuff here
-Project <- 'CSET'
-Flight <- 1
+Project <- 'DEEPWAVE'
+Flight <- 17
 ALL <- FALSE
-Next <- FALSE
+NEXT <- FALSE
 newAK <- TRUE
 newSS <- TRUE
 simple <- FALSE
-NSTEP=10
+NSTEP=60
 showPlots <- TRUE
 viewPlot <- 1
-genPlot <- TRUE
+genPlot <- FALSE
 firstRun <- TRUE
 PJ <- c('ORCAS', 'CSET', 'NOREASTER', 'HCRTEST',
         'DEEPWAVE', 'CONTRAST', 'SPRITE-II', 'MPEX', 'DC3', 'RICO',
@@ -48,17 +48,134 @@ for (P in PJ) {
 PJ <- PJ[!is.na(PJ)]
 
 messg <- 'waiting for run'
+progressExists <- FALSE
 
-runScript <- function () {
-  system('rm ../KFplots/*png')
-  cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d', Project, Flight, newAK, newSS, simple, NSTEP)
-  system(cmd)
+getNext <- function(Project) {
+  Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
+                          sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
+  if (is.na (Fl)) {
+    Flight <- 1
+  } else {
+    Flight <- sub (".*rf", '',  sub ("KF.nc", '', Fl))
+    Flight <- as.numeric(Flight)+1
+  }
+  return (Flight)
+}
+
+ShowProgress <- function(NSTEP, progress, Flight) {
+  PLOOP <- 1
+  TimeEstimate <- 1.5 * 60 * 9 * 10 / NSTEP  ## for 9-h flight
+  while (PLOOP) {
+    Sys.sleep (1)
+    PLOOP <- PLOOP + 1
+    if (PLOOP > TimeEstimate) {break}
+    M <- system('tail -n 1 KFlog', intern=TRUE)
+    if (grepl ('main loop', M)) {
+      PLOOP <- FALSE
+      progress$set(message = 'main-loop progress', 
+                   detail = sprintf('flight %d', Flight), value=1)
+      next
+    }
+    if (grepl('IRU loop', M)) {
+      P <- sub ('.*loop ', '', sub ('% do.*', '', M))
+      # print (sprintf ('progress is %d', as.integer(P)))
+      progress$set(message = 'retrieve IRU msrmts', 
+                   detail = sprintf('flight %d', Flight), value=as.integer (P))
+    }
+  }
+  PLOOP <- 1
+  while (PLOOP) {
+    Sys.sleep (1)
+    PLOOP <- PLOOP + 1
+    if (PLOOP > TimeEstimate) {break}
+    M <- system('tail -n 1 KFlog', intern=TRUE)
+    if (grepl ('main loop is done', M) || grepl ('generating plots', M) || grepl ('making new', M)) {
+      PLOOP <- FALSE
+      next
+    }
+    if (grepl('Kalman-loop', M)) {
+      P <- sub ('.*loop ', '', sub ('% do.*', '', M))
+      # print (sprintf ('progress is %d', as.integer(P)))
+      progress$set(message = 'main-loop progress', 
+                   detail = sprintf('flight %d', Flight), value=as.integer (P))
+    }
+  }
+  PLOOP <- 1
+  while (PLOOP) {
+    Sys.sleep (0.5)
+    PLOOP <- PLOOP + 1
+    if (PLOOP > 120) {break}
+    M <- system('tail -n 1 KFlog', intern=TRUE)
+    if (grepl ('plots generated', M) || grepl ('making new', M)) {
+      PLOOP <- FALSE
+      next
+    }
+    if (grepl('figures', M)) {
+      P <- sub ('.*figures ', '', sub ('% do.*', '', M))
+      # print (sprintf ('progress is %d', as.integer(P)))
+      progress$set(message = 'generating figures', 
+                   detail = sprintf('flight %d', Flight), value=as.integer (P))
+    }
+  }
+  progress$set(message = 'creating new netCDF file', value=99)
+  PLOOP <- 1
+  while (PLOOP) {
+    Sys.sleep (1)
+    PLOOP <- PLOOP + 1
+    if (PLOOP > 150) {break}
+    M <- system('tail -n 1 KFlog', intern=TRUE)
+    if (grepl ('finished', M)) {
+      PLOOP <- FALSE
+      next
+    }
+  }
+}
+
+runScript <- function (ssn) {
+  if (file.exists ('../KFplots/Position.png')) {
+    system('rm ../KFplots/*png')
+  }
+  progress$set(message = 'read data, initialize', 
+               detail = sprintf('flight %d', Flight),
+               value=0) 
+  if (ALL) {
+    gPlot <- FALSE
+    ## get list of files to process:
+    Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
+                            sprintf ("%srf...nc", Project)))
+    if (!is.na (Fl[1])) {
+      for (Flt in Fl) {
+        FltKF <- sub ('.nc$', 'KF.nc', Flt)
+        if (file.exists (sprintf ("%s%s/%s", 
+                                  DataDirectory (), Project, FltKF))) {next}
+        Flight <- sub('.*rf', '', sub ('.nc$', '', Flt))
+        Flight <- as.numeric (Flight)
+        updateNumericInput (ssn, 'Flight', value=Flight)
+        cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
+                       Project, Flight, newAK, newSS, simple, NSTEP, gPlot)
+        system (cmd, wait=FALSE)
+        ShowProgress (NSTEP, progress, Flight)
+      }
+    }
+  } else if (NEXT) {
+    Flight <- getNext(Project)
+    updateNumericInput (ssn, 'Flight', value=Flight)
+    cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
+                   Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
+    system (cmd, wait=FALSE)
+    ShowProgress (NSTEP, progress, Flight)
+  } else {
+    cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
+                   Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
+    system (cmd, wait=FALSE)
+    ShowProgress (NSTEP, progress, Flight)
+  }
   return()
 }
 
 # Define UI for application that controls KalmanFilter
 ui <- fluidPage(
-  
+  tags$head(tags$script(HTML('Shiny.addCustomMessageHandler("jsCode",function(message) {eval(message.value);});'))),
   # Application title
   # titlePanel("Kalman-Filter Processor"),
   fluidRow (
@@ -67,29 +184,29 @@ ui <- fluidPage(
   ),
   sidebarLayout(
     sidebarPanel(h4('Run Arguments:'),
-	      fluidRow (
-	        column (7, selectInput (inputId='Project', label=NULL,
-                       choices=PJ, selected=Project, width='100px')),
-	        column (5, checkboxInput ('simple', label='Only Simple?', value=FALSE))),
-	      fluidRow (
-	        column (5, numericInput (inputId='Flight', label='Flight', value=1,
-	                                        min=1, max=99, step=1, width='80px')),
-	        column (3, checkboxInput ('ALL', label='ALL?',
-	                                  value=FALSE)),
-	        column (3, checkboxInput ('next', label='Next',
-	                                  value=FALSE))
-	      ),
-	      fluidRow (
-	        column (3, checkboxInput ('newAK', label='AK?', value=TRUE)),
-	        column (3, checkboxInput ('newSS', label='SS?', value=TRUE)),
-	        column (6, numericInput ('NSTEP', label='step (s)', value=10, width='80pc'))
-	      ),
-	      fluidRow (
-	        column (4, checkboxInput ('genPlot', label='plots?', value=TRUE)),
-	        column (4, numericInput ('viewPlot', label='view', value=1,
-	                                 min=1, max=7, step=1, width='80'))
-	      )
-	),
+                 fluidRow (
+                   column (7, selectInput (inputId='Project', label=NULL,
+                                           choices=PJ, selected=Project, width='100px')),
+                   column (5, checkboxInput ('simple', label='Only Simple?', value=FALSE))),
+                 fluidRow (
+                   column (5, numericInput (inputId='Flight', label='Flight', value=Flight,
+                                            min=1, max=99, step=1, width='80px')),
+                   column (3, checkboxInput ('ALL', label='ALL?',
+                                             value=FALSE)),
+                   column (3, checkboxInput ('NEXT', label='Next',
+                                             value=FALSE))
+                 ),
+                 fluidRow (
+                   column (3, checkboxInput ('newAK', label='AK?', value=newAK)),
+                   column (3, checkboxInput ('newSS', label='SS?', value=newSS)),
+                   column (6, numericInput ('NSTEP', label='step (s)', value=NSTEP, width='80pc'))
+                 ),
+                 fluidRow (
+                   column (4, checkboxInput ('genPlot', label='plots?', value=genPlot)),
+                   column (4, numericInput ('viewPlot', label='view', value=1,
+                                            min=1, max=8, step=1, width='80'))
+                 )
+    ),
     
     mainPanel(
       textOutput('runPar'),
@@ -98,12 +215,14 @@ ui <- fluidPage(
   )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   observeEvent (input$Run, {
-    runScript()
+    runScript(session)
+    progress$set(message = 'processing is complete', detail=sprintf ('Flight %d', Flight), value=99)
+    updateNumericInput(session, 'viewPlot', value=3)
   })
-
+  
   exprProject <- quote ({
     if (input$Project != Project) {
       Project <<- input$Project
@@ -114,6 +233,7 @@ server <- function(input, output) {
   exprFlight <- quote ({
     if (input$Flight != Flight) {
       Flight <<- input$Flight
+      progress$set(message = 'ready to run', detail = sprintf('flight %d', Flight))
     }
   })
   obsFlight <- observe (exprFlight, quoted=TRUE) 
@@ -124,7 +244,26 @@ server <- function(input, output) {
     }
   })
   obsNSTEP <- observe (exprNSTEP, quoted=TRUE)  
-
+  
+  exprNEXT <- quote ({
+    if (input$NEXT != NEXT) {
+      NEXT <<- input$NEXT
+      if (NEXT) {Flight <- 'NEXT'}
+    }
+  })
+  obsNEXT <- observe (exprNEXT, quoted=TRUE)
+  
+  exprALL <- quote ({
+    if (input$ALL != ALL) {
+      ALL <<- input$ALL
+      if (ALL) {
+        js_string <- 'alert("For ALL, see instructions. Previously generated files are skipped; delete to reprocess. This run may take a very long time.")'
+        session$sendCustomMessage(type='jsCode', list(value = js_string))
+      }
+    }
+  })
+  obsALL <- observe (exprALL, quoted=TRUE)
+  
   exprNewAK <- quote ({
     if (input$newAK != newAK) {
       newAK <<- input$newAK
@@ -179,30 +318,40 @@ server <- function(input, output) {
   #   }
   # })
   output$runPar <- renderText({
-    messg <<- sprintf ("%srf%02d.nc dt=%d AK=%s SS=%s Simple=%s", 
+    if (!progressExists) {
+      progress <- Progress$new(session, min=0, max=100)
+    } 
+    # on.exit(progress$close())
+    
+    progress$set(message = 'ready to run')
+    progress$set (value=1)
+    progress <<- progress
+    progressExists <<- TRUE
+    messg <<- sprintf ("%srf%02d.nc dt=%d AK=%s SS=%s Simple=%s",
                        input$Project, input$Flight, input$NSTEP, input$newAK, input$newSS, input$simple)
-    messg
+    messg <- NULL
   })
   
   output$resultPlot <- renderImage({
-      plotNo <- input$viewPlot
-      pname <- c('../KFplots/Position.png',
-                   '../KFplots/Velocity.png',
-                   '../KFplots/AAlframe.png',
-                   '../KFplots/AAaframe.png',
-                   '../KFplots/HDG.png',
-                   '../KFplots/Wind.png',
-                   '../KFplots/Wind2.png')
-      # Return a list containing the filename
-      list(src = pname[plotNo],
-           contentType = 'image/png',
-           width = 600,
-           height = 450,
-           alt = "Waiting for Plots")
     
+    plotNo <- input$viewPlot
+    pname <- c('../KFplots/Position.png',
+               '../KFplots/Velocity.png',
+               '../KFplots/AAlframe.png',
+               '../KFplots/AAaframe.png',
+               '../KFplots/HDG.png',
+               '../KFplots/Wind.png',
+               '../KFplots/Wind2.png',
+               '../KFplots/HCplot.pdf')
+    # Return a list containing the filename
+    list(src = pname[plotNo],
+         contentType = 'image/png',
+         width = 900,
+         height = 600,
+         alt = "Waiting for Plots")
   }, deleteFile=FALSE)
 }
 
 # Run the application 
-shinyApp(ui = ui, server = server)
+shinyApp(ui, server)
 

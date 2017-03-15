@@ -53,8 +53,14 @@ with (D1, {
 })
 RdM <- aperm (array (Rd, dim=c(nrow(D1),3,3)))
 OmegaA <- array (dim=c(nrow(D1),3,3))
-
+NR <- nrow(D1)
+IprogLast <- 0
 for (i in 1:nrow(D1)) {
+  Iprog <- as.integer(i * 100 / NR)
+  if ((Iprog %% 5) == 0 && Iprog != IprogLast) {
+    print (sprintf ('IRU loop %d%% done', Iprog))
+    IprogLast <- Iprog
+  }
   sv <- with(D1[i,], c(LAT, LON, ALT, VEW, VNS, VSPD, PITCH, ROLL, THDG)) 
   rlm <- XformLA (data.frame(PITCH=sv[7], ROLL=sv[8], THDG=sv[9]))
   sv[c(1:2,7:12)] <- sv[c(1:2, 7:12)] * Cradeg

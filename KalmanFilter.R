@@ -7,8 +7,8 @@
 print (sprintf ('Kalman Processor is starting -- %s', Sys.time()))
 thisFileName <- "KalmanFilter"
 require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
-require(numDeriv)    ## needed for the jacobian() function
-# library(signal)      ## used for filtering
+require(numDeriv, quietly = TRUE, warn.conflicts=FALSE)    ## needed for the jacobian() function
+# library(signal)      ## used for filtering -- but ::signal avoids error message
 library(reshape2)    ## used with ggplot facet plots
 library(grid)
 options(stringsAsFactors=FALSE)
@@ -18,14 +18,14 @@ setwd ('~/RStudio/KalmanFilter')
 ##----------------------------------------------------------
 ## These are the run options to set via command-line or UI:
 GeneratePlots <- TRUE
-ShowPlots <- TRUE
+ShowPlots <- FALSE  ## leave FALSE for batch runs or shiny-app runs
 UpdateAKRD <- TRUE
 UpdateSSRD <- TRUE
 SimpleOnly <- FALSE   ## set TRUE to use CorrectPitch/CorrectHeading
+ALL <- FALSE
+NEXT <- FALSE
 ReloadData <- FALSE
 ReloadData <- TRUE
-UseRunArgs <- TRUE
-Interact <- FALSE
 NSTEP <- 30      ## update interval
 
 Directory <- DataDirectory ()
@@ -36,46 +36,40 @@ Project <- 'DEEPWAVE'
 ProjectDir <- Project
 Flight <- 1
 Flight <- 17
-if (UseRunArgs) {
+if (!interactive()) {  ## can run interactively or via Rscript
   run.args <- commandArgs (TRUE)
   if (length (run.args) > 0) {
-    if (run.args[1] == 'I') {
-      Interact <- TRUE
-      x <- readline (sprintf ("Project is %s; CR to accept or enter new project name: ", Project))
-      if (nchar(x) > 1) {Project <- x}
-    } else {
+    if (nchar(run.args[1]) > 1) {
       Project <- run.args[1]
       ProjectDir <- Project
     }
   } else {
     print ("Usage: Rscript KalmanFilter.R Project Flight UpdateAKRD[y/N] UpdateSSRD[y,N] Simple[y/N] Interval[10]")
     print ("Example: Rscript KalmanFilter.R CSET 1 y y n 15")
-    print ("Alternate: Rscript KalmanFilter.R I  -- enter args interactively")
     stop("exiting...")
   }
-  if (length (run.args) > 0) {
-  Flight <- run.args[1]
-} else {
-  x <- readline(sprintf("Flight is %s; CR to accept or enter new flight name (rfxx format): ",
-                        Flight))
-  if (nchar(x) > 1) {Flight <- x}
-}
-
+  ## Flight
   if (length (run.args) > 1) {
     if (run.args[2] != 'NEXT') {
       Flight <- as.numeric (run.args[2])
     } else {
-      ## find max rf in data directory, use as default if none supplied via command line:
-      Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
-                              sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
-      if (is.na (Fl)) {
-        Flight <- 1
-      } else {
-        Flight <- sub (".*rf", '',  sub ("KF.nc", '', Fl))
-        Flight <- as.numeric(Flight)+1
+      ## Find max rf in data directory,
+      ## Use as default if none supplied via command line:
+      getNext <- function(ProjectDir, Project) {
+        Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
+                                sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
+        if (is.na (Fl)) {
+          Flight <- 1
+        } else {
+          Flight <- sub (".*rf", '',  sub ("KF.nc", '', Fl))
+          Flight <- as.numeric(Flight)+1
+        }
+        return (Flight)
       }
+      Flight <- getNext(ProjectDir, Project)
     }
-  }
+  }  
+  
   if (length (run.args) > 2) {
     UpdateAKRD <- run.args[3]
     if (UpdateAKRD == 'y' || UpdateAKRD == 'Y' || UpdateAKRD == 'TRUE') {
@@ -103,7 +97,43 @@ if (UseRunArgs) {
   if (length (run.args) > 5) {
     NSTEP <- as.numeric (run.args[6])
   }
+  if (length (run.args) > 6) {
+    GeneratePlots <- run.args[7]
+    if (GeneratePlots == 'y' || GeneratePlots == 'Y' || GeneratePlots == 'TRUE') {
+      GeneratePlots <- TRUE
+    } else {
+      GeneratePlots <- FALSE
+    }
+  }
+} else {  ## This is the interactive section
+  x <- readline (sprintf ("Project is %s; CR to accept or enter new project name: ", Project))
+  if (nchar(x) > 1) {Project <- x}
+  x <- readline (sprintf ("Flight is %d; CR to accept, number or 'ALL' or 'NEXT' for new flight name: ", Flight))
+  if (x == 'ALL') {
+    ALL <- TRUE
+  } else if (x == 'NEXT') {
+    Flight <- getNext(ProjectDir, Project)
+  } else if (nchar(x) > 0 && !is.na(as.numeric(x))) {
+    Flight <- as.numeric(x)
+  }
+  x <- readline (sprintf ("newAK is %s; CR to accept, Y or T to enable, N or F to disable: ", UpdateAKRD))
+  if (nchar(x) > 0) 
+    UpdateAKRD <- ifelse ((grepl('^T', x) || grepl('^Y', x)), TRUE, FALSE)
+  x <- readline (sprintf ("newSS is %s; CR to accept, Y or T to enable, N or F to disable: ", UpdateSSRD))
+  if (nchar(x) > 0) 
+    UpdateSSRD <- ifelse ((grepl('^T', x) || grepl('^Y', x)), TRUE, FALSE)
+  x <- readline (sprintf ("simple is %s; CR to accept, Y or T to enable, N or F to disable: ", SimpleOnly))
+  if (nchar(x) > 0) 
+    SimpleOnly <- ifelse ((grepl('^T', x) || grepl('^Y', x)), TRUE, FALSE)
+  x <- readline (sprintf ("NSTEP is %d, CR to accept or number to change: ", NSTEP))
+  if (nchar(x) > 0 && !is.na(as.numeric(x))) {
+    NSTEP <- as.numeric(x)
+  }
+  x <- readline (sprintf ("Generate Plots is %s; CR to accept, Y or T to enable, N or F to disable: ", GeneratePlots))
+  if (nchar(x) > 0) 
+    GeneratePlots <- ifelse ((grepl('^T', x) || grepl('^Y', x)), TRUE, FALSE)
 }
+
 print (sprintf ('run controls:  Project: %s;  Flight: %d;  UpdateAKRD: %s;  UpdateSSRD: %s;  SimpleOnly: %s;  Time increment: %d',
                 Project, Flight, UpdateAKRD, UpdateSSRD, SimpleOnly, NSTEP))
 
@@ -137,6 +167,7 @@ load(file='./BodyAccCal.Rdata')
 
 SaveRData2 <- sprintf("%s2.Rdata", thisFileName)
 if (ReloadData) {
+  print ('reading netCDF file')
   source ('chunks/AcquireData.R')
   ## add ROC variable
   source ('chunks/ROC.R')
@@ -176,8 +207,9 @@ source ('chunks/Kalman-setup.R')
 
 ## ----Kalman-loop, include=TRUE, cache=CACHE------------------------------
 
+print (sprintf ('main loop is starting -- %s', Sys.time()))
 source ('chunks/Kalman-loop.R')
-## Kalman-loop.R
+print (sprintf ('main loop is done -- %s', Sys.time()))
 
 ## ----plot-Kalman-position, include=TRUE, 
 
@@ -192,7 +224,7 @@ r <- r1:r2
 DP <- D1[r, ]
 if (GeneratePlots) {
   print ("generating plots")
-  png (file='KFplots/Position.png', width=600, res=150)
+  png (file='KFplots/Position.png', width=900, height=600, res=150)
   print (ggplotWAC (with (DP,
                           data.frame(Time, DLONM, CLONM, DLATM, CLATM, DALT, CALT)),
                     ylab=expression (paste ('difference in position [km]')),
@@ -210,7 +242,8 @@ if (GeneratePlots) {
                       labelP=c('east', 'north', 'up'),
                       legend.position=c(0.2,0.68), theme.version=1))
   }
-  
+  pct <- as.integer(100/8)
+  print (sprintf ('figures %d%% done', pct))
   sdZ <- sd(DP$DALT, na.rm=TRUE)
   sdvew <- sd(DP$GGVEW - DP$VEWKF, na.rm=TRUE)
   sdvns <- sd(DP$GGVNS - DP$VNSKF, na.rm=TRUE)
@@ -220,7 +253,7 @@ if (GeneratePlots) {
   
   ## ----plot-Kalman-velocity
   
-  png(file='KFplots/Velocity.png', width=600, res=150)
+  png(file='KFplots/Velocity.png', width=900, height=600, res=150)
   print (ggplotWAC (with (DP,
                           data.frame(Time, DVEW, CVEW, DVNS, CVNS, DROC, CROC)),
                     ylab=expression (paste ('velocity component [m ',s^-1,']')),
@@ -238,7 +271,8 @@ if (GeneratePlots) {
                       labelP=c('east', 'north', 'up'),
                       legend.position=c(0.2, 0.97), theme.version=1))
   }
-  
+  pct <- as.integer(100*2/8)
+  print (sprintf ('figures %d%% done', pct))
   
   
   ## ----errors-in-pitch,
@@ -272,12 +306,13 @@ if (GeneratePlots) {
   ## Now the plot is generated here, but placed in the document in the LaTeX code
   ## preceding this chunk. This out-of-order sequence requires run
   # png (filename='Fig7.png', width=600, height=480, res=150)
-  png(file='KFplots/AAlframe.png', width=600, res=150)
+  png(file='KFplots/AAlframe.png', width=900, height=600, res=150)
   print (g7)
   invisible(dev.off())
   if (ShowPlots) {print (g7)}
   # invisible (dev.off())
-  
+  pct <- as.integer(100*3/8)
+  print (sprintf ('figures %d%% done', pct))
   
   
   ## ----a-frame-errors
@@ -315,14 +350,17 @@ if (GeneratePlots) {
   ## Now the plot is generated here, but placed in the document in the LaTeX code
   ## preceding this chunk. This out-of-order sequence requires run
   # png (filename='Fig9.png', width=600, height=480, res=150)
-  png(file='KFplots/AAaframe.png', width=600, res=150)
+  png(file='KFplots/AAaframe.png', width=900, height=600, res=150)
   print (g9)
   invisible(dev.off())
   if (ShowPlots) {print (g9)}
   # invisible (dev.off())
+  pct <- as.integer(100*4/8)
+  print (sprintf ('figures %d%% done', pct))
   
-  
-  DP$HC <- -CorrectHeading (DP, .plotfile='./HCPlot.pdf')
+  DP$HC <- -CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
+  pct <- as.integer(100*5/8)
+  print (sprintf ('figures %d%% done', pct))
 }
 
 
@@ -335,7 +373,7 @@ sddP <- sd(DP$dP, na.rm=TRUE)
 
 # plotWAC(subset(DP,,c(Time, dP)))
 if (GeneratePlots) {
-  png(file='KFplots/HDG.png', width=600, res=150)
+  png(file='KFplots/HDG.png', width=900, height=600, res=150)
   grid.newpage()
   suppressWarnings (
     with(DP,
@@ -397,6 +435,8 @@ if (GeneratePlots) {
       )
     )
   }
+  pct <- as.integer(100*6/8)
+  print (sprintf ('figures %d%% done', pct))
 }
 
 ## ----new-AKRD
@@ -433,7 +473,7 @@ source ('chunks/wind-calculation.R')
 
 
 if (GeneratePlots) {
-  png(file='KFplots/Wind.png', width=600, res=150)
+  png(file='KFplots/Wind.png', width=900, height=600, res=150)
   print (ggplotWAC(
     with(D1[r, ], 
          data.frame (Time, 'Kalman'=WIKF, 'original'=WICC, "DWI"=WIKF-WICC, 'SKIP'=WIKF*0)),
@@ -445,9 +485,10 @@ if (GeneratePlots) {
     legend.position=c(0.8,0.94), theme.version=1)
   )
   invisible(dev.off())
-  
+  pct <- as.integer(100*7/8)
+  print (sprintf ('figures %d%% done', pct))
   ## ----hw-plot, include=TRUE,
-  png(file='KFplots/Wind2.png', width=600, res=150)
+  png(file='KFplots/Wind2.png', width=900, height=600, res=150)
   print (ggplotWAC(
     with(D1[r, ], 
          data.frame (Time, 'direction'=WDKF-WDCC, 'speed'=WSKF-WSCC)),
@@ -480,13 +521,12 @@ if (GeneratePlots) {
     )
   }
 }
+print (sprintf ('plots generated -- %s', Sys.time()))
 
 ## ----create-new-netcdf, cache=FALSE--------------------------------------
 
 print (sprintf("making new netCDF file -- %s", Sys.time()))
 source ('chunks/create-new-netcdf.R')
-
-
 
 ## ----modify-new-netcdf, include=TRUE-------------------------------------
 
