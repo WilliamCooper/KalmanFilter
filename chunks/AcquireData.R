@@ -5,6 +5,8 @@
 FI <- DataFileInfo (fname)  ## this is slow because it finds lat/long range...
 Rate <- FI$Rate
 dt <- 1/Rate
+## don't use the new AKRD algorithm for flights before 2012:
+if (FI$Start < as.POSIXlt ("2012-01-01", tz='UTC')) {updateAKRD <- FALSE}
 NeedIRU <- TRUE
 if (('BLATA' %in% FI$Variables) && ('BYAWR' %in% FI$Variables)) {
   NeedIRU <- FALSE

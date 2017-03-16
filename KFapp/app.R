@@ -133,11 +133,9 @@ ShowProgress <- function(NSTEP, progress, Flight) {
 
 runScript <- function (ssn) {
   if (file.exists ('../KFplots/Position.png')) {
-    system('rm ../KFplots/*png')
+    system('rm ../KFplots/*png ../KFplots/*pdf')
   }
-  progress$set(message = 'read data, initialize', 
-               detail = sprintf('flight %d', Flight),
-               value=0) 
+ 
   if (ALL) {
     gPlot <- FALSE
     ## get list of files to process:
@@ -151,6 +149,9 @@ runScript <- function (ssn) {
         Flight <- sub('.*rf', '', sub ('.nc$', '', Flt))
         Flight <- as.numeric (Flight)
         updateNumericInput (ssn, 'Flight', value=Flight)
+        progress$set(message = 'read data, initialize', 
+                     detail = sprintf('flight %d', Flight),
+                     value=0)
         cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
                        Project, Flight, newAK, newSS, simple, NSTEP, gPlot)
         system (cmd, wait=FALSE)
@@ -160,11 +161,17 @@ runScript <- function (ssn) {
   } else if (NEXT) {
     Flight <- getNext(Project)
     updateNumericInput (ssn, 'Flight', value=Flight)
+    progress$set(message = 'read data, initialize', 
+                 detail = sprintf('flight %d', Flight),
+                 value=0)
     cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
                    Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
     system (cmd, wait=FALSE)
     ShowProgress (NSTEP, progress, Flight)
   } else {
+    progress$set(message = 'read data, initialize', 
+                 detail = sprintf('flight %d', Flight),
+                 value=0)
     cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
                    Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
     system (cmd, wait=FALSE)
@@ -175,6 +182,7 @@ runScript <- function (ssn) {
 
 # Define UI for application that controls KalmanFilter
 ui <- fluidPage(
+  includeCSS("../www/styles.css"),
   tags$head(tags$script(HTML('Shiny.addCustomMessageHandler("jsCode",function(message) {eval(message.value);});'))),
   # Application title
   # titlePanel("Kalman-Filter Processor"),
@@ -199,7 +207,8 @@ ui <- fluidPage(
                  fluidRow (
                    column (3, checkboxInput ('newAK', label='AK?', value=newAK)),
                    column (3, checkboxInput ('newSS', label='SS?', value=newSS)),
-                   column (6, numericInput ('NSTEP', label='step (s)', value=NSTEP, width='80pc'))
+                   column (6, numericInput ('NSTEP', label='step (s)', value=NSTEP, min=5,
+                                            max=60, step=1, width='80pc'))
                  ),
                  fluidRow (
                    column (4, checkboxInput ('genPlot', label='plots?', value=genPlot)),
@@ -290,7 +299,7 @@ server <- function(input, output, session) {
       genPlot <<- input$genPlot
     }
   })
-  obsGenPlot <- observe (exprGenPlot, quoted=TRUE)
+  obsGenPlot <- observe (exprGenPlot, quoted=TRUE)## get the wind variables:
   
   exprViewPlot <- quote ({
     if (input$viewPlot != viewPlot) {
@@ -342,7 +351,7 @@ server <- function(input, output, session) {
                '../KFplots/HDG.png',
                '../KFplots/Wind.png',
                '../KFplots/Wind2.png',
-               '../KFplots/HCplot.pdf')
+               '../KFplots/HCPlot.png')
     # Return a list containing the filename
     list(src = pname[plotNo],
          contentType = 'image/png',
