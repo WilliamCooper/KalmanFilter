@@ -21,7 +21,7 @@ GeneratePlots <- TRUE
 ShowPlots <- FALSE  ## leave FALSE for batch runs or shiny-app runs
 UpdateAKRD <- TRUE
 UpdateSSRD <- TRUE
-SimpleOnly <- FALSE   ## set TRUE to use CorrectPitch/CorrectHeading
+SimpleOnly <- FALSE   ## set TRUE to use CorrectPitch/CorrectHeading w/o KF
 ALL <- FALSE
 NEXT <- FALSE
 ReloadData <- FALSE
@@ -202,14 +202,17 @@ fm3 <- lm (D1$vudot ~ D1$LACCZ)
 ## initialize matrices needed by the Kalman filter and load the starting-point
 ## for the error-state vector.
 
-
-source ('chunks/Kalman-setup.R')
+if (!SimpleOnly) {
+  source ('chunks/Kalman-setup.R')
+} 
 
 ## ----Kalman-loop, include=TRUE, cache=CACHE------------------------------
 
-print (sprintf ('main loop is starting -- %s', Sys.time()))
-source ('chunks/Kalman-loop.R')
-print (sprintf ('main loop is done -- %s', Sys.time()))
+if (!SimpleOnly) {
+  print (sprintf ('main loop is starting -- %s', Sys.time()))
+  source ('chunks/Kalman-loop.R')
+  print (sprintf ('main loop is done -- %s', Sys.time()))
+} 
 
 ## ----plot-Kalman-position, include=TRUE, 
 
@@ -222,7 +225,7 @@ r2 <- which(D1$TASX > 50); r2 <- r2[length(r2)]
 r2 <- min(which(D1$Time == maxT)[1], r2)
 r <- r1:r2
 DP <- D1[r, ]
-if (GeneratePlots) {
+if (GeneratePlots && !SimpleOnly) {
   print ("generating plots")
   png (file='KFplots/Position.png', width=900, height=600, res=150)
   print (ggplotWAC (with (DP,
@@ -363,16 +366,22 @@ if (GeneratePlots) {
   print (sprintf ('figures %d%% done', pct))
 }
 
-
-DP$dP <- DP$deltaPsi/Cradeg
-HA <- with(DP, sqrt(LACCX^2+LACCY^2))
-DP$dP[HA < 1] <- NA
-sddP <- sd(DP$dP, na.rm=TRUE)
+if (SimpleOnly) {
+  PC <- CorrectPitch(DP, .span=901)
+  DP$PC <- PC[, 1]
+  DP$RC <- PC[, 2]
+  DP$HC <- -CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
+} else {
+  DP$dP <- DP$deltaPsi/Cradeg
+  HA <- with(DP, sqrt(LACCX^2+LACCY^2))
+  DP$dP[HA < 1] <- NA
+  sddP <- sd(DP$dP, na.rm=TRUE)
+}
 
 ## ----plot-Kalman-heading
 
 # plotWAC(subset(DP,,c(Time, dP)))
-if (GeneratePlots) {
+if (GeneratePlots && !SimpleOnly) {
   png(file='KFplots/HDG.png', width=900, height=600, res=150)
   grid.newpage()
   suppressWarnings (
@@ -444,6 +453,12 @@ if (GeneratePlots) {
 cffn <- 19.70547
 cff <- 21.481
 cfs <- c(4.525341674, 19.933222011, -0.001960992)
+if (SimpleOnly) {
+  PC <- CorrectPitch(D1, .span=901)
+  D1$PC <- PC[, 1]
+  D1$RC <- PC[, 2]
+  D1$HC <- CorrectHeading (D1)
+}
 D1$QR <- D1$ADIFR / D1$QCF
 D1$QR[D1$QCF < 20] <- NA
 D1$QR[is.infinite(D1$QR)] <- NA
@@ -461,7 +476,6 @@ D1$SSKF <- 0.008 + 22.301 * D1$BDIFR / D1$QCF
 D1$SSKF[D1$QCF < 10] <- NA
 if (UpdateAKRD) {
   D1$ATTACK <- D1$AKRD <- D1$AKKF
-  D1$ATTACK <- D1$AK
 }
 if (UpdateSSRD) {
   D1$SSLIP <- D1$SSRD <- D1$SSKF
@@ -469,36 +483,77 @@ if (UpdateSSRD) {
 
 ## ----wind-calculation, include=TRUE, cache=CACHE-------------------------
 
-source ('chunks/wind-calculation.R')
-
+if (SimpleOnly) {
+  ## get the wind variables:
+  DataW <- D1
+  DataN <- WindProcessor (DataW)
+  D1$WICC <- DataN$WIN
+  D1$WDCC <- DataN$WDN
+  D1$WSCC <- DataN$WSN
+  DataW$PITCH <- D1$PITCH - PC[,1]
+  DataW$ROLL <- D1$ROLL - PC[,2]
+  DataW$THDG <- D1$THDG - HC
+  DataW$VEW <- D1$VEWC
+  DataW$VNS <- D1$VNSC
+  DataW$GGVSPD <- D1$ROC
+  DataN <- WindProcessor(DataW, LG=0, CompF=TRUE)    ## suppress GPS lever arm)
+  D1$WDSC <- DataN$WDN
+  D1$WSSC <- DataN$WSN
+  D1$WISC <- DataN$WIN
+  if (GeneratePlots) {
+    png(file='KFplots/AAaframe.png', width=900, height=600, res=150)
+    with (D1[r,], plotWAC (data.frame (Time, PC[r,1], PC[r,2])))
+    invisible(dev.off())
+    if (ShowPlots) {
+      with (D1[r,], plotWAC (data.frame (Time, PC[r,1], PC[r,2])))
+    }
+  }
+} else {
+  source ('chunks/wind-calculation.R')
+}
 
 if (GeneratePlots) {
-  png(file='KFplots/Wind.png', width=900, height=600, res=150)
-  print (ggplotWAC(
-    with(D1[r, ], 
-         data.frame (Time, 'Kalman'=WIKF, 'original'=WICC, "DWI"=WIKF-WICC, 'SKIP'=WIKF*0)),
-    col=c('blue', 'red'), lwd=c(1.4,0.8,1,0), lty=c(1,42),
-    ylab=expression(paste('vertical wind [m ', s^-1, ']')),
-    panels=2,
-    labelL=c('Kalman', 'original'),
-    labelP=c('variables', 'difference'),
-    legend.position=c(0.8,0.94), theme.version=1)
-  )
-  invisible(dev.off())
-  pct <- as.integer(100*7/8)
-  print (sprintf ('figures %d%% done', pct))
-  ## ----hw-plot, include=TRUE,
-  png(file='KFplots/Wind2.png', width=900, height=600, res=150)
-  print (ggplotWAC(
-    with(D1[r, ], 
-         data.frame (Time, 'direction'=WDKF-WDCC, 'speed'=WSKF-WSCC)),
-    ylab=expression(paste('KF correction [', degree, ' (top) or m ', s^-1, ' (bottom)]')),
-    panels=2,
-    labelL=c('Kalman correction'),
-    labelP=c('direction', 'speed'),
-    legend.position=c(0.8,0.94), theme.version=1)
-  )
-  invisible(dev.off())
+  if (SimpleOnly) {
+    png(file='KFplots/Wind.png', width=900, height=600, res=150)
+    with (D1[r, ], plotWAC (data.frame(Time, WICC, WISC, WICC-WISC), ylim=c(-5,5)))
+    invisible (dev.off())
+    if (ShowPlots) {
+      with (D1[r, ], plotWAC (data.frame(Time, WICC, WISC, WICC-WISC), ylim=c(-5,5)))
+    }
+    png(file='KFplots/Wind2.png', width=900, height=600, res=150)
+    with (D1[r, ], plotWAC (data.frame (Time, WSCC-WSSC, WDCC-WDSC), ylim=c(-10,10)))
+    invisible (dev.off())
+    if (ShowPlots) {
+      with (D1[r, ], plotWAC (data.frame (Time, WSCC-WSSC, WDCC-WDSC), ylim=c(-10,10)))
+    }
+  } else {
+    png(file='KFplots/Wind.png', width=900, height=600, res=150)
+    print (ggplotWAC(
+      with(D1[r, ], 
+           data.frame (Time, 'Kalman'=WIKF, 'original'=WICC, "DWI"=WIKF-WICC, 'SKIP'=WIKF*0)),
+      col=c('blue', 'red'), lwd=c(1.4,0.8,1,0), lty=c(1,42),
+      ylab=expression(paste('vertical wind [m ', s^-1, ']')),
+      panels=2,
+      labelL=c('Kalman', 'original'),
+      labelP=c('variables', 'difference'),
+      legend.position=c(0.8,0.94), theme.version=1)
+    )
+    invisible(dev.off())
+    pct <- as.integer(100*7/8)
+    print (sprintf ('figures %d%% done', pct))
+    ## ----hw-plot, include=TRUE,
+    png(file='KFplots/Wind2.png', width=900, height=600, res=150)
+    print (ggplotWAC(
+      with(D1[r, ], 
+           data.frame (Time, 'direction'=WDKF-WDCC, 'speed'=WSKF-WSCC)),
+      ylab=expression(paste('KF correction [', degree, ' (top) or m ', s^-1, ' (bottom)]')),
+      panels=2,
+      labelL=c('Kalman correction'),
+      labelP=c('direction', 'speed'),
+      legend.position=c(0.8,0.94), theme.version=1)
+    )
+    invisible(dev.off())
+  }
   if (ShowPlots) {
     print (ggplotWAC(
       with(D1[r, ], 
@@ -521,6 +576,7 @@ if (GeneratePlots) {
     )
   }
 }
+if (file.exists ('KFplots/HCPlot.pdf')) {system ('convert KFplots/HCPlot.pdf KFplots/HCPlot.png')}
 print (sprintf ('plots generated -- %s', Sys.time()))
 
 ## ----create-new-netcdf, cache=FALSE--------------------------------------
