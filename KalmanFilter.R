@@ -145,7 +145,7 @@ Ree <- 6378137                        ## for radii of curvature
 Ecc <- 0.08181919
 
 source ('chunks/RotationCorrection.R')
-source ('chunks/STMFV.R')
+source ('chunks/STMFF.R')
 
 ## adjust GPS velocity components for GPS antenna location
 LG <- -4.30 
@@ -234,7 +234,8 @@ if (GeneratePlots && !SimpleOnly) {
                     panels=3, 
                     labelL=c('KF-GPS', 'correction'),
                     labelP=c('east', 'north', 'up'),
-                    legend.position=c(0.2,0.68), theme.version=1))
+                    legend.position=c(0.2,0.68), theme.version=1,
+                    gtitle=sprintf ('%s Flight rf%02d', Project, Flight)))
   invisible(dev.off())
   if (ShowPlots) {
     print (ggplotWAC (with (DP,
@@ -263,7 +264,8 @@ if (GeneratePlots && !SimpleOnly) {
                     panels=3, 
                     labelL=c('KF-GPS', 'correction'),
                     labelP=c('east', 'north', 'up'),
-                    legend.position=c(0.2, 0.97), theme.version=1))
+                    legend.position=c(0.2, 0.97), theme.version=1,
+                    gtitle=sprintf ('%s Flight rf%02d', Project, Flight)))
   invisible(dev.off())
   if (ShowPlots) {
     print (ggplotWAC (with (DP,
@@ -304,6 +306,7 @@ if (GeneratePlots && !SimpleOnly) {
   g7 <- g7 + theme(axis.text.x = element_text (size=11.5, margin=margin(15,0,0,0)))
   g7 <- g7 + theme(axis.title.x = element_text (size=12))
   g7 <- g7 + labs (x='Time [UTC]', y=expression (paste ('l-frame error [',degree,']')))
+  g7 <- g7 + ggtitle (sprintf ('%s Flight rf%02d', Project, Flight))
   ## I'm not sure why this is necessary; printing g7 in the usual way did not leave
   ## the ribbon visible, apparently because the resulting pdf file did not include it.
   ## Now the plot is generated here, but placed in the document in the LaTeX code
@@ -348,6 +351,7 @@ if (GeneratePlots && !SimpleOnly) {
   g9 <- g9 + theme(axis.text.x = element_text (size=11.5, margin=margin(15,0,0,0)))
   g9 <- g9 + theme(axis.title.x = element_text (size=12))
   g9 <- g9 + labs (x='Time [UTC]', y=expression (paste ('a-frame error [',degree,']')))
+  g9 <- g9 + ggtitle (sprintf ('%s Flight rf%02d', Project, Flight))
   ## I'm not sure why this is necessary; printing g9 in the usual way did not leave
   ## the ribbon visible, apparently because the resulting pdf file did not include it.
   ## Now the plot is generated here, but placed in the document in the LaTeX code
@@ -361,16 +365,17 @@ if (GeneratePlots && !SimpleOnly) {
   pct <- as.integer(100*4/8)
   print (sprintf ('figures %d%% done', pct))
   
-  DP$HC <- -CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
+  DP$HC <- CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
   pct <- as.integer(100*5/8)
   print (sprintf ('figures %d%% done', pct))
 }
 
 if (SimpleOnly) {
+  ## these are the errors, negative of the corrections
   PC <- CorrectPitch(DP, .span=901)
   DP$PC <- PC[, 1]
   DP$RC <- PC[, 2]
-  DP$HC <- -CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
+  DP$HC <- CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
 } else {
   DP$dP <- DP$deltaPsi/Cradeg
   HA <- with(DP, sqrt(LACCX^2+LACCY^2))
@@ -388,21 +393,22 @@ if (GeneratePlots && !SimpleOnly) {
     with(DP,
          ggplotWAC (data.frame(Time, dP),
                     ylim=c(-0.4,0.4),
-                    ylab=expression (paste ('error in heading [',degree,']')),
-                    legend.position=NA, position=c(2,2), theme.version=1
-         )
+                    ylab=expression(paste ('error in heading [',degree,']')),
+                    legend.position=NA, position=c(2,2), theme.version=1,
+                    gtitle=sprintf ('%s Flight rf%02d', Project, Flight))
     )
   )
   DP$dP <- DP$deltaPsi/Cradeg
   HA <- with(DP, sqrt(LACCX^2+LACCY^2))
   DP$dP[HA < 1] <- NA
   DP$SDH <- sqrt(VCor[r,9]) / (Cradeg * 30)
-  DP$CCTHDG <- SmoothInterp (DP$CTHDG, .Length=181)
+  ## minus sign to change back to error from correction:
+  DP$CCTHDG <- -SmoothInterp (DP$CTHDG, .Length=181)
   DP$CCCTHDG <- DP$CCTHDG
   DP$CCCTHDG[DP$SDH > 0.02] <- NA
   suppressWarnings (
     with (DP,
-          ggplotWAC(data.frame(Time, 'Kalman'=CCTHDG, 'Ranadu'=HC, 'spline'=HCS, 'KF'=CCCTHDG), 
+          ggplotWAC(data.frame(Time, 'Kalman'=CCTHDG, 'Ranadu'=HC, 'spline'=-HCS, 'KF'=CCCTHDG), 
                     ylim=c(-0.4,0.4), lwd=c(0.7,1,1,1.5), lty=c(3,1,1,1),
                     ylab=expression (paste ('error in heading [',degree,']')),
                     col=c('blue', 'forestgreen', 'red', 'blue'), position=c(1,2),
@@ -422,8 +428,8 @@ if (GeneratePlots && !SimpleOnly) {
            ggplotWAC (data.frame(Time, dP),
                       ylim=c(-0.4,0.4),
                       ylab=expression (paste ('error in heading [',degree,']')),
-                      legend.position=NA, position=c(2,2), theme.version=1
-           )
+                      legend.position=NA, position=c(2,2), theme.version=1,
+                      gtitle=sprintf ('%s Flight rf%02d', Project, Flight))
       )
     )
     DP$dP <- DP$deltaPsi/Cradeg
@@ -435,7 +441,7 @@ if (GeneratePlots && !SimpleOnly) {
     DP$CCCTHDG[DP$SDH > 0.02] <- NA
     suppressWarnings (
       with (DP,
-            ggplotWAC(data.frame(Time, 'Kalman'=CCTHDG, 'Ranadu'=HC, 'spline'=HCS, 'KF'=CCCTHDG), 
+            ggplotWAC(data.frame(Time, 'Kalman'=CCTHDG, 'Ranadu'=HC, 'spline'=-HCS, 'KF'=CCCTHDG), 
                       ylim=c(-0.4,0.4), lwd=c(0.7,1,1,1.5), lty=c(3,1,1,1),
                       ylab=expression (paste ('error in heading [',degree,']')),
                       col=c('blue', 'forestgreen', 'red', 'blue'), position=c(1,2),
@@ -536,21 +542,28 @@ if (GeneratePlots) {
       panels=2,
       labelL=c('Kalman', 'original'),
       labelP=c('variables', 'difference'),
-      legend.position=c(0.8,0.94), theme.version=1)
+      legend.position=c(0.8,0.94), theme.version=1,
+      gtitle=sprintf ('%s Flight rf%02d', Project, Flight))
     )
     invisible(dev.off())
     pct <- as.integer(100*7/8)
     print (sprintf ('figures %d%% done', pct))
     ## ----hw-plot, include=TRUE,
+    D1$WDDIFF <- D1$WDKF - D1$WDCC
+    D1$WDDIFF[is.na(D1$WDDIFF)] <- 0
+    D1$WDDIFF[D1$WDDIFF > 180] <- D1$WDDIFF[D1$WDDIFF > 180] - 360
+    D1$WDDIFF[D1$WDDIFF < -180] <- D1$WDDIFF[D1$WDDIFF < -180] + 360
+    D1$WDDIFF[D1$WDDIFF == 0] <- NA
     png(file='KFplots/Wind2.png', width=900, height=600, res=150)
     print (ggplotWAC(
       with(D1[r, ], 
-           data.frame (Time, 'direction'=WDKF-WDCC, 'speed'=WSKF-WSCC)),
+           data.frame (Time, 'direction'=WDDIFF, 'speed'=WSKF-WSCC)),
       ylab=expression(paste('KF correction [', degree, ' (top) or m ', s^-1, ' (bottom)]')),
       panels=2,
       labelL=c('Kalman correction'),
       labelP=c('direction', 'speed'),
-      legend.position=c(0.8,0.94), theme.version=1)
+      legend.position=c(0.8,0.94), theme.version=1,
+      gtitle=sprintf ('%s Flight rf%02d', Project, Flight))
     )
     invisible(dev.off())
   }
@@ -577,6 +590,8 @@ if (GeneratePlots) {
   }
 }
 if (file.exists ('KFplots/HCPlot.pdf')) {system ('convert KFplots/HCPlot.pdf KFplots/HCPlot.png')}
+cmd <- sprintf ('cd KFplots;tar cvfz %sPlots%02d.tgz *png', Project, Flight)
+system(cmd)
 print (sprintf ('plots generated -- %s', Sys.time()))
 
 ## ----create-new-netcdf, cache=FALSE--------------------------------------

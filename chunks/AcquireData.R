@@ -87,6 +87,11 @@ Data$LACCZ <- AL[, 3] + Data$Grav
 Data$LACCZ <- -Data$LACCZ
 
 ## smooth to match GPS-velocity derivatives
+
+Data$LACCX <- zoo::na.approx (as.vector(Data$LACCX), maxgap=1000, na.rm=FALSE)
+Data$LACCY <- zoo::na.approx (as.vector(Data$LACCY), maxgap=1000, na.rm=FALSE)
+Data$LACCZ <- zoo::na.approx (as.vector(Data$LACCZ), maxgap=1000, na.rm=FALSE)
+
 .span <- 10*Rate+1
 Data$LACCX <- signal::sgolayfilt (Data$LACCX, 3, .span, m=0)
 Data$LACCY <- signal::sgolayfilt (Data$LACCY, 3, .span, m=0)

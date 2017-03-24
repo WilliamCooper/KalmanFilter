@@ -27,7 +27,7 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   Grav <- D1$Grav[i]
   sv <- as.vector (SV, mode='numeric')
   # stmf <- STMFV (sv)
-  dcm <- jacobian (STMFV, sv) * dt * NSTEP + diag(15)
+  dcm <- jacobian (STMFF, sv) * dt * NSTEP + diag(15)
   ## modify to include this?
   ## modify this to include decaying error terms for the measurements:
   # dcm[10,10] <- dcm[11,11] <- dcm[12,12] <- -1/tau
@@ -91,11 +91,13 @@ X <- SVEF[, 1]
 for (j in 1:15) {
   Cor[, j] <- c(IntFilter (SVEF[, j], 1, NSTEP), rep (SVEF[DLSV, j], Xtra))
   VCor[, j] <- c(IntFilter (CVEF[, j], 1, NSTEP), rep (CVEF[DLSV, j], Xtra))
-  VCor[VCor[,j] < 0] <- 0 
-  if (j > 6) {next}
   Cor[, j] <- zoo::na.approx (as.vector (Cor[, j]), maxgap=1000, na.rm=FALSE)
-  Cor[is.na(Cor[, j]), j] <- 0
-  Cor[, j] <- signal::filtfilt (signal::butter (3, 2/600), Cor[, j])
+  Cor[is.na(Cor[, j]), j] <- 0 
+  VCor[is.na(VCor[, j])] <- 0
+  VCor[VCor[,j] < 0] <- 0 
+  if (j <= 6) {
+    Cor[, j] <- signal::filtfilt (signal::butter (3, 2/600), Cor[, j])
+  }
 }
 # Cor7 <- Cor[, 7]
 # VC7 <- VCor[, 7]
@@ -146,6 +148,7 @@ D1$CROC <- -Cor[, 6]
 D1$CPITCH <- -Cor[, 7] / Cradeg
 D1$CROLL <- -Cor[, 8] / Cradeg
 D1$CTHDG <- -Cor[, 9] / Cradeg
+# Cor is the error, so -Cor is the correction
 
 XPitch <- function (dP, dR, hdg, p, r, .inverse=FALSE) {
   sh <- sin(hdg); ch <- cos(hdg); sp <- sin(p); cp <- cos(p); sr <- sin(r); cr <- cos(r)
@@ -165,6 +168,7 @@ XPitch <- function (dP, dR, hdg, p, r, .inverse=FALSE) {
 dPx <- XPitch (Cor[,7], Cor[,8], .hdg, .p, .r)
 D1$CPL <- dPx[,1] / Cradeg
 D1$CRL <- dPx[,2] / Cradeg
+# the above are the errors, negative of the corrections
 D1$SDCPL <- sqrt(cos(.hdg)^2*VCor[,7]+sin(.hdg)^2*VCor[,8]) / (30*Cradeg)
 D1$SDCRL <- sqrt(sin(.hdg)^2*VCor[,7]+cos(.hdg)^2*VCor[,8]) / (30*Cradeg)
 D1$SDCPA <- sqrt(cos(.hdg)^2*D1$SDCPL^2 + sin(.hdg)^2*D1$SDCRL^2)
@@ -174,13 +178,15 @@ D1$CRLF <- signal::filtfilt (signal::butter (3, 1/900), D1$CRL)
 dPxa <- XPitch (D1$CPLF, D1$CRLF, .hdg, .p, .r, .inverse=TRUE)
 D1$CPAF <- dPxa[,1]
 D1$CRAF <- dPxa[,2]
-## save corrected values, obtained by subtracting the smoothed a-frame corrections:
+# the above are the errors, negative of the corrections: subtract to correct
+## save corrected values, obtained by subtracting the smoothed a-frame errors:
 D1$PITCHKF <- D1$PITCH - D1$CPAF
 D1$ROLLKF <- D1$ROLL - D1$CRAF
 
 HE <- VCor[,9]
 HE[HE < 0.00001] <- 0.00001
+# CTHDG is the correction (add it)
 SS <- smooth.spline(D1$Time, D1$CTHDG, w=1/HE, spar=1.1)
 D1$HCS <- predict(SS, as.numeric(D1$Time))$y
-D1$THDGKF <- D1$THDG - D1$HCS    ## save the corrected heading
+D1$THDGKF <- D1$THDG + D1$HCS    ## save the corrected heading
 

@@ -19,12 +19,12 @@ NEXT <- FALSE
 newAK <- TRUE
 newSS <- TRUE
 simple <- FALSE
-NSTEP=60
+NSTEP=10
 showPlots <- TRUE
 viewPlot <- 1
-genPlot <- FALSE
+genPlot <- TRUE
 firstRun <- TRUE
-PJ <- c('ORCAS', 'CSET', 'NOREASTER', 'HCRTEST',
+PJ <- c('ARISTO2017', 'ORCAS', 'CSET', 'NOREASTER', 'HCRTEST',
         'DEEPWAVE', 'CONTRAST', 'SPRITE-II', 'MPEX', 'DC3', 'RICO',
         'TORERO', 'HIPPO-5', 'HIPPO-4', 'HIPPO-3', 'HIPPO-2',
         'HIPPO-1','PREDICT', 'START08', 'PACDEX', 'TREX')
@@ -137,7 +137,6 @@ runScript <- function (ssn) {
   }
  
   if (ALL) {
-    gPlot <- FALSE
     ## get list of files to process:
     Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
                             sprintf ("%srf...nc", Project)))
@@ -146,6 +145,9 @@ runScript <- function (ssn) {
         FltKF <- sub ('.nc$', 'KF.nc', Flt)
         if (file.exists (sprintf ("%s%s/%s", 
                                   DataDirectory (), Project, FltKF))) {next}
+        if (file.exists ('../KFplots/Position.png')) {
+          system('rm ../KFplots/*png ../KFplots/*pdf')
+        }
         Flight <- sub('.*rf', '', sub ('.nc$', '', Flt))
         Flight <- as.numeric (Flight)
         updateNumericInput (ssn, 'Flight', value=Flight)
@@ -153,7 +155,7 @@ runScript <- function (ssn) {
                      detail = sprintf('flight %d', Flight),
                      value=0)
         cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
-                       Project, Flight, newAK, newSS, simple, NSTEP, gPlot)
+                       Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
         system (cmd, wait=FALSE)
         ShowProgress (NSTEP, progress, Flight)
       }
@@ -172,7 +174,7 @@ runScript <- function (ssn) {
     progress$set(message = 'read data, initialize', 
                  detail = sprintf('flight %d', Flight),
                  value=0)
-    cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
+    cmd <- sprintf('nice -10 Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
                    Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
     system (cmd, wait=FALSE)
     ShowProgress (NSTEP, progress, Flight)

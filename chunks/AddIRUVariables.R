@@ -11,6 +11,9 @@
 ## These should match the measured accelerations after transformation to the l-frame
 ## and application of the rotation correction:
 D1 <- Data
+D1$VNS <- zoo::na.approx (as.vector(D1$VNS), maxgap=1000, na.rm=FALSE)
+D1$VEW <- zoo::na.approx (as.vector(D1$VEW), maxgap=1000, na.rm=FALSE)
+D1$VSPD <- zoo::na.approx (as.vector(D1$VSPD), maxgap=1000, na.rm=FALSE)
 D1$vndot <- signal::sgolayfilt (D1$VNS, 3, .span, m=1) * Rate  # m=1 for first deriv.
 D1$vedot <- signal::sgolayfilt (D1$VEW, 3, .span, m=1) * Rate
 D1$vudot <- signal::sgolayfilt (D1$VSPD, 3, .span, m=1) * Rate
@@ -24,6 +27,8 @@ Data$BLONGA <- AA[, 1]
 Data$BLATA  <- AA[, 2]
 Data$BNORMA <- AA[, 3]
 
+D1$PITCH <- zoo::na.approx (as.vector(D1$PITCH), maxgap=1000, na.rm=FALSE)
+D1$ROLL <- zoo::na.approx (as.vector(D1$ROLL), maxgap=1000, na.rm=FALSE)
 D1$pdot <- signal::sgolayfilt (D1$PITCH, 3, .span, m=1) *  Rate
 D1$rdot <- signal::sgolayfilt (D1$ROLL, 3, .span, m=1) *  Rate
 ## handle heading differently to avoid wrap-around problems
