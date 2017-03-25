@@ -91,7 +91,9 @@ Data$LACCZ <- -Data$LACCZ
 Data$LACCX <- zoo::na.approx (as.vector(Data$LACCX), maxgap=1000, na.rm=FALSE)
 Data$LACCY <- zoo::na.approx (as.vector(Data$LACCY), maxgap=1000, na.rm=FALSE)
 Data$LACCZ <- zoo::na.approx (as.vector(Data$LACCZ), maxgap=1000, na.rm=FALSE)
-
+Data$LACCX[is.na(Data$LACCX)] <- 0
+Data$LACCY[is.na(Data$LACCY)] <- 0
+Data$LACCZ[is.na(Data$LACCZ)] <- 0
 .span <- 10*Rate+1
 Data$LACCX <- signal::sgolayfilt (Data$LACCX, 3, .span, m=0)
 Data$LACCY <- signal::sgolayfilt (Data$LACCY, 3, .span, m=0)

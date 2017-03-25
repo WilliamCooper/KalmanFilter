@@ -26,7 +26,14 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   Rm <- D1$Rm[i]
   Grav <- D1$Grav[i]
   sv <- as.vector (SV, mode='numeric')
-  # stmf <- STMFV (sv)
+  ## guard against missing-IRU:
+  sv[is.na(sv)] <- 0
+  # if (i == 19890) {
+  #   print ('i == 19890')
+  #   print (sv)
+  #   print (STMFF (sv))
+  #   print (jacobian (STMFF, sv))
+  # }
   dcm <- jacobian (STMFF, sv) * dt * NSTEP + diag(15)
   ## modify to include this?
   ## modify this to include decaying error terms for the measurements:
@@ -49,6 +56,7 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   
   ## update the covariance matrix:
   CV <- dcm %*% (CV %*% t(dcm)) + Q
+
   if (is.na(D1$sdPsi[i]) || (sqrt(D1$LACCX[i]^2+D1$LACCY[i]^2) < 1)) {
     H[7,9] <- 0
     # DZ[i, 7] <- NA
@@ -166,6 +174,8 @@ XPitch <- function (dP, dR, hdg, p, r, .inverse=FALSE) {
 .p <- D1$PITCH * Cradeg
 .r <- D1$ROLL * Cradeg
 dPx <- XPitch (Cor[,7], Cor[,8], .hdg, .p, .r)
+dPx[is.na(dPx[,1]),1] <- 0
+dPx[is.na(dPx[,2]),2] <- 0
 D1$CPL <- dPx[,1] / Cradeg
 D1$CRL <- dPx[,2] / Cradeg
 # the above are the errors, negative of the corrections

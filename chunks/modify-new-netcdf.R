@@ -80,6 +80,7 @@ varCDF <- list ()
 for (i in 1:length(VarNew)) {
   if (VarNew[i] == 'AKKF' && !UpdateAKRD) {next}
   if (VarNew[i] == 'SSKF' && !UpdateSSRD) {next}
+  print (sprintf ('new-netcdf %d%% done', as.integer(100*(i-1)/length(VarNew))))
   varCDF[[i]] <- ncvar_def (VarNew[i],  
                             units=VarUnits[i], 
                             dim=Dim, 

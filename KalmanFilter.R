@@ -107,7 +107,14 @@ if (!interactive()) {  ## can run interactively or via Rscript
   }
 } else {  ## This is the interactive section
   x <- readline (sprintf ("Project is %s; CR to accept or enter new project name: ", Project))
-  if (nchar(x) > 1) {Project <- x}
+  if (nchar(x) > 1) {
+    Project <- x
+    if (grepl ('HIPPO', Project)) {
+      ProjectDir <- 'HIPPO'
+    } else {
+      ProjectDir <- Project
+    }
+  }
   x <- readline (sprintf ("Flight is %d; CR to accept, number or 'ALL' or 'NEXT' for new flight name: ", Flight))
   if (x == 'ALL') {
     ALL <- TRUE

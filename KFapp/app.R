@@ -117,18 +117,35 @@ ShowProgress <- function(NSTEP, progress, Flight) {
                    detail = sprintf('flight %d', Flight), value=as.integer (P))
     }
   }
-  progress$set(message = 'creating new netCDF file', value=99)
+  progress$set(message = 'creating new netCDF file', value=0)
   PLOOP <- 1
   while (PLOOP) {
     Sys.sleep (1)
     PLOOP <- PLOOP + 1
-    if (PLOOP > 150) {break}
+    if (PLOOP > 250) {break}
     M <- system('tail -n 1 KFlog', intern=TRUE)
     if (grepl ('finished', M)) {
       PLOOP <- FALSE
       next
     }
+    if (grepl ('new-netcdf', M)) {
+      P <- sub ('.*new-netcdf ', '', sub ('% do.*', '', M))
+      # print (sprintf ('progress is %d', as.integer(P)))
+      progress$set(message = 'creating new netCDF file', 
+                 detail = sprintf('flight %d', Flight), value=as.integer (P))
+    }
   }
+  # PLOOP <- 1
+  # while (PLOOP) {
+  #   Sys.sleep (1)
+  #   PLOOP <- PLOOP + 1
+  #   if (PLOOP > 150) {break}
+  #   M <- system('tail -n 1 KFlog', intern=TRUE)
+  #   if (grepl ('finished', M)) {
+  #     PLOOP <- FALSE
+  #     next
+  #   }
+  # }
 }
 
 runScript <- function (ssn) {
@@ -156,6 +173,7 @@ runScript <- function (ssn) {
                      value=0)
         cmd <- sprintf('Rscript ../KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
                        Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
+        print (sprintf ('run commnad: %s', cmd))
         system (cmd, wait=FALSE)
         ShowProgress (NSTEP, progress, Flight)
       }

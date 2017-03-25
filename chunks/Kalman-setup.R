@@ -73,6 +73,7 @@ D1$deltaPsi <- (atan2 (D1$LACCX, D1$LACCY) - atan2 (D1$vedot, D1$vndot))
 ## alternate based on (12):
 D1$deltaPsi <- (D1$LACCX*(D1$vndot-D1$LACCY)-D1$LACCY*(D1$vedot-D1$LACCX)) /
   (D1$LACCX^2+D1$LACCY^2)
+D1$deltaPsi[is.na(D1$deltaPsi)] <- 0
 D1$deltaPsi[D1$deltaPsi > pi] <- D1$deltaPsi[D1$deltaPsi > pi] - 2*pi
 D1$deltaPsi[D1$deltaPsi < -pi] <- D1$deltaPsi[D1$deltaPsi < -pi] + 2*pi
 D1$sdPsi <- zoo::rollapply(D1$deltaPsi, 10, sd, fill=NA)  ## calculate the std dev
