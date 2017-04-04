@@ -188,6 +188,13 @@ source ('chunks/AdjustCal.R')
 
 ## GPS shifted vs INS in AdjustCal.R
 
+## interpolate and protect against missing values
+VV <- c('LAT', 'LON', 'ZROC', 'VEW', 'VNS', 'ROC', 'PITCH', 'ROLL', 'THDG',
+        'BPITCHR', 'BROLLR', 'BYAWR')
+for (V in VV) {
+  D1[, V] <- zoo::na.approx (as.vector (D1[, V]), maxgap=1000*Rate, na.rm=FALSE)
+  D1[is.na(D1[, V]), V] <- 0
+}
 
 ## transform to the a-frame for comparison to the IRU:
 VL <- matrix(c(D1$VEW, D1$VNS, D1$VSPD), ncol=3) 
