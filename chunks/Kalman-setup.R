@@ -80,6 +80,8 @@ D1$sdPsi <- zoo::rollapply(D1$deltaPsi, 10, sd, fill=NA)  ## calculate the std d
 ## add the heading correction to the measurement vector
 DZ <- c(as.vector(DZ), D1$deltaPsi)
 dim(DZ) <- c(DL, 7)
+## if any are NA, substitute zero:
+DZ[is.na(DZ)] <- 0
 
 ## The observation matrix: (the first six and last three components of the state error 
 ## vector are observable, the latter requiring transformation from l-frame to a-frame)

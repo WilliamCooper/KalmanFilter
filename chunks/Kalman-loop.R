@@ -34,7 +34,9 @@ for (i in seq(2*NSTEP, DL, by=NSTEP)) {
   #   print (STMFF (sv))
   #   print (jacobian (STMFF, sv))
   # }
-  dcm <- jacobian (STMFF, sv) * dt * NSTEP + diag(15)
+  dcm <- jacobian (STMFF, sv) * dt * NSTEP
+  dcm[is.na(dcm)] <- 0
+  dcm <- dcm + diag(15)
   ## modify to include this?
   ## modify this to include decaying error terms for the measurements:
   # dcm[10,10] <- dcm[11,11] <- dcm[12,12] <- -1/tau
