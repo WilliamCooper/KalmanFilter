@@ -1,0 +1,8241 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\input colordvi
+\usepackage{color}
+\fancyhead{}
+\fancyfoot[CE,CO]{}
+\newtoks{\addressee} \global\addressee={}
+\newdimen\longindent \longindent=3.5truein
+\fancyhead[L]{Memo to: \the\addressee \\ \datetoday \\ Page \thepage \hfill}
+\renewcommand{\headrulewidth}{0.0pt}
+\newenvironment{lylist}[1]
+{\begin{list}{}
+{\settowidth{\labelwidth}{#1}
+\setlength{\leftmargin}{\labelwidth}
+\addtolength{\leftmargin}{\labelsep}
+\renewcommand{\makelabel}[1]{##1\hfil}}}
+{\end{list}}
+\newcommand{\datetoday}{\number\day\space
+     \ifcase\month\or January\or February\or March\or April\or May\or
+     June\or July\or August\or September\or October\or November\or
+     December\fi
+     \space\number\year}
+\newcommand{\EOLmemo}{\null \vskip-1.5truein
+{\raggedright \textsf{\textsc{\large \textcolor{blue}{Earth Observing Laboratory}}}}\par
+{\raggedright \textsf{\textsl{\textcolor{blue}{Memorandum:}}}} \par \vskip6pt
+{\color{blue}{\hrule}}\par
+\vskip0.3truein \leftline{\hskip \longindent \datetoday} \vskip0.2truein
+\thispagestyle{empty}}
+\newcommand{\attachm}[1]{\begin{lylist}{Attachments:00}
+\item [Attachments:] {#1}
+\end{lylist}}
+\newcommand{\cc}[1]{\begin{lylist}{Attachments:00}
+\item [cc:] {#1}
+\end{lylist}}
+\newcommand{\attach}[1]{\begin{lylist}{Attachments:00}
+\item [Attachment:] {#1}
+\end{lylist}}
+%usage: \encl{A\\B\\C} or \cc{ma,e1\\name2\\name3}
+\end_preamble
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package auto
+\inputencoding default
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref false
+\papersize letterpaper
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.54cm
+\topmargin 3.54cm
+\rightmargin 2.54cm
+\bottommargin 2.54cm
+\headheight 1cm
+\headsep 2cm
+\footskip 0.5cm
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation skip
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes true
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\author 1934758928 "Al Cooper" cooperw@ucar.edu
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+EOLmemo 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+global
+\backslash
+addressee={KalmanFilter archive: workflow document}  % >>change "File" to
+ the "To:" name desired
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+To:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+the
+\backslash
+addressee
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+From:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+William Cooper
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Subject:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+workflow for generating the Kalman filter Tech.
+ Note
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+bigskip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<initialization,echo=FALSE,include=FALSE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+library(knitr)
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(echo=FALSE, include=FALSE, fig.lp="fig:")
+\end_layout
+
+\begin_layout Plain Layout
+
+opts_chunk$set(fig.width=6, fig.height=5, fig.pos="center", digits=4)
+\end_layout
+
+\begin_layout Plain Layout
+
+thisFileName <- "WorkflowAttitudeAngleNote"
+\end_layout
+
+\begin_layout Plain Layout
+
+require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggplot2)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(grid)
+\end_layout
+
+\begin_layout Plain Layout
+
+require(ggthemes)
+\end_layout
+
+\begin_layout Plain Layout
+
+Directory <- DataDirectory ()
+\end_layout
+
+\begin_layout Plain Layout
+
+Flight <- "rf01" 				# XXX change this
+\end_layout
+
+\begin_layout Plain Layout
+
+Project = "DEEPWAVE"			 # XXX change this
+\end_layout
+
+\begin_layout Plain Layout
+
+ProjectDir <- "DEEPWAVE"
+\end_layout
+
+\begin_layout Plain Layout
+
+fname = sprintf("%s%s/%s%s.nc", Directory,ProjectDir,Project,Flight)
+\end_layout
+
+\begin_layout Plain Layout
+
+Data <- getNetCDF (fname, standardVariables())		#XXX set variables needed
+ here
+\end_layout
+
+\begin_layout Plain Layout
+
+SaveRData <- sprintf("%s.Rdata", thisFileName)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Purpose
+\end_layout
+
+\begin_layout Standard
+This workflow description documents the steps leading to the code in 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilterTechNote.Rnw
+\begin_inset Quotes erd
+\end_inset
+
+ and provides additional detail not in the report 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilterTechNote.pdf.
+\begin_inset Quotes erd
+\end_inset
+
+ KalmanFilterTechNote.Rnw contains both text (in \SpecialChar LaTeX
+ format) and R processing
+ script for the analyses in the resulting report on the development of a
+ Kalman filter for use with measurements from the NSF/NCAR Gulfstream V
+ research aircraft.
+ The description of workflow provided here includes the process of collecting
+ the observations and processing them to data files, the data archives used,
+ the steps required to generate the plots and other results including the
+ instances where manual intervention is required to identify appropriate
+ subsets of the data, the relevant R code and \SpecialChar LaTeX
+ documents, and all the steps
+ leading to the generation of the text in the technical note.
+ "KalmanFilterTechNote.Rnw" is the definitive reference, but this overview
+ and these diagrams will help explain the workflow at a general level and
+ so should substitute for reading the R and \SpecialChar LaTeX
+ code in most cases.
+ The intent is to describe the workflow in sufficient detail to support
+ replication of the analysis and figures presented in the report, to facilitate
+ changes based on new data or new analysis approaches, and to make it practical
+ to apply the proposed algorithms to data collected by research aircraft
+ used in atmospheric studies.
+\end_layout
+
+\begin_layout Standard
+The document is intended for publication as an NCAR Technical Note.
+ Some parts may be suitable to accompany a separate journal article that
+ describes alternate and simpler methods for correcting attitude angles.
+ Both this document and that proposed publication augment the material presented
+ in the NCAR Technical Note 
+\begin_inset Quotes eld
+\end_inset
+
+Uncertainty in Measurements of Wind from the NSF/NCAR Gulfstream Aircraft
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cooper2016ncartn"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Section
+Acquisition of the primary data
+\end_layout
+
+\begin_layout Standard
+The measurements used in this report were collected using the NSF/NCAR GV
+ research aircraft during the DEEPWAVE project of 2014.
+ The onboard data-acquisition program 'aeros' recorded the data in digital
+ format, and those data files were then processed by the program 'nimbus'
+ to produce an archive in NetCDF format.
+ The software management group of NCAR/EOL maintains a version-controlled
+ archive of these programs, so if they are of interest they can be obtained
+ by contacting the data-management group of EOL (
+\begin_inset CommandInset href
+LatexCommand href
+name "at this "
+target "raf-dm@eol.ucar.edu"
+type "mailto:"
+
+\end_inset
+
+ or 
+\begin_inset CommandInset href
+LatexCommand href
+name "this"
+target "datahelp@eol.ucar.edu"
+type "mailto:"
+
+\end_inset
+
+ address).
+ The data files available from NCAR/EOL can be found at links on 
+\begin_inset CommandInset href
+LatexCommand href
+name "this URL"
+target "https://www.eol.ucar.edu/all-field-projects-and-deployments"
+
+\end_inset
+
+.
+ The details of the processing algorithms including those for the calculation
+ of wind are documented in this report on 
+\begin_inset CommandInset href
+LatexCommand href
+name "Processing Algorithms"
+target "https://drive.google.com/open?id=0B1kIUH45ca5Ab2Z6cld1M1cydjA"
+
+\end_inset
+
+ and in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bulletin23"
+
+\end_inset
+
+.
+ These procedures as they pertain to the measurement of wind are also documented
+ in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Cooper2016ncartn"
+
+\end_inset
+
+.
+ The resulting data files contain measurements in scientific units and brief
+ descriptions of each measurement, included as netCDF attributes for the
+ files and for each variable.
+\end_layout
+
+\begin_layout Standard
+One special file was generated and used in KalmanFilterTechNote.Rnw, a netCDF
+ file named DWIRUrf15HR.nc.
+ It was generated by the program nimbus (version of January 2016) by specifying
+ a 25-Hz data rate and by including the variables needed for the 
+\begin_inset Quotes eld
+\end_inset
+
+mechanization
+\begin_inset Quotes erd
+\end_inset
+
+ described in this report.
+ That file is not part of the standard project archives and so must be obtained
+ separately, as described in the 
+\begin_inset Quotes eld
+\end_inset
+
+Reproducibility
+\begin_inset Quotes erd
+\end_inset
+
+ appendix to the report, but as used it is also saved as KalmanFilterTechNote.Rda
+ta and can be used in that condensed form in the reference program.
+\end_layout
+
+\begin_layout Section
+The KalmanFilterTechNote.Rnw file
+\end_layout
+
+\begin_layout Standard
+The .Rnw file is basically \SpecialChar LaTeX
+ text, generated for simplicity using \SpecialChar LyX
+ and exported
+ to .Rnw format and then processed in RStudio (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "RStudio2012"
+
+\end_inset
+
+).
+ The .lyx file (KalmanFilterTechNote.lyx) will run equivalently and produce
+ a PDF-format version of the manuscript.
+ Within the .Rnw file or within the .lyx file there are 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+ of R code (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Rlanguage"
+
+\end_inset
+
+), delineated by a header having this format:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout LyX-Code
+<<title, var=setting, ...>>=
+\end_layout
+
+\begin_layout LyX-Code
+...R code...
+\end_layout
+
+\begin_layout LyX-Code
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+These chunks generate plots and other results of analyses that are incorporated
+ into the manuscript using 'knitr' (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Xie2014a,Xie2014b"
+
+\end_inset
+
+).
+ In RStudio, the chunks appear as gray sections in the file when it is edited.
+ Where tasks involve execution of R code, the chunk containing the code
+ is referenced in the discussion below.
+ Any results from the processing can be incorporated into the \SpecialChar LaTeX
+ text via
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr{}
+\begin_inset Quotes erd
+\end_inset
+
+ calls embedded in the \SpecialChar LaTeX
+ portion of the file.
+\end_layout
+
+\begin_layout Standard
+Two 
+\begin_inset Quotes eld
+\end_inset
+
+switches
+\begin_inset Quotes erd
+\end_inset
+
+ serve to speed execution of the code: (1) 
+\begin_inset Quotes eld
+\end_inset
+
+ReloadData,
+\begin_inset Quotes erd
+\end_inset
+
+ which when TRUE causes the original archive data files to be read; and
+ the option 
+\begin_inset Quotes eld
+\end_inset
+
+CACHE
+\begin_inset Quotes erd
+\end_inset
+
+ which, when true, causes previously generated subsets of the results to
+ be re-used as saved in a subdirectory 
+\begin_inset Quotes eld
+\end_inset
+
+cache.
+\begin_inset Quotes erd
+\end_inset
+
+ Both are provided to speed execution in cases where small changes are made.
+ When ReloadData is FALSE subsets of data files previously saved as 
+\begin_inset Quotes eld
+\end_inset
+
+Rdata
+\begin_inset Quotes erd
+\end_inset
+
+ files are restored to R data.frames, a process that is much faster than
+ re-reading the original archive data file.
+ If cache is FALSE all calculations are performed, but using 
+\begin_inset Quotes eld
+\end_inset
+
+cache=TRUE
+\begin_inset Quotes erd
+\end_inset
+
+ is usually much faster after the first run.
+ To ensure a clean run, set CACHE to be FALSE and remove all entries from
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+cache
+\begin_inset Quotes erd
+\end_inset
+
+ subdirectory.
+\end_layout
+
+\begin_layout Standard
+After an introductory section, the program and the report are organized
+ into three main sections: (1) calculation of the derivative of the state
+ vector (position, aircraft velocity, and aircraft attitude angles) from
+ the measured accelerations and rotation rates, leading to a trial 
+\begin_inset Quotes eld
+\end_inset
+
+mechanization
+\begin_inset Quotes erd
+\end_inset
+
+ for validation by comparison to the INS-provided solution; (2) a set of
+ special topics that deal with component studies like improvement in the
+ variables used for rate of climb and angle of attack and retrieval of the
+ original measurements from data archives where they are missing; and (3)
+ a description of the Kalman filter itself, with illustrative results.
+ These sections are discussed in detail in this workflow document, which
+ is in turn generated by a \SpecialChar LyX
+ file (
+\begin_inset Quotes eld
+\end_inset
+
+WorkflowKalmanFilter.lyx
+\begin_inset Quotes erd
+\end_inset
+
+).
+ There is additional material and code at the end that adds the new variables
+ to the data archive after correction by the Kalman filter.
+\end_layout
+
+\begin_layout Standard
+A top-level workflow diagram for the Kalman filter technical is presented
+ in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Kalman-filter-workflow"
+
+\end_inset
+
+.
+ The Table of Contents in the technical note provides an overview of the
+ structure of the document, while Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Kalman-filter-workflow"
+
+\end_inset
+
+ focuses more on the logical flow of the routine that generates both the
+ technical note and a new data file containing the measurements as corrected
+ by the Kalman filter.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename FlowDiagrams/FlowChartKalmanFilterTN.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Top-level workflow diagram for the Kalman filter technical note.
+ Some items (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+run the main Kalman-filter loop
+\begin_inset Quotes erd
+\end_inset
+
+) are described in additional workflow diagrams below.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Kalman-filter-workflow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Some sections (mechanization, retrieval of IRU-provided measurements, simplified
+ correction functions, and the Kalman-filter loop) have their own workflow
+ diagrams in the sections where they are discussed.
+\end_layout
+
+\begin_layout Section
+Required R packages including Ranadu
+\end_layout
+
+\begin_layout Standard
+The R code used for analysis reported in this paper relies heavily on a
+ package of routines for R called 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu.
+\begin_inset Quotes erd
+\end_inset
+
+ This is a set of R scripts for working with the NetCDF archive data files
+ produced by NCAR/EOL/RAF, and it includes some convenience routines for
+ generating plots and performing other data-analysis tasks with the archived
+ data.
+ The Ranadu package is available at this 
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub address"
+target "https://github.com/WilliamCooper/Ranadu.git"
+
+\end_inset
+
+.
+ To run the R code referenced here, that package should be included in the
+ R installation.
+ The KalmanFilterTechNote.Rnw routine requires that package and also some
+ others referenced in the file, including 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+ggplot2
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+grid
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+ggthemes
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+zoo
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+signal
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+numDeriv
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In addition, Ranadu requires 
+\begin_inset Quotes eld
+\end_inset
+
+ncdf4
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+tcltk
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+stats
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Some parts of 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ reference additional packages as needed, but they are not used in KalmanFilter.R
+nw so do not need to be available for this routine to run.
+\end_layout
+
+\begin_layout Standard
+The data processing for this manuscript involved revising some parts of
+ the Ranadu package, as listed below.
+ The relative timing among measurements is particularly important in this
+ study, so some development of utilities to aid in studies of timing was
+ useful.
+ The netCDF files sometimes have mixed rates, e.g., 5_Hz for GPS-provided
+ measurements and 25
+\begin_inset space ~
+\end_inset
+
+Hz for some others including interpolation to 25
+\begin_inset space ~
+\end_inset
+
+Hz from 13
+\begin_inset space ~
+\end_inset
+
+Hz for IRS-provided measurements.
+ In 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+, this is handled appropriately in the 
+\begin_inset Quotes eld
+\end_inset
+
+getNetCDF()
+\begin_inset Quotes erd
+\end_inset
+
+ routine, sometimes with the 
+\begin_inset Quotes eld
+\end_inset
+
+ShiftInTime()
+\begin_inset Quotes erd
+\end_inset
+
+ routine to adjust for delays among the variables and the 
+\begin_inset Quotes eld
+\end_inset
+
+SmoothInterp()
+\begin_inset Quotes erd
+\end_inset
+
+ routine to interpolate for missing values and smooth the variables.
+ Most of the plots are generated using 
+\begin_inset Quotes eld
+\end_inset
+
+ggplotWAC()
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+plotWAC()
+\begin_inset Quotes erd
+\end_inset
+
+, which are simple convenience routines that set various options preferred
+ by the author before calling the R 
+\begin_inset Quotes eld
+\end_inset
+
+ggplot()
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+plot()
+\begin_inset Quotes erd
+\end_inset
+
+ routines.
+\end_layout
+
+\begin_layout Subsection
+Ranadu::getNetCDF () modifications
+\end_layout
+
+\begin_layout Standard
+To handle data files with mixed-rate variables (e.g., 5-Hz GPS but 25-Hz IRS
+ and others at 1 Hz), this script for reading the netCDF data files incorporates
+ code to produce a single-rate R data.frame.
+ For this purpose, there is a function 
+\begin_inset Quotes eld
+\end_inset
+
+IntFilter()
+\begin_inset Quotes erd
+\end_inset
+
+ in that script that interpolates and filters variables.
+ The RAF data archives follow the convention that each sample is tagged
+ with a time that is the 
+\emph on
+beginning
+\emph default
+ of the time interval, not the center.
+ For example, for 50-Hz samples averaged to one second, the recorded variable
+ represents the average of 50 samples beginning at the specified time and
+ so should be interpreted as a sample average at 0.5
+\begin_inset space ~
+\end_inset
+
+s past that specified time.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+IntFilter()
+\begin_inset Quotes erd
+\end_inset
+
+ routine observes this convention by interpolating a low-rate sample to
+ the specified higher rate and then shifting the resulting time series forward
+ in time by half the original time interval, with duplication of the first
+ measurement to fill the initial 1/2-period slots and also replication of
+ the trailing 1/2-period slots that are not filled by the linear interpolation
+ routine.
+ Tests verified that this provided an appropriate representation of the
+ measurement as interpolated to the higher rate and shifted forward to match
+ other higher-rate measurements.
+\end_layout
+
+\begin_layout Subsection
+Ranadu::ShiftInTime ()
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:ShiftInTime"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To shift time series variables forward or backward, this new function was
+ added to the 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ package.
+ The function interpolates the supplied time series to a higher rate (125
+\begin_inset space ~
+\end_inset
+
+Hz), uses the R function 
+\begin_inset Quotes eld
+\end_inset
+
+stats::approx()
+\begin_inset Quotes erd
+\end_inset
+
+ for linear interpolation, shifts the interpolated series an appropriate
+ number of bins forward or backward (duplicating or truncating the end values
+ as necessary), optionally applies a Savitzky-Golay smoothing filter, and
+ then returns an appropriate subset to represent the shifted time series
+ at the original sample rate.
+\end_layout
+
+\begin_layout Subsection
+Ranadu::XformLA ()
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:XformLA"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+At many places the mechanization and Kalman-filter algorithms require transforma
+tion from the aircraft or 
+\begin_inset Formula $a$
+\end_inset
+
+-frame reference coordinates to a local-level Earth-relative frame or 
+\begin_inset Formula $l$
+\end_inset
+
+-frame in which the {x, y, z} coordinates are respectively east, north,
+ and up.
+ This transformation was coded as a new 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+ function.
+ This function takes as input a data.frame containing the attitude angles
+ measured by the INS in variables named PITCH, ROLL, and THDG (true heading),
+ all in units of degrees.
+ It transforms an 
+\begin_inset Formula $a$
+\end_inset
+
+-frame vector to an 
+\begin_inset Formula $l$
+\end_inset
+
+-frame vector and returns the result.
+ It would be preferable to do this in vectorized form, but such a representation
+ hasn't yet been found, so the function uses a loop.
+ As noted in the routine, the approach using R 'apply()' functions was slower
+ than the loop, but that is because the specific approach tried here is
+ likely unnecessarily convoluted.
+ This is an area of needed improvement, but the loop as coded is practical
+ and adequate for this study.
+ The routine also accepts an 
+\begin_inset Quotes eld
+\end_inset
+
+inverse
+\begin_inset Quotes erd
+\end_inset
+
+ argument with default value FALSE; when true, the transformation is from
+ the 
+\emph on
+l-
+\emph default
+frame to the 
+\emph on
+a-
+\emph default
+frame instead.
+\end_layout
+
+\begin_layout Standard
+The transformation coded in this routine was obtained in standard ways using
+ rotations 
+\begin_inset Formula $\phi$
+\end_inset
+
+ about the roll axis, then 
+\begin_inset Formula $\theta$
+\end_inset
+
+ about the pitch axis, and then 
+\begin_inset Formula $\psi$
+\end_inset
+
+ about the heading axis.
+ The text lists sources for this transformation, but they differ from the
+ matrix used here in that this transformation starts from what is called
+ here the 
+\begin_inset Formula $a$
+\end_inset
+
+-frame or aircraft reference frame with 
+\begin_inset Formula $x$
+\end_inset
+
+ forward, 
+\begin_inset Formula $y$
+\end_inset
+
+ starboard, and 
+\begin_inset Formula $z$
+\end_inset
+
+ downward and transforms to the local frame or 
+\begin_inset Formula $l$
+\end_inset
+
+-frame with 
+\begin_inset Formula $x$
+\end_inset
+
+ east, 
+\begin_inset Formula $y$
+\end_inset
+
+ north, and 
+\begin_inset Formula $z$
+\end_inset
+
+ upward.
+ The transformation matrix 
+\begin_inset Formula $\mathbf{R}_{a}^{l}$
+\end_inset
+
+ is obtained as follows, where the first matrix changes the axis definitions:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\mathbf{R}_{a}^{l}=\left(\begin{array}{ccc}
+0 & 1 & 0\\
+1 & 0 & 0\\
+0 & 0 & -1
+\end{array}\right)\left(\begin{array}{ccc}
+\cos\psi & -\sin\psi & 0\\
+\sin\psi & \cos\psi & 0\\
+0 & 0 & 1
+\end{array}\right)\left(\begin{array}{ccc}
+\cos\theta & 0 & -\sin\theta\\
+0 & 1 & 0\\
+\sin\theta & 0 & \cos\theta
+\end{array}\right)\left(\begin{array}{ccc}
+1 & 0 & 0\\
+0 & \cos\phi & \sin\phi\\
+0 & -\sin\phi & \cos\phi
+\end{array}\right)
+\]
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+R_{a}^{l}=\begin{bmatrix}\sin\psi\cos\theta & \sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi & \cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi\\
+\cos\psi\cos\theta & \cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi & -\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi\\
+-\sin\theta & \cos\theta\sin\phi & -\cos\theta\cos\phi
+\end{bmatrix}\label{eq:XformLA}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Two references for this transformation are listed in the manuscript.
+ As checks, the transformations given in those two references (Eqn.
+\begin_inset space ~
+\end_inset
+
+2.6 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bulletin23"
+
+\end_inset
+
+ and E.
+\begin_inset space ~
+\end_inset
+
+2-82 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "noureldin2013fundamentals"
+
+\end_inset
+
+) were further transformed to give directly the 
+\begin_inset Formula $a$
+\end_inset
+
+-frame-to-
+\begin_inset Formula $l$
+\end_inset
+
+-frame transformation, with signs of rotation angles as required, and each
+ led to (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:XformLA"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Standard
+It seemed useful to check that this transformation gives 
+\begin_inset Formula $l$
+\end_inset
+
+-frame accelerations in reasonable agreement with those measured by GPS,
+ so several checks were performed.
+ One, reported in the manuscript, used a circle maneuver flown during DEEPWAVE
+ research flight 15.
+ The circle maneuvers are discussed in considerable detail in Sect.
+\begin_inset space ~
+\end_inset
+
+7.1 of 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cooper2016ncartn"
+
+\end_inset
+
+, where plots of the flight track in a coordinate frame drifting with the
+ wind show that the Lagrangian tracks are close approximations to circles.
+ They were flown under control of the flight management system of the aircraft,
+ which was able to maintain constant roll angle to a tolerance of a fraction
+ of a degree.
+ Two circles were flown in left turns, then two additional circles were
+ flown in right turns.
+ The ground-speed components measured by GPS were differentiated to obtain
+ reference measurements of the corresponding acceleration components, again
+ using the approach of replacing missing values by interpolation and then
+ using fitted Savitzky-Golay polynomials to find the derivatives.
+ In this case, because the conditions changed too rapidly for the long extents
+ used in the pitch-correction algorithm, the length of the polynomials was
+ reduced to 21 1-Hz measurements for the horizontal components and 7 1-Hz
+ measurements for the vertical component of acceleration.
+ The results are shown in Fig.
+\begin_inset space ~
+\end_inset
+
+1 of the technical note.
+ The agreement through several maneuvers supports the validity of the transforma
+tion used to determine 
+\emph on
+l-
+\emph default
+frame transformations from the measured accelerations in the 
+\emph on
+a-
+\emph default
+frame.
+\end_layout
+
+\begin_layout Standard
+Several other checks were performed also but have not been described in
+ the manuscript.
+ One important case was to consider a pitch maneuver in which the pitch
+ was varied cyclically with about a 20-s period, with wings level but with
+ airspeed and altitude varying.
+ The maneuver flown on DEEPWAVE flight 15, 4:25:00–4:28:30 UTC, showed strong
+ oscillations in the vertical acceleration, and again the body accelerations
+ transformed to the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame matched will the accelerations deduced from the changes in vertical
+ speed measured by the GPS receiver.
+ 
+\change_inserted 1934758928 1498987443
+
+\end_layout
+
+\begin_layout Section
+
+\change_inserted 1934758928 1498987476
+Regenerating the PDF-format document
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 1934758928 1498988429
+The core program file is 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilterTechNote.Rnw.
+\begin_inset Quotes erd
+\end_inset
+
+ This was produced by exporting an Rnw-format file from the LyX version,
+ 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilterTechNote.lyx.
+\begin_inset Quotes erd
+\end_inset
+
+ Within RStudio, this can be converted to the PDF-format document using
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+Compile PDF
+\begin_inset Quotes erd
+\end_inset
+
+ action function.
+ This core program should be in a directory that also includes the subdirectory
+ 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+ containing the files as listed in the 
+\begin_inset Quotes eld
+\end_inset
+
+Reproducibility
+\begin_inset Quotes erd
+\end_inset
+
+ section of the Technical Note.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 1934758928 1498988560
+It may be desirable to extract the LaTeX file.
+ From the Rnw file, use 
+\begin_inset Quotes eld
+\end_inset
+
+knit
+\begin_inset Quotes erd
+\end_inset
+
+; from the LyX file, export to pdflatex format.
+ To produce the final document from the LaTeX file, these steps may be useful:
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988673
+Edit the file to replace the bibliography item with 
+\begin_inset Quotes eld
+\end_inset
+
+WAC
+\begin_inset Quotes erd
+\end_inset
+
+ instead of the long full-path-name that will be present.
+ The bibliography will not generate properly without this change.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988789
+Remove the 
+\begin_inset Quotes eld
+\end_inset
+
+backref=section
+\begin_inset Quotes erd
+\end_inset
+
+ item from the 
+\backslash
+usepackage definition for hyperref if you want to remove the back-references
+ from the reference list, as was done for the published version of the Technical
+ Note.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988816
+As usual, process the .tex file using this sequence:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988878
+pdflatex KalmanFilterTechNote (perhaps several times)
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988881
+bibtex KalmanFilterTechNote
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988901
+splitindex KalmanFilterTechNote
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988910
+makeindex KalmanFilterTechNote
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988950
+pdflatex KalmanFilterTechNote
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498988995
+The title page was then replaced by the NCAR-library version, using cpdf.
+\end_layout
+
+\begin_layout Standard
+
+\change_inserted 1934758928 1498989030
+Some additional steps are needed to produce a change-tracked version:
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989300
+Save the existing 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilterTechNote.tex
+\begin_inset Quotes erd
+\end_inset
+
+ file using a new name, here 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilterTechNoteOldVersion.tex.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989313
+Using LyX, enable 
+\begin_inset Quotes eld
+\end_inset
+
+Track Changes
+\begin_inset Quotes erd
+\end_inset
+
+ in the 
+\begin_inset Quotes eld
+\end_inset
+
+Document
+\begin_inset Quotes erd
+\end_inset
+
+ window.
+ (This is not necessary but is useful while editing.)
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989318
+Make changes.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989220
+Export to pdflatex format, 
+\emph on
+without enabling the 
+\begin_inset Quotes eld
+\end_inset
+
+Show Change in Output
+\begin_inset Quotes erd
+\end_inset
+
+ checkbox.
+ 
+\emph default
+Enabling this did not work with the current file.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989371
+Edit the resulting file using steps 1 and, if desired, 2 in the preceding
+ list.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989504
+Use latexdiff to produce a change-tracked version:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+latexdiff KalmanFilterTechNoteOldVersion.tex KalmanFilterTechNote.tex > KalmanFilt
+erRevisedVersion.tex
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989619
+The resulting file may fail when used with pdflatex.
+ One reason may be if changes were made to the order of the index and reference
+ lists at the end.
+ If that happens, edit the 
+\begin_inset Quotes eld
+\end_inset
+
+DIF
+\begin_inset Quotes erd
+\end_inset
+
+ commands from the section at the end that generates the indices and reference
+ list.
+\end_layout
+
+\begin_layout Enumerate
+
+\change_inserted 1934758928 1498989655
+Proceed with step 3 from the previous list, using the new file.
+\end_layout
+
+\begin_layout Section
+Comments on 
+\begin_inset Quotes eld
+\end_inset
+
+The components of the derivatives
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The calculations are explained in the document, but it may be useful to
+ elaborate on some of the choices that were made in regard to corrections
+ for inertial effects.
+ Such corrections enter during calculation of the accelerations and again
+ during calculations of the rate of change in attitude angles.
+\end_layout
+
+\begin_layout Subsection
+Position derivative
+\end_layout
+
+\begin_layout Standard
+The position state variables are latitude, longitude, and altitude.
+ Their derivatives are related to the velocity state variable as follows
+ (cf.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand citet
+after "pages 47--48 and 175"
+key "noureldin2013fundamentals"
+
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $d\lambda/dt=v_{n}/(R_{m}+z)$
+\end_inset
+
+ where 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the latitude, 
+\begin_inset Formula $v_{n}$
+\end_inset
+
+ is the northward ground speed of the aircraft, 
+\begin_inset Formula $z$
+\end_inset
+
+ the altitude, and 
+\begin_inset Formula $R_{m}$
+\end_inset
+
+ the radius of the Earth about a meridional circle, taken to be
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+R_{m}=R_{e}\frac{(1-\epsilon^{2})}{(1-\epsilon^{2}\sin^{2}\lambda)^{3/2}}\label{eq:Rm}
+\end{equation}
+
+\end_inset
+
+with the equatorial radius 
+\begin_inset Formula $R_{e}=6378137\,$
+\end_inset
+
+m and the Earth's eccentricity 
+\begin_inset Formula $\epsilon=0.08181919.$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $d\Psi/dt=v_{e}/((R_{n}+z)\cos\lambda)$
+\end_inset
+
+ where 
+\begin_inset Formula $\Psi$
+\end_inset
+
+ is the longitude, 
+\begin_inset Formula $v_{e}$
+\end_inset
+
+ is the eastward ground speed of the aircraft, and 
+\begin_inset Formula $R_{n}$
+\end_inset
+
+ the normal radius of the Earth's ellipsoid, taken to be
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+R_{n}=R_{e}\frac{1}{(1-\epsilon^{2}\sin^{2}\lambda)^{1/2}}\,\,\,\,\,.\label{eq:Rn}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $dz/dt=v_{u}$
+\end_inset
+
+ where 
+\begin_inset Formula $v_{u}$
+\end_inset
+
+ is the vertical component of the aircraft motion.
+ For the Kalman filter, the new variable 
+\begin_inset Quotes eld
+\end_inset
+
+ROC
+\begin_inset Quotes erd
+\end_inset
+
+ will be used for 
+\begin_inset Formula $v_{u}$
+\end_inset
+
+; for the trial mechanization to duplicate the INS integration, the INS-provided
+ variable VSPD was used.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Velocity derivative (acceleration)
+\end_layout
+
+\begin_layout Standard
+There are two corrections needed if the accelerations measured in the a-frame
+ are to be used in the l-frame.
+ First, a correction must be made for the Coriolis acceleration that arises
+ from motion relative to a spherical Earch.
+ In addition, a correction is needed because the l-frame itself moves and
+ remains oriented to match the local-level orientation.
+ Evaluation of the typical magnitudes arising from the inertial terms indicates
+ that the corrections are minor but not negligible, and their omission leads
+ to significant accumulated errors during mechanization.
+ 
+\end_layout
+
+\begin_layout Standard
+The Coriolis acceleration is
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{C}_{c}=-2\boldsymbol{\Omega}_{e}\times\boldsymbol{V}\label{eq:Coriolis}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\boldsymbol{\Omega_{e}}$
+\end_inset
+
+ is the angular rotation rate of the Earch and 
+\begin_inset Formula $\boldsymbol{V}$
+\end_inset
+
+ is the velocity of the aircraft relative to the Earth.
+ 
+\end_layout
+
+\begin_layout Standard
+In the R code, this equation and others involving vector cross products
+ are represented by skew-symmetric matrices, so this choice merits some
+ explanation.
+ Strangely, core R mathematical functions do not include the cross product
+ needed by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:Coriolis"
+
+\end_inset
+
+).
+ Instead, in R, the 
+\begin_inset Quotes eld
+\end_inset
+
+cross product
+\begin_inset Quotes erd
+\end_inset
+
+ has a different meaning.
+ Of course, there are many solutions that contributors have produced that
+ could be used, but it seemed awkward to use a non-standard package for
+ such a basic function and it seemed appropriate to select a solution that
+ ensured reproducibility in the future.
+ The representation of the cross product via a skew-symmetric matrix provides
+ such a solution, but it is likely to be unfamiliar to many readers so an
+ elaboration is provided here: If an angular-rotation vector has coordinates
+ 
+\begin_inset Formula $\boldsymbol{{\bf \omega}}=(\omega_{1},\,\omega_{2},\,\omega_{3})$
+\end_inset
+
+ then the skew-symmetric representation is 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{S}=\left(\begin{array}{ccc}
+0 & -\omega_{3} & \omega_{2}\\
+\omega_{3} & 0 & -\omega_{1}\\
+-\omega_{2} & \omega_{1} & 0
+\end{array}\right)\label{eq:skew-symmetric}
+\end{equation}
+
+\end_inset
+
+Then the cross produce 
+\begin_inset Formula $\boldsymbol{\omega}\times\boldsymbol{\mathbf{V}}$
+\end_inset
+
+ can be found by matrix multiplication via 
+\begin_inset Formula $\boldsymbol{S\thinspace V}$
+\end_inset
+
+ with 
+\begin_inset Formula $\boldsymbol{V}$
+\end_inset
+
+ the column matrix representing the velocity.
+ This equality can be verified by comparing the result of the matrix multiplicat
+ion to the standard formula for the vector product.
+ In particular, the vector representing the rotation of the Earth (
+\begin_inset Formula $\omega_{ie}^{l}$
+\end_inset
+
+, where the notation denotes the rotation rate of the Earth relative to
+ an inertial frame, as observed in the l-frame) has components (0, 
+\begin_inset Formula $\omega_{e}\cos\lambda,$
+\end_inset
+
+ 
+\begin_inset Formula $\omega_{e}\sin\lambda$
+\end_inset
+
+) where 
+\begin_inset Formula $\omega_{e}$
+\end_inset
+
+ is the rotation rate and 
+\begin_inset Formula $\lambda$
+\end_inset
+
+ is the latitude, so the Coriolis acceleration can be represented by
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{C}_{c}=-2\omega_{e}\left(\begin{array}{ccc}
+0 & -\sin\lambda & \cos\lambda\\
+\sin\lambda & 0 & 0\\
+-\cos\lambda & 0 & 0
+\end{array}\right)\left(\begin{array}{c}
+V_{1}\\
+V_{2}\\
+V_{3}
+\end{array}\right)\label{eq:Cor-matrix}
+\end{equation}
+
+\end_inset
+
+This is the form chosen to represent the Coriolis acceleration in the derivative
+ function.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand citet
+key "noureldin2013fundamentals"
+
+\end_inset
+
+, p.
+\begin_inset space ~
+\end_inset
+
+179, give the components of the rotation rate of the l-frame relative to
+ the Earth, as expressed in the l-frame, as 
+\begin_inset Formula $\omega_{el}^{l}=(-V_{2}/(R_{m}+h),\,V_{1}/(R_{n}+h),\,V_{1}\tan\lambda/(R_{n}+h)$
+\end_inset
+
+ where 
+\begin_inset Formula $R_{m}$
+\end_inset
+
+ and 
+\begin_inset Formula $R_{n}$
+\end_inset
+
+ are respectively the meridional and normal radii of the earth, and 
+\begin_inset Formula $h$
+\end_inset
+
+ is the altitude above the Earth.
+ Expressed as a skew-symmetric matrix, this is the other component used
+ to correct the measured accelerations when transforming from the a-frame
+ to the l-frame.
+ The resulting equation for the required correction can be expressed as
+ follows:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\Delta\mathbf{\dot{\mathbf{v}}=}-(2\boldsymbol{\Omega}_{ie}^{l}+\boldsymbol{\Omega}_{el}^{l})\mathbf{v}^{(l)}\label{eq:rotation-correction}
+\end{equation}
+
+\end_inset
+
+where the rotation matrices, respectively representing the Earth's rotation
+ and the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame rotation, are
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{\Omega}_{ie}^{l}=\left[\begin{array}{ccc}
+0 & -\omega^{e}\sin\lambda & \omega^{e}\cos\lambda\\
+\omega^{e}\sin\lambda & 0 & 0\\
+-\omega^{e}\cos\lambda & 0 & 0
+\end{array}\right]\label{eq:first-omega-eq}
+\end{equation}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\boldsymbol{\Omega}_{el}^{l}=\left[\begin{array}{ccc}
+0 & \frac{-v_{e}\tan\lambda}{R_{N}+z} & \frac{v_{e}}{R_{N}+z}\\
+\frac{v_{e}\tan\lambda}{R_{N}+z} & 0 & \frac{v_{n}}{R_{M}+z}\\
+\frac{-v_{e}}{R_{N}+z} & \frac{-v_{n}}{R_{M}+z} & 0
+\end{array}\right]\label{eq:second-omega-equation}
+\end{equation}
+
+\end_inset
+
+with 
+\begin_inset Formula $\omega^{e}=7.292\times10^{-5}$
+\end_inset
+
+ the angular rate of rotation of the Earth.
+ 
+\end_layout
+
+\begin_layout Standard
+Without some feedback, the vertical component is unstable, so the INS uses
+ feedback based on the pressure altitude to control the third component
+ of aircraft velocity.
+ To obtain an analogous variable for comparison, a similar feedback loop
+ was used for the third component arising from this new mechanization.
+ A conventional feedback loop uses three coefficients specified in terms
+ of a parameter 
+\begin_inset Formula $\zeta$
+\end_inset
+
+ as {
+\begin_inset Formula $C_{0},\,C_{1},\,C_{2})=\{3$
+\end_inset
+
+
+\begin_inset Formula $\zeta$
+\end_inset
+
+, 
+\begin_inset Formula $3\zeta^{2}$
+\end_inset
+
+, 
+\begin_inset Formula $\zeta^{3}$
+\end_inset
+
+).
+ In an attempt to duplicate the INS reference source, the reference altitude
+ was calculated as the pressure altitude corresponding to the avionics-supplied
+ value of the pressure, but this still gave a small offset from the INS
+ values so it appears that a different pressure source must be used by the
+ INS.
+ The loop was implemented in the conventional way according to the algorithm
+ in the next box:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+initialize:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+wp3F=0; hxF=0; hxxF=0; hi3F=PALT[1];
+\end_layout
+
+\begin_layout Plain Layout
+for each ith time step of time change dt:
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+wp3F += (sv[6] - C1*hxF - C2*hxxF) * dt; ## sv is the state vector; sv[6]
+ is vertical speed
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+hi3F += (wp3F - C0*hxF) * dt;
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+hxF = HI3F-PALT[i];
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+hxxF += hxF*dt;
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+sv[6] = (sv[6] + wp3F)/2;
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+sv[3] = hi3F; ## sv[3] is then the altitude of the aircraft
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+[save sv[3] and sv[6] as the values of the aircraft-state vector vs time]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Attitude angles
+\end_layout
+
+\begin_layout Standard
+The approach to finding the derivatives of the attitude angles is to find
+ the derivative (
+\begin_inset Formula $\dot{R_{a}^{l}})$
+\end_inset
+
+ of the transformation matrix from the a-frame to the l-frame and then find
+ the attitude-angle derivatives from the definition of the transformation
+ matrix.
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+This material relies heavily on the development in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "noureldin2013fundamentals"
+
+\end_inset
+
+, pp.
+\begin_inset space ~
+\end_inset
+
+178–180.
+\end_layout
+
+\end_inset
+
+ The steps are these:
+\end_layout
+
+\begin_layout Enumerate
+The IRU measures the rotation rate 
+\begin_inset Formula $\omega_{ia}^{a}$
+\end_inset
+
+ of the a-frame relative to an inertial frame, as observed in the a-frame.
+ In the a-frame, the roll axis is the x-axis forward along the longitudinal
+ axis of the aircraft, the pitch axis is the y-axis to starboard, and the
+ yaw axis is the downward z-axis but with a sign reversal arising from the
+ inverse relationship between yaw angle and heading angle, so 
+\begin_inset Formula $\omega_{ia}^{a}=(\dot{\theta},\dot{\phi},\dot{\Psi})=(\mathrm{BROLLR},\,\mathrm{BPITCHR},\,-\mathrm{BYAWR)}$
+\end_inset
+
+ where the latter are the variables as recorded in the data file.
+ As a skew-symmetric matrix such as discussed above, this rotation rate
+ is represented as
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\Omega_{ia}^{a}=\left[\begin{array}{ccc}
+0 & -\dot{\Psi} & -\dot{\theta}\\
+\dot{\Psi} & 0 & \dot{\phi}\\
+\dot{\theta} & -\dot{\phi} & 0
+\end{array}\right]\label{eq:Oiaa}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+The rotation rate needed to find the derivative of the transformation matrix
+ (
+\begin_inset Formula $\dot{R_{a}^{l}})$
+\end_inset
+
+ is instead the rotation rate 
+\begin_inset Formula $\omega_{la}^{a}$
+\end_inset
+
+of the a-frame relative to the l-frame, as observed in the a-frame.
+ This differs from 
+\begin_inset Formula $\omega_{ia}^{a}$
+\end_inset
+
+ by the rotation rate of the l-frame relative to the a-frame, as observed
+ in an inertial frame (
+\begin_inset Formula $\omega_{il}^{a}$
+\end_inset
+
+): 
+\begin_inset Formula $\omega_{la}^{a}=\omega_{ia}^{a}-\omega_{il}^{a}$
+\end_inset
+
+.
+ Transforming 
+\begin_inset Formula $\omega_{la}^{a}$
+\end_inset
+
+ from the a-frame to the l-frame then gives the desired derivative 
+\begin_inset Formula $\dot{R_{a}^{l}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+As for velocity, the term 
+\begin_inset Formula $\omega_{il}^{a}$
+\end_inset
+
+ contains two contributions, one from the rotation of the Earth (
+\begin_inset Formula $\omega_{ie}^{a}$
+\end_inset
+
+) and the second from the rotation of the l-frame relative to an inertial
+ frame (
+\begin_inset Formula $\omega_{el}^{a}$
+\end_inset
+
+).
+ These can be obtained by transforming 
+\begin_inset Formula $\omega_{ie}^{l}$
+\end_inset
+
+ and 
+\begin_inset Formula $\omega_{el}^{l}$
+\end_inset
+
+ as defined in the previous subsection to the a-frame.
+ The appropriate transformation is the inverse of 
+\begin_inset Formula $R_{a}^{l}$
+\end_inset
+
+, denoted 
+\begin_inset Formula $R_{l}^{a}=t(R_{a}^{l}$
+\end_inset
+
+) where 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $t()"$
+\end_inset
+
+ denotes the matrix transpose operator: 
+\begin_inset Formula $\omega_{ie}^{a}=R_{l}^{a}\omega_{ie}^{l}$
+\end_inset
+
+ and 
+\begin_inset Formula $\omega_{el}^{a}=R_{l}^{a}\omega_{el}^{l}$
+\end_inset
+
+.
+ In the code, this is replaced by the skew-symmetric equivalent: If 
+\begin_inset Formula $\boldsymbol{\Omega}^{l}$
+\end_inset
+
+ is the skew-symmetric representation of 
+\begin_inset Formula $\omega_{ie}^{l}+\omega_{el}^{l}$
+\end_inset
+
+, with skew-symmetric representations given by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:first-omega-eq"
+
+\end_inset
+
+) and (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:second-omega-equation"
+
+\end_inset
+
+) above.
+ The skew-symmetric representation in the a-frame, following the model for
+ transformation of skew-symmetric matrices, is then 
+\begin_inset Formula $\boldsymbol{\Omega}^{a}=R_{l}^{a}\boldsymbol{\Omega}^{l}R_{a}^{l}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Expressing 
+\begin_inset Formula $\omega_{ia}^{a}$
+\end_inset
+
+ also as a skew-symmetric matrix, following (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:skew-symmetric"
+
+\end_inset
+
+), and subtracting 
+\begin_inset Formula $\boldsymbol{\Omega}^{a}$
+\end_inset
+
+ from it, gives a skew-symmetric matrix that, when multiplied by 
+\begin_inset Formula $R_{a}^{l}$
+\end_inset
+
+, gives the desired derivative 
+\begin_inset Formula $\dot{\boldsymbol{R}_{a}^{l}}=\mathbf{R}_{a}^{l}(\boldsymbol{\Omega}_{ia}^{a}-\boldsymbol{\Omega}^{a})$
+\end_inset
+
+.
+ (See 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "noureldin2013fundamentals"
+
+\end_inset
+
+, p.
+\begin_inset space ~
+\end_inset
+
+180.) 
+\end_layout
+
+\begin_layout Enumerate
+The attitude angles can be found from the definitions of the transformation
+ matrix, as specified by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:XformLA"
+
+\end_inset
+
+):
+\begin_inset Formula 
+\begin{eqnarray}
+\theta & = & \arcsin(-R_{l}^{a}[3,1])\nonumber \\
+\phi & = & \arctan2(R_{l}^{a}[3,2],\,-R_{l}^{a}[3,3])\label{eq:aa-from-R}\\
+\Psi & = & \arctan2(R_{l}^{a}[1,1],\,R_{l}^{a}[2,1])\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+The derivatives of the attitude angles are then given by the derivatives
+ of the arcsin and arctan functions:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray}
+\frac{d(\arcsin(x))}{dx} & = & \frac{1}{\sqrt{1-x^{2}}}\nonumber \\
+\frac{d(\arctan(x))}{dx} & = & \frac{1}{1+x^{2}}\nonumber \\
+\dot{\theta} & = & \frac{-1}{\sqrt{1-R_{l}^{a}[3,1]^{2}}}\dot{R}_{l}^{a}[3,1]\label{eq:pdot}\\
+\dot{\phi} & = & \frac{1}{1+\left(R_{l}^{a}[3,2]/R_{l}^{a}[3.3]\right)^{2}}\frac{R_{l}^{a}[3,2]}{R_{l}^{a}[3,3]}\left(\frac{\dot{R}_{l}^{a}[3,3]}{R_{l}^{a}[3,3]}-\frac{\dot{R}_{l}^{a}[3,2]}{R_{l}^{a}[3,2]}\right)\label{eq:rdot}\\
+\dot{\psi} & = & \frac{1}{1+\left(R_{l}^{a}[1,1]/R_{l}^{a}[2,1]\right)^{2}}\frac{R_{l}^{a}[1,1]}{R_{l}^{a}[2,1]}\left(\frac{\dot{R}_{l}^{a}[1,1]}{R_{l}^{a}[1,1]}-\frac{\dot{R}_{l}^{a}[2,1]}{R_{l}^{a}[2,1]}\right)\nonumber \\
+ & = & \frac{1}{1+\left(R_{l}^{a}[1,1]/R_{l}^{a}[2,1]\right)^{2}}\left(\frac{\dot{R}_{l}^{a}[1,1]}{R_{l}^{a}[2,1]}-\frac{\dot{R}_{l}^{a}[2,1]R_{l}^{a}[1,1]}{R_{l}^{a}[2,1]^{2}}\right)\label{eq:hdot}
+\end{eqnarray}
+
+\end_inset
+
+Because 
+\begin_inset Formula $R_{l}^{1}[2,1]$
+\end_inset
+
+ (equal to 
+\begin_inset Formula $\cos\psi\cos\theta$
+\end_inset
+
+) can pass through zero for heading of 90 or 270
+\begin_inset Formula $^{\circ},$
+\end_inset
+
+ some numerical problems arise when the last equation is used.
+ (Avoiding similar problems at the zero for 
+\begin_inset Formula $R_{l}^{a}[1,1]$
+\end_inset
+
+ is the justification for using the second form of the last equation.) For
+ small 
+\begin_inset Formula $R_{l}^{a}[2,1]$
+\end_inset
+
+, the last equation becomes
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\dot{\psi}\approx\left(\frac{R_{l}^{a}[2,1]\dot{R}_{l}^{a}[1,1]}{R_{l}^{a}[1,1]^{2}}-\frac{\dot{R}_{l}^{a}[2,1]}{R_{l}^{a}[1,1]}\right)\label{eq:hdot-approx}
+\end{equation}
+
+\end_inset
+
+which avoids the singularity, so this form is used when the absolute value
+ of 
+\begin_inset Formula $R_{l}^{a}[2,1]$
+\end_inset
+
+ is smaller than 
+\begin_inset Formula $R_{l}^{a}[1,1]/10$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+The function 
+\begin_inset Quotes eld
+\end_inset
+
+STMFV()
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+To standardize calculation of the derivatives of the state vector for both
+ mechanization and the Kalman filter, the code was incorporated into a function
+ 
+\family typewriter
+STMFV(D, .components, .aaframe)
+\family default
+.
+ The first argument is either a data.frame, vector, or matrix containing
+ the nine components of the state vector and the six a-frame measurements
+ from the IRU.
+ If multiple rows are included, all are processed and a matrix of derivatives
+ is returned that has the original number of rows and
+\family typewriter
+ .components
+\family default
+ components; this is included to accommodate either the mechanization section
+ that uses a nine-component state vector or the Kalman-filter section that
+ uses a 15-component error-state vector.
+ The argument 
+\family typewriter
+.aaframe
+\family default
+ defaults to 'a' and attitude angles are assumed to be in the a-frame.
+ The other option 'l' is not used; this was a provision for calculating
+ all derivatives in terms of a state vector with all components in the l-frame,
+ which was used during testing but not in the final program.
+ As coded, STMFV () assumes that the measurements from the IRU (accelerations
+ and rotation rates) have been added to the aircraft-state vector for convenienc
+e.
+ This function is called for each time step during mechanization, and it
+ then serves as the function argument to the Jacobian calculation that finds
+ the error-state transition matrix used by the Kalman filter.
+ The code is in the R chunk called 
+\begin_inset Quotes eld
+\end_inset
+
+chunks/STMFV.R
+\begin_inset Quotes erd
+\end_inset
+
+ to make it available to the processing program for the Technical Note and
+ also for subsequent use in the data processing script 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+ that applies the Kalman filter to other data files.
+\end_layout
+
+\begin_layout Subsection
+Discussion of the 
+\begin_inset Quotes eld
+\end_inset
+
+Tests of the derivatives
+\begin_inset Quotes erd
+\end_inset
+
+ section
+\end_layout
+
+\begin_layout Subsubsection
+Time shifts
+\end_layout
+
+\begin_layout Standard
+An important part of the work that is background to this section was determining
+ the time shifts to apply to various measurements from the INS.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+initialization
+\begin_inset Quotes erd
+\end_inset
+
+ chunk of R code applies these time shifts, using the 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::ShiftInTime()
+\begin_inset Quotes erd
+\end_inset
+
+ function.
+ The time shifts quoted in the text were determined by varying the shifts
+ specified in that section and observing the result by plotting the plot
+ generated in the 
+\begin_inset Quotes eld
+\end_inset
+
+plot-acc
+\begin_inset Quotes erd
+\end_inset
+
+ chunk but modified to display only the pitch maneuver (3::16:00 to 3:18:00)
+ and observing the difference between the measured values and the values
+ determined from the derivatives of the velocity measurements.
+ This was not done systematically but rather by trial-and-error to find
+ a combination of time shifts that showed small fluctuations during the
+ maneuver.
+ These results are sensitive to pitch and roll as well because, in the case
+ of pitch, gravity is resolved into a longitudinal component of acceleration
+ that affects the comparison to BLONGA, and in the case of roll small roll
+ angles created similar contributions to the lateral acceleration represented
+ by BLATA.
+ In the exploration of time shifts, the measured accelerations were assumed
+ to have the same time delays, and similar assumptions were made about the
+ pitch-roll pair and the set of velocities.
+ With the listed shifts, the residual errors (shown in Tables 1 and 2 of
+ the Technical Note) were so small that further refinement did not seem
+ warranted.
+\end_layout
+
+\begin_layout Subsubsection
+Tables 1 and 2
+\end_layout
+
+\begin_layout Standard
+These tables show results from regression fits obtained using the R function
+ 
+\begin_inset Quotes eld
+\end_inset
+
+lm()
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Fit results including the coefficients, the standard deviation of residuals
+ from the fit, and the square of the correlation coefficient are entered
+ directly into the tables from the results of the fits, via the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+Sexpr()
+\begin_inset Quotes erd
+\end_inset
+
+ function.
+\begin_inset Note Note
+status collapsed
+
+\begin_layout Plain Layout
+Not discussed here are the small differences that persisted in the circle
+ maneuvers.
+ These were very small in magnitude (
+\begin_inset Formula $<0.05$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+) but nevertheless systematic and correctable in principle.
+ For example, the difference between lateral acceleration components measured
+ by the INS and deduced by differentiating the GPS signals needs the approximate
+ correction term,
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula 
+\[
+\delta a_{lat}=0.43\,\dot{\psi}(1+\sin\psi)
+\]
+
+\end_inset
+
+which has typical magnitude in the range (0–0.03
+\begin_inset space ~
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+.
+ The difference between the acceleration at the location of the GPS antenna
+ and that at the INS, if they are separated by 
+\begin_inset Formula $L\approx4.3$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+m along the longitudinal axis of the aircraft, would be expected to be
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\delta a_{long}=\dot{\psi}^{2}L
+\]
+
+\end_inset
+
+and the typical values in the turn are 
+\begin_inset Formula $\dot{\psi}=0.035$
+\end_inset
+
+, so the expected magnitude of this centripetal acceleration would be about
+ 0.005
+\begin_inset space ~
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+, smaller than needed to account for these errors.
+ If there is also a rotation 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+ about the pitch axis, there would be a similar contribution from that rotation,
+ but the typical magnidute of 
+\begin_inset Formula $\dot{\theta}$
+\end_inset
+
+ is only about 0.001, so this contribution is yet smaller.
+ No explanation for these small perturbations has been found, and they appear
+ only in prolonged turns.
+ 
+\end_layout
+
+\end_inset
+
+ The values included in the tables are calculated in the R-code chunk named
+ 
+\begin_inset Quotes eld
+\end_inset
+
+check-accelerations
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The details for obtaining the entries in Table 2, which are used as calibration
+s of the accelerometers, are as follows:
+\end_layout
+
+\begin_layout Enumerate
+Differentiate the GPS-provided velocity components (GGVEW, GGVNS, GGVSPD)
+ via the R routine signal::sgolayfilt() with appropriate argument that returns
+ the first derivative of the filtered function.
+ Cubic Savitzky-Golay polynomials spanning 11 25-Hz measurements were used,
+ which effectively imposes a high-pass cutoff of about 8
+\begin_inset space ~
+\end_inset
+
+Hz and so applies only minor smoothing while retaining high temporal resolution
+ in the derivatives.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Apply an appropriate rotation correction as discussed above, but with reversed
+ sign, to these accelerations.
+\end_layout
+
+\begin_layout Enumerate
+Transform the resulting accelerations to the 
+\emph on
+a-
+\emph default
+frame using the same function XformLA() discussed above but with the argument
+ 
+\begin_inset Quotes eld
+\end_inset
+
+.inverse
+\begin_inset Quotes erd
+\end_inset
+
+ set TRUE to give the transformation from the 
+\emph on
+l-
+\emph default
+frame to the 
+\emph on
+a-
+\emph default
+frame instead.
+\end_layout
+
+\begin_layout Enumerate
+Use the R routine 
+\begin_inset Quotes eld
+\end_inset
+
+lm()
+\begin_inset Quotes erd
+\end_inset
+
+ to find the linear-model fit relating the IRU-measured accelerations to
+ the GPS-derived accelerations.
+ The coefficients from that fit are those quoted in the document.
+\end_layout
+
+\begin_layout Enumerate
+One subtle circularity needs mention here: The coefficients obtained are
+ obtained from the original measurements as stored in the data.frame Data,
+ but the resulting calibration was already applied earlier and saved in
+ the data.frame SP that is used for the mechanization loop.
+ These calibrations were inserted manually into the statements near the
+ end of R-code chunk 
+\begin_inset Quotes eld
+\end_inset
+
+INS-data
+\begin_inset Quotes erd
+\end_inset
+
+, in the section following the comment 
+\begin_inset Quotes eld
+\end_inset
+
+adjustments
+\begin_inset Quotes erd
+\end_inset
+
+.
+ As mentioned in the main report, no calibration was applied to the measurements
+ 
+\begin_inset Quotes eld
+\end_inset
+
+BLATA
+\begin_inset Quotes erd
+\end_inset
+
+ because the IRU-provided and GPS-derived lateral accelerations were consistentl
+y small and the calibration did not appear sufficiently reliable to trust,
+ especially because the result was significantly different from the identity
+ calibration that reasonably characterized the other two components of measured
+ acceleration.
+\change_inserted 1934758928 1498990843
+
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 1934758928 1498990843
+\begin_inset Marginal
+status open
+
+\begin_layout Plain Layout
+
+\change_inserted 1934758928 1498990843
+check this
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\end_inset
+
+
+\change_unchanged
+
+\end_layout
+
+\begin_layout Subsubsection
+Generation of Figure 1
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Generation-of-Figure"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Many of the figures in the Technical Note were generated following the same
+ model, so that model is described here.
+ The plot is generated by a call to the Ranadu function 
+\family typewriter
+Ranadu::ggplotWAC()
+\family default
+, which uses the faceting capability of the R package ggplot2 to construct
+ multiple plots with the same time scale.
+ The code is in R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+plot-acc
+\begin_inset Quotes erd
+\end_inset
+
+.
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+ For the plot, a special data.frame is constructed containing the 
+\begin_inset Quotes eld
+\end_inset
+
+Time
+\begin_inset Quotes erd
+\end_inset
+
+ variable and six others, two for each facet of the three-panel plot (specified
+ by the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+panels
+\family default
+
+\begin_inset Quotes erd
+\end_inset
+
+ argument to 
+\family typewriter
+ggplotWAC
+\family default
+).
+ The structure for faceting incorporated into ggplotWAC includes provision
+ for 
+\begin_inset Quotes eld
+\end_inset
+
+melting
+\begin_inset Quotes erd
+\end_inset
+
+ the data.frame to support faceting and then to call 
+\family typewriter
+ggplot
+\family default
+ and add an appropriate 
+\family typewriter
+facet_grid
+\family default
+.
+ The 
+\family typewriter
+labelL
+\family default
+ argument to 
+\family typewriter
+ggplotWAC
+\family default
+ specifies the legend entries and the 
+\family typewriter
+labelP
+\family default
+ argument determines the labels at the right of the three panels in the
+ figure.
+ The last argument in the 
+\family typewriter
+ggplotWAC
+\family default
+ call specifies 
+\family typewriter
+theme.version=1
+\family default
+; this uses a special version of 
+\family typewriter
+Ranadu::theme_WAC()
+\family default
+ that is tailored to these faceted plots.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Many of the plots were generated in multiple-panel displays.
+ This was straightforward in standard R graphics, using the 
+\begin_inset Quotes eld
+\end_inset
+
+layout()
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+par()
+\begin_inset Quotes erd
+\end_inset
+
+ functions, so the standard R plot function was used in first drafts.
+ However, plotting with ggplot2 produced plots with better appearance.
+ The construction of multiple-panel figures was tried in two ways, first
+ using viewports and then using facets.
+ With viewports, it was difficult to get the panels to align vertically
+ without much tailoring of margins, but facets handled this automatically
+ so that was the method used 
+\change_inserted 1934758928 1498990083
+for most plots 
+\change_unchanged
+in the final version.
+ The procedure is worth documenting here because it took some exploration.
+ This was built into a revision of the function 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::ggplotWAC(),
+\begin_inset Quotes erd
+\end_inset
+
+ which is used as follows:
+\end_layout
+
+\begin_layout Enumerate
+Construct a new data.frame that contains only the variables that will appear
+ on the plot, along with the 
+\begin_inset Quotes eld
+\end_inset
+
+Time
+\begin_inset Quotes erd
+\end_inset
+
+ variable (which should be first).
+ Variables should be in lines/panel format, i.e., all variables for the top
+ panel, all for the next-to-top, etc.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Call ggplotWAC() with these new arguments: 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+panels: the number of panels or facets, aligned vertically.
+\end_layout
+
+\begin_layout Enumerate
+labelL: the names to appear in the legend for the lines.
+ Only one legend appears for all panels.
+ Example: c(
+\begin_inset Quotes eld
+\end_inset
+
+IRU
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+GPS
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+labelP: the names to appear at the right of each panel.
+ Example: c(
+\begin_inset Quotes eld
+\end_inset
+
+longitudinal
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+lateral
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+upward
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+theme.version: 1 to use a theme with minor adaptations for the faceted plots.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The procedure that ggplotWAC() uses is as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Define two groups, VarGroup and PanelGroup, to describe the structure specified
+ by the new arguments.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Quotes eld
+\end_inset
+
+melt
+\begin_inset Quotes erd
+\end_inset
+
+ the data.frame to a long-format data.frame, with 
+\begin_inset Quotes eld
+\end_inset
+
+Time
+\begin_inset Quotes erd
+\end_inset
+
+ as the id.var, and include the two new groups in the data.frame definition.
+\end_layout
+
+\begin_layout Enumerate
+Use the ggplotWAC() arguments for cols, lwd, and lty in groups for each
+ panel, with replication as needed.
+ Each panel must be the same.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Construct the initial plot definition using ggplot, using x=Time, y=value,
+ colour=VarGroup, linetype=VarGroup in the aesthetic specification.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Add 
+\begin_inset Quotes eld
+\end_inset
+
+geom_line(aes(size=VarGroup))
+\begin_inset Quotes erd
+\end_inset
+
+ to this definition to plot the lines.
+\end_layout
+
+\begin_layout Enumerate
+Use appropriate manual scale definitions to set the desired colors, line
+ types, and line widths in order to get consistent plot lines and legend.
+\end_layout
+
+\begin_layout Enumerate
+Add 
+\begin_inset Quotes eld
+\end_inset
+
+facet_grid()
+\begin_inset Quotes erd
+\end_inset
+
+ with first argument 
+\begin_inset Quotes eld
+\end_inset
+
+PanelGroup
+\begin_inset Quotes erd
+\end_inset
+
+ as included in the data.frame definition.
+\end_layout
+
+\begin_layout Enumerate
+Tailor desired aspects of the plotting theme.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The routine then returns a plot definition, and that definition can be tailored
+ further using 
+\begin_inset Quotes eld
+\end_inset
+
+theme()
+\begin_inset Quotes erd
+\end_inset
+
+ elements if desired or printed without further modification.
+\end_layout
+
+\begin_layout Standard
+An example is this code that generates the plot of attitude angles (generating
+ Fig.
+\begin_inset space ~
+\end_inset
+
+2 that appears in Sect.
+\begin_inset space ~
+\end_inset
+
+2.4):
+\end_layout
+
+\begin_layout LyX-Code
+d <- with(Data[setRange(Data, 32000, 35500), ], 
+\end_layout
+
+\begin_layout LyX-Code
+          data.frame(Time, PITCH, PITCHX, 10*DPITCH, ROLL, ROLLX, 10*DROLL,
+\end_layout
+
+\begin_layout LyX-Code
+                     THDG, THDGX, 10*DTHDG))
+\end_layout
+
+\begin_layout LyX-Code
+ggplotWAC (d, col=c('blue', 'red', 'forestgreen'), 
+\end_layout
+
+\begin_layout LyX-Code
+          ylab=expression (paste ('attitude angles [', degree, ']')),
+\end_layout
+
+\begin_layout LyX-Code
+          lwd=c(1.4, 0.8, 1), lty=c(1, 42, 1), panels=3,
+\end_layout
+
+\begin_layout LyX-Code
+          labelL=c('original', 'new', '10*diff'),
+\end_layout
+
+\begin_layout LyX-Code
+          labelP=c('pitch', 'roll', 'heading'),
+\end_layout
+
+\begin_layout LyX-Code
+          legend.position=c(0.8, 0.97), theme.version=1)
+\end_layout
+
+\begin_layout Subsection
+Discussion of the 
+\begin_inset Quotes eld
+\end_inset
+
+Mechanization
+\begin_inset Quotes erd
+\end_inset
+
+ section
+\end_layout
+
+\begin_layout Subsubsection
+The algorithm
+\end_layout
+
+\begin_layout Standard
+The following box contains an algorithmic flow chart describing the mechanizatio
+n scheme, which is also diagrammed in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:mechanization-workflow"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout LyX-Code
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout LyX-Code
+Initialize a time-series matrix of aircraft-state vectors;
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+## Each row: three position coordinates, 
+\end_layout
+
+\begin_layout LyX-Code
+##           three velocity coordinates, 
+\end_layout
+
+\begin_layout LyX-Code
+##           three attitude-angle coordinates 
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+Add the measured accelerations, rotations (M) to the same matrix;
+\end_layout
+
+\begin_layout LyX-Code
+Define (STMFV(sv,M)) that returns the matrix of derivatives D;
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+## each row D
+\begin_inset Formula $_{i}$
+\end_inset
+
+ is the derivative of sv
+\begin_inset Formula $_{i}$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout LyX-Code
+##            with respect to time, given M
+\begin_inset Formula $_{i}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout LyX-Code
+For each time (index i) in the data set, at intervals 
+\begin_inset Formula $\Delta$
+\end_inset
+
+t:
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+Propagate the state vector forward one time step, 
+\begin_inset Newline newline
+\end_inset
+
+          via sv[i+1]
+\begin_inset Formula $\leftarrow$
+\end_inset
+
+sv[i]+D[i]
+\begin_inset Formula $\Delta$
+\end_inset
+
+t;
+\end_layout
+
+\begin_layout LyX-Code
+Save the resulting new state vector sv[i+1]
+\end_layout
+
+\end_deeper
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename FlowDiagrams/FlowChartMechanization.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Workflow diagram for the mechanization test in the technical note.
+ Some items (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+run the main Kalman-filter loop
+\begin_inset Quotes erd
+\end_inset
+
+) are described in additional workflow diagrams below.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:mechanization-workflow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The core of the mechanization is the function STMFV() discussed in Sect.
+\begin_inset space ~
+\end_inset
+
+5.3 above.
+ Various references have provided 
+\begin_inset Quotes eld
+\end_inset
+
+cookbook
+\begin_inset Quotes erd
+\end_inset
+
+ equations for the required derivatives.
+ In particular, the approach followed was that described by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "noureldin2013fundamentals"
+
+\end_inset
+
+, but with some differences arising primarily from use of the aircraft-coordinat
+e frame or 
+\emph on
+a-
+\emph default
+frame instead of the 
+\emph on
+b-
+\emph default
+frame (body frame) used in that source.
+ In addition, the derivatives of the attitude-angle components were calculated
+ differently, so some detail regarding this function is appropriate.
+\end_layout
+
+\begin_layout Subsubsection
+Time shifts
+\end_layout
+
+\begin_layout Standard
+Before the step-wise integration, some adjustments were made to the measurements.
+ To ensure against missing values, interpolation was used to fill in a very
+ small number of missing values in the measurements from the IRU.
+ In addition, some of the measurements were shifted in time to compensate
+ for delays in recording of the variables.
+ This shifting is a part of normal processing, but the mechanization is
+ very sensitive to timing errors so some fine tuning was used.
+ The procedure was discussed in connection with the Ranadu::ShiftInTime()
+ function discussed above.
+ In addition, a few errors in interpolation were introduced to the heading
+ variable by this process, so a special loop searched for these errors (four
+ in the data set used) and corrected them.
+ The problem arose from a deficiency in the ShiftInTime() function that
+ still needs to be corrected.
+\end_layout
+
+\begin_layout Subsubsection
+The integration
+\end_layout
+
+\begin_layout Standard
+After initializing the aircraft-state vector to match that from the INS
+ at a point near the start of the flight, the mechanization proceeded by
+ taking time steps where the changes in the aircraft-state vector were determine
+d by the preceding derivative function.
+ The Technical Note describes the initialization and the sequence of time
+ steps.
+ For convenience, the measurements of acceleration and rotation rate from
+ the IRU were added to the state vector with each time step so that those
+ measurements were transferred to the function 
+\family typewriter
+STMFV()
+\family default
+ when it was called.
+ The integration was done either by simple Euler integration or via a fourth
+ order Runge-Kutta scheme, with indistinguishable results.
+ A special test and correction were used to ensure that the heading remained
+ in the range from 0 to 
+\begin_inset Formula $2\pi$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+The results
+\end_layout
+
+\begin_layout Standard
+Like Fig.
+\begin_inset space ~
+\end_inset
+
+1, Figs.
+\begin_inset space ~
+\end_inset
+
+2 and 3 showing results of the mechanization were also generated using the
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::ggplotWAC()
+\begin_inset Quotes erd
+\end_inset
+
+ convenience function, which calls functions that are part of ggplot2 with
+ some assigned settings.
+ Details are presented above (
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "subsec:Generation-of-Figure"
+
+\end_inset
+
+).
+ All three of these figures were generated during the same processing step
+ that produced the text document, and they were incorporated into that document
+ using the R package 
+\begin_inset Quotes eld
+\end_inset
+
+knitr
+\begin_inset Quotes erd
+\end_inset
+
+ to place the figures appropriately in the resulting LaTeX file.
+ During the mechanization, the aircraft-state vector was saved in variables
+ in an R data.frame called SP, and at the end these variables were added
+ back to the original data.frame (called Data) as new variables with names
+ like LATX, LONX, ALTX, ...
+ that correspond to the original INS-produced variables LAT, LON, ALT.
+ These variables were then used in plot commands to generate the figures
+ in the subsections that compare the results for attitude angles, velocity
+ components, and position.
+\end_layout
+
+\begin_layout Section
+Elaboration on the ancillary functions
+\end_layout
+
+\begin_layout Subsection
+Rate of climb
+\end_layout
+
+\begin_layout Standard
+This is discussed fully in the Techical Note and the memo referenced there.
+\end_layout
+
+\begin_layout Subsection
+Retrieving IRU measurements
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename FlowDiagrams/FlowChartRetrieval.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Workflow diagram for the retrieval of the measurements originally provided
+ by the IRU.
+ If these are missing from the data file being used, they are added by this
+ procedure.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:retrieval-workflow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+A workflow diagram for this section is presented as Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:retrieval-workflow"
+
+\end_inset
+
+.
+ The two parts shown in this figure are independent and are discussed separately
+ below.
+ The yellow box is an expanded description of the box leading into it, to
+ show how that derivative is found.
+ The R implementation of the code in the technical note (
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+) include a branch that constructs these retrieved values when the IRU-provided
+ measurements (BLATA, BLONGA, BNORMA, BPITCHR, BROLLR, BYAWR) are not present
+ in the original data file.
+\end_layout
+
+\begin_layout Subsubsection
+Rotation rates
+\end_layout
+
+\begin_layout Standard
+Item 1 in this subsection of the Technical Note prescribes starting with
+ analytical expressions for the derivative of the transformation matrix.
+ Those analytical expressions are developed in this Workflow Document, as
+ follows: 
+\end_layout
+
+\begin_layout Standard
+The rotation rates and accelerations measured by the IRU {BPITCHR, BROLLR,
+ BYAWR, BLATA, BLONGA, BNORMA} are the rotation rates and accelerations
+ of the a-frame relative to an inertial frame.
+ Without Coriolis corrections, retrieving the original measurements would
+ be straightforward: Differentiate the measured angles and components of
+ the aircraft velocity and transform the results to the a-frame.
+ However, the inertial contributions from motion and rotation of the a-frame,
+ while minor, are not negligible.
+ The needed corrections are developed in this section, to complement the
+ outlined solutions presented in the technical note.
+\end_layout
+
+\begin_layout Standard
+The derivatives of the attitude angles were expressed in terms of the transforma
+tion matrix 
+\begin_inset Formula $\mathbf{R}_{a}^{l}$
+\end_inset
+
+ and its time derivative by (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pdot"
+
+\end_inset
+
+)–(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:hdot"
+
+\end_inset
+
+).
+ Here the reverse procedure, finding the derivative of the transformation
+ matrix from the derivatives of the attitude angles, is needed.
+ Equation
+\begin_inset space ~
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:XformLA"
+
+\end_inset
+
+) can be differentiated to express that derivative, which will have these
+ components, where dots over symbols indicate time derivatives:
+\end_layout
+
+\begin_layout Quotation
+[1,1]: dR[1,1]dt = d(
+\begin_inset Formula $\sin\psi\cos\theta$
+\end_inset
+
+)/dt 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\psi}\cos\psi\cos\theta-\dot{\theta}\sin\psi\sin\theta$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[1,2]: 
+\begin_inset Formula $d(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\psi}(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)+\dot{\theta}\sin\psi\cos\theta\sin\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.5truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $+\dot{\phi}(\sin\psi\sin\theta\cos\phi-\cos\psi\sin\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[1,3]: 
+\begin_inset Formula $d(\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\psi}(-\sin\psi\sin\phi-\cos\psi\sin\theta\cos\phi)+\dot{\theta}(-\sin\psi\cos\theta\cos\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.5truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $+\dot{\phi}(\cos\psi\cos\phi+\sin\psi\sin\theta\sin\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[2,1]: 
+\begin_inset Formula $d(\cos\psi\cos\theta)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\psi}(-\sin\psi\cos\theta)+\dot{\theta}(-\cos\psi\sin\theta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[2.2]: 
+\begin_inset Formula $d(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\psi}(-\sin\psi\sin\theta\sin\phi-\cos\psi\cos\phi)+\dot{\theta}\cos\psi\cos\theta\sin\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.5truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $+\dot{\phi}(\cos\psi\sin\theta\cos\phi+\sin\psi\sin\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[2.3]: 
+\begin_inset Formula $d(-\cos\psi\sin\theta\cos\phi-\sin\psi\sin\phi)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\psi}(\sin\psi\sin\theta\cos\phi-\cos\psi\sin\phi)+\dot{\theta}(-\cos\psi\cos\theta\cos\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.5truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $+\dot{\phi}(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[3,1]: 
+\begin_inset Formula $d(-\sin\theta)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\theta}(-\cos\theta)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[3,2]: 
+\begin_inset Formula $d(\cos\theta\sin\phi)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\theta}(-\sin\theta\sin\phi)+\dot{\phi}\cos\theta\cos\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+[3,3]: 
+\begin_inset Formula $d(-\cos\theta\cos\phi)/dt\rightarrow$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Quotation
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hskip1.1truein
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\dot{\theta}\sin\theta\cos\phi+\dot{\phi}\cos\theta\sin\phi$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where arrows indicate that the differentiation of the left side leads to
+ the right side of the equations.
+ The remainder of the retrieval of rotation rate is described in the Technical
+ Note, preceding and via (6)–(8) in that document.
+ 
+\end_layout
+
+\begin_layout Standard
+From the skew-symmetric representation of the rotation rates as measured
+ in the a-frame, the individual components of the rotation-rate vector can
+ be extracted.
+ For example, the [3,1] component of the result is 
+\begin_inset Formula $-$
+\end_inset
+
+BPITCHR.
+\end_layout
+
+\begin_layout Subsubsection
+Accelerations
+\end_layout
+
+\begin_layout Standard
+The accelerations in the a-frame are retrieved as described in the Technical
+ Note, but some additional detail is provided here.
+ The detailed steps used are these:
+\end_layout
+
+\begin_layout Enumerate
+Construct a vector representing the aircraft motion from the variables {VEW,
+ VNS, VSPD} as produced by the INS.
+\end_layout
+
+\begin_layout Enumerate
+Interpolate where there are missing values to avoid failure of the filter
+ function in the next step.
+ The routine used was that provided by the 
+\begin_inset Quotes eld
+\end_inset
+
+na.approx
+\begin_inset space ~
+\end_inset
+
+()
+\begin_inset Quotes erd
+\end_inset
+
+ function in the 
+\begin_inset Quotes eld
+\end_inset
+
+zoo
+\begin_inset Quotes erd
+\end_inset
+
+ package for R.
+\end_layout
+
+\begin_layout Enumerate
+Differentiate the time series, either using the R function 
+\begin_inset Quotes eld
+\end_inset
+
+diff
+\begin_inset space ~
+\end_inset
+
+()
+\begin_inset Quotes erd
+\end_inset
+
+ or, to introduce some smoothing, Savitzgy-Golay polynomials.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+sgolayfilt
+\begin_inset space ~
+\end_inset
+
+()
+\begin_inset Quotes erd
+\end_inset
+
+ function in the 
+\begin_inset Quotes eld
+\end_inset
+
+signal
+\begin_inset Quotes erd
+\end_inset
+
+ package for R was used, and the derivative was determined over 11 1-Hz
+ samples.
+ With an appropriate argument, this function returns the derivative when
+ called with the time series as an argument.
+\end_layout
+
+\begin_layout Enumerate
+For the third (vertical) component, change the sign and subtract the acceleratio
+n of gravity.
+\end_layout
+
+\begin_layout Enumerate
+Add the rotation correction (usually subtracted during translation from
+ the a-frame to the l-frame) as calculated by the function 
+\begin_inset Quotes eld
+\end_inset
+
+RotationCorrection
+\begin_inset space ~
+\end_inset
+
+()
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This function determines the same correction used in the derivative function
+ 
+\begin_inset Quotes eld
+\end_inset
+
+STMFV()
+\begin_inset Quotes erd
+\end_inset
+
+ but is coded independently.
+ (That duplication could be removed to avoid later introduction of an inconsiste
+ncy between the two functions.) The correction can be explained by discussing
+ the following code for that function.
+ Argument 
+\begin_inset Quotes eld
+\end_inset
+
+.data
+\begin_inset Quotes erd
+\end_inset
+
+ is an R data.frame containing the latitude and altitude in variables .data$LAT
+ and .data$GGALT.
+ The vector 
+\begin_inset Quotes eld
+\end_inset
+
+.V
+\begin_inset Quotes erd
+\end_inset
+
+ is the l-frame vector representing aircraft velocity.
+ The function treats the input arguments as arrays, so it will provide correctio
+ns for the entire flight on one call if provided a full-flight data.frame
+ and velocity matrix.
+ When used to correct just one vector, the dimensions of 
+\begin_inset Quotes eld
+\end_inset
+
+.V
+\begin_inset Quotes erd
+\end_inset
+
+ must be changed to 1x3 for consistency with the vectorized structure of
+ the function.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout LyX-Code
+RotationCorrection <- function (.data, .V) {
+\end_layout
+
+\begin_layout LyX-Code
+  omegaE <- StandardConstant ('Omega') ## Earth's angular velocity
+\end_layout
+
+\begin_layout LyX-Code
+  C <- vector ('numeric', 3*(DL <- nrow(.data))); dim(C) <- c(DL,3)
+\end_layout
+
+\begin_layout LyX-Code
+  if (DL == 1) {dim (.V) <- c(1,3)}    ## consistency w/ vectorization
+\end_layout
+
+\begin_layout LyX-Code
+  lat <- .data$LAT * pi / 180          ## convert to radians
+\end_layout
+
+\begin_layout LyX-Code
+  sinLat <- sin(lat); cosLat <- cos(lat); tanLat <- tan(lat)
+\end_layout
+
+\begin_layout LyX-Code
+  Ree <- 6378137; Ecc <- 0.08181919    ## constants for Earth radii
+\end_layout
+
+\begin_layout LyX-Code
+  Rn <- Ree / (1 - (Ecc * sinLat)^2)^0.5 
+\end_layout
+
+\begin_layout LyX-Code
+  Rm <- Rn * (1 - Ecc^2) / (1 - (Ecc * sinLat)^2) + .data$GGALT
+\end_layout
+
+\begin_layout LyX-Code
+  Rn <- Rn + .data$GGALT
+\end_layout
+
+\begin_layout LyX-Code
+  omega <- as.vector (-.V[,2] / Rm, 2 * omegaE * cosLat + .V[,1] / Rn,
+\end_layout
+
+\begin_layout LyX-Code
+                      2 * omegaE * sinLat + .V[,1] * tanLat / Rn)
+\end_layout
+
+\begin_layout LyX-Code
+  dim(omega) <- c(DL, 3)
+\end_layout
+
+\begin_layout LyX-Code
+  zro <- rep(0, DL)
+\end_layout
+
+\begin_layout LyX-Code
+  ## skew-symmetric representation:
+\end_layout
+
+\begin_layout LyX-Code
+  M <- array (c(zro, -omega[3], omega[2], omega[3], zro, -omega[1],
+\end_layout
+
+\begin_layout LyX-Code
+                 -omega[2], omega[1], zro), dim=c(DL, 3, 3))     
+\end_layout
+
+\begin_layout LyX-Code
+  MP <- aperm(M)
+\end_layout
+
+\begin_layout LyX-Code
+  ## R uses column-major representation of matrices.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+  ## Need matrix multiplication, each row:
+\end_layout
+
+\begin_layout LyX-Code
+  for (i in 1:DL) {C[i,] <- MP[,,i] %*% .V[i,]}   
+\end_layout
+
+\begin_layout LyX-Code
+  return (C)
+\end_layout
+
+\begin_layout LyX-Code
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Apply the transformation matrix that transforms from the l-frame to the
+ a-frame.
+ This is the transpose of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:XformLA"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+Subtract the acceleration of gravity from the third component.
+\end_layout
+
+\begin_layout Subsection
+The 
+\begin_inset Quotes eld
+\end_inset
+
+simpler
+\begin_inset Quotes erd
+\end_inset
+
+ functions
+\end_layout
+
+\begin_layout Subsubsection
+Pitch correction
+\end_layout
+
+\begin_layout Standard
+The technical note describes this in detail, and complementary descriptions
+ are available as referenced there (with some plots of the effect of the
+ correction) and also in the workflow document for the previous technical
+ note, available 
+\begin_inset CommandInset href
+LatexCommand href
+name "at this link"
+target "https://drive.google.com/open?id=0B1kIUH45ca5AZEp3N3VVd09NVTA"
+
+\end_inset
+
+.
+ Some additional detail regarding the function (Ranadu::CorrectPitch())
+ that calculates the correction to pitch is included here.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+<<pitch-correction-workflow, include=FALSE, eval=FALSE, fig.cap="General
+ workflow diagram for the Ranadu function CorrectPitch(), which returns
+ error values of pitch and roll that should be subtracted from the measurements."
+>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+library (DiagrammeR)
+\end_layout
+
+\begin_layout Plain Layout
+
+setwd ("~/RStudio/KalmanFilter")
+\end_layout
+
+\begin_layout Plain Layout
+
+grViz ("./DGM-PC.dot", engine='dot')
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename FlowDiagrams/CorrectPitchFlow.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Workflow diagram for the Ranadu function CorrectPitch(), which returns estimates
+ of errors in measurements of pitch and roll.
+ The returned values, with units of degrees, should be subtracted from the
+ measurements to obtain corrected values.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:pitch-correction-workflow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A workflow diagram for the function is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:pitch-correction-workflow}
+\end_layout
+
+\end_inset
+
+.
+ The steps in the algorithm are these:
+\end_layout
+
+\begin_layout Enumerate
+Prepare the data.frame: [
+\begin_inset Quotes eld
+\end_inset
+
+preprocessing
+\begin_inset Quotes erd
+\end_inset
+
+ box in the diagram]
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Test to see if all required variables are present in the input data.frame;
+ return 0 otherwise.
+\end_layout
+
+\begin_layout Enumerate
+Determine the data rate of the input data.frame from the time difference
+ between samples.
+ If it is higher than 1
+\begin_inset space ~
+\end_inset
+
+Hz, extract a working 1-Hz data frame to use for the calculations.
+ This greatly execution time for high-rate files.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Allow for either LAT or LATC to provide the latitude required for the gravity
+ routine.
+\end_layout
+
+\begin_layout Enumerate
+Interpolate to fill in missing values for VNS, VEW, GGVNS, GGVEW, using
+ the zoo::na.approx() function.
+ If there are remaining missing-value elements in the time series (which
+ can occur if the gaps exceed 1000
+\begin_inset space ~
+\end_inset
+
+s), set the values to zero for those regions to avoid failure at the next
+ step.
+ The variable MaxGap in the function determines the maximum gap for interpolatio
+n; it can be changed only by changing the code.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Calculate the derivatives: [
+\begin_inset Quotes eld
+\end_inset
+
+calculate derivatives
+\begin_inset Quotes erd
+\end_inset
+
+ box in the diagram]
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Quotation
+Determine the derivatives of the error terms (VNS-GGVNS) and (VEW-GGVEW)
+ using third-order Savitzky-Golay filters, specifically the R function signal::s
+golayfilt().
+ Use a span of 1013 points (changeable via an argument to CorrectPitch())
+ and calculate the first derivative by supplying an appropriate argument
+ (m=1) to the filter routine.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Find the errors in pitch and roll: [
+\begin_inset Quotes eld
+\end_inset
+
+find pitch/roll errors
+\begin_inset Quotes erd
+\end_inset
+
+ box in the diagram]
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Calculate the acceleration of gravity as a function of latitude and altitude
+ using the Ranadu function Gravity() and divide the derivatives (with appropriat
+e sign) by this value to get the 
+\begin_inset Formula $l$
+\end_inset
+
+-frame errors in pitch and roll.
+\end_layout
+
+\begin_layout Enumerate
+Transform the result to the 
+\begin_inset Formula $a$
+\end_inset
+
+-frame using manuscript equation (27).
+ (This should eventually be changed to (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:errors-in-a-frame"
+
+\end_inset
+
+) in this workflow document to get better results in and near turns.)
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Construct the matrix to return, which has rows matching the input data.frame
+ and two columns, the first representing the pitch error and the second
+ the roll error.
+ [
+\begin_inset Quotes eld
+\end_inset
+
+construct matrix to return
+\begin_inset Quotes erd
+\end_inset
+
+ box in the diagram]
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If the data rate of the original data.frame is higher than 1
+\begin_inset space ~
+\end_inset
+
+Hz, interpolate the working 1-Hz data.frame to the original rate, again using
+ zoo::na.approx() for linear interpolation.
+\end_layout
+
+\begin_layout Enumerate
+Concatenate the two vectors representing the pitch and roll errors to one
+ vector.
+\end_layout
+
+\begin_layout Enumerate
+Convert to an appropriate matrix with dimensions [DL,2] where DL is the
+ length of the original data.frame.
+ This conversion uses 
+\begin_inset Quotes eld
+\end_inset
+
+dim()
+\begin_inset Quotes erd
+\end_inset
+
+ with the concatenated vector.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return a two-dimensional array with the two components being the 
+\begin_inset Formula $a$
+\end_inset
+
+-frame errors in pitch and roll, so that the result can be used to obtain
+ corrected values of the pitch and roll via
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+PITCHC <- D$PITCH - CorrectPitch (D)[,1]
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+ROLLC 
+\begin_inset space ~
+\end_inset
+
+<- D$ROLL - CorrectPitch (D)[,2]
+\end_layout
+
+\begin_layout Standard
+All steps in this function are vectorized, to operate on the entire time
+ series in vectorized function calls.
+ Even for high-rate data.frames, the processing involves little delay: On
+ a modest linux desktop system, processing a 7-h 25-Hz file takes about
+ 2
+\begin_inset space ~
+\end_inset
+
+s.
+\end_layout
+
+\begin_layout Standard
+The uncertainty in the pitch correction expected from this function is not
+ discussed in the technical note, so some comments regarding uncertainty
+ are included here.
+ 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cooper2016ncartn"
+
+\end_inset
+
+ estimated that the uncertainty in the pitch correction arising from the
+ uncertainty in determining the derivatives is smaller than 0.0001
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ Some elaboration leading to that estimate is presented here.
+ Modern GPS receivers, especially if augmented by special signals or special
+ processing, produce 1-Hz measurements with uncertainty of around 0.03
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+(
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cooper2016ncartn"
+
+\end_inset
+
+).
+ The consistency of the Schuler oscillation, as illustrated by Figs.
+\begin_inset space ~
+\end_inset
+
+6 and 7 of the technical note, suggests that derivatives in velocity can
+ be determined by averaging over periods of at least 10 min or more, so
+ if the ground-speed measurements from the INS have uncertainty of about
+ 0.03
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+ (where variance spectra for the 1-Hz measurements begin to show noise),
+ the uncertainty in differences between these two signals might be expected
+ to be 
+\begin_inset Formula $0.03\,\sqrt{2}\approx0.04$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+, and averaged over 10
+\begin_inset space ~
+\end_inset
+
+min or perhaps 60 autocorrelation times the resulting difference could be
+ resolved to 
+\begin_inset Formula $0.04/\sqrt{60}\approx0.005$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-1}$
+\end_inset
+
+.
+ Over intervals separated by 10
+\begin_inset space \thinspace{}
+\end_inset
+
+min, the derivative then might be determined with an uncertainty of 
+\begin_inset Formula $0.005\times1/600\approx10^{-5}$
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+, leading to an uncertainty in the pitch correction from technical note
+ Eqn.
+\begin_inset space ~
+\end_inset
+
+(10) of about 10
+\begin_inset Formula $^{-6}$
+\end_inset
+
+ or 0.00005
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ Third-order Savitzky-Golay polynomials of order 
+\begin_inset Formula $m$
+\end_inset
+
+ reduce noise in an average by a factor of 
+\begin_inset Formula $\sqrt{(3(3m^{2}-7)/4m(m^{2}-4)}\simeq0.05$
+\end_inset
+
+ for m=1013 or 
+\begin_inset Formula $0.06$
+\end_inset
+
+ for m=601.
+ Then for 
+\begin_inset Formula $0.04*0.06=0.0024$
+\end_inset
+
+m/s, 600-s separation gives acceleration uncertainty of about 
+\begin_inset Formula $0.0024/600=4e-6$
+\end_inset
+
+ or pitch uncertainty of 2e-5
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+.
+ Therefore this contribution to uncertainty in the correction has been neglected.
+ Differences between the estimate determined from the 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectPitch()
+\begin_inset Quotes erd
+\end_inset
+
+ function and from the Kalman filter, shown in Fig.
+\begin_inset space ~
+\end_inset
+
+9 of the technical note, are mostly smaller than 0.01
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+, which suggests about this level of confidence in the results.
+ Much of the discrepancy in that figure arises from measurements in turns,
+ where the 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectPitch()
+\begin_inset Quotes erd
+\end_inset
+
+ function applies an approximate correction for the angle transformation
+ from the 
+\emph on
+l-
+\emph default
+frame to the 
+\emph on
+a-
+\emph default
+frame that has some error in turns.
+ That function could be improved by the exact transformation.
+\end_layout
+
+\begin_layout Subsubsection
+Heading correction
+\end_layout
+
+\begin_layout Standard
+The technical note itself contains a complete description of this algorithm,
+ so no additional information is included here except for the following
+ flow chart (Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ref{fig:heading-correction-workflow}
+\end_layout
+
+\end_inset
+
+) that indicates the structure of the associated function Ranadu::CorrectHeading
+().
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename FlowDiagrams/CorrectHeadingFlow.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Workflow diagram for the Ranadu function CorrectHeading(), which returns
+ estimates of errors in the measurement of heading.
+ The returned values, with units of degrees, should be subtracted from the
+ measurements to obtain corrected values.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:heading-correction-workflow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Angle of attack
+\end_layout
+
+\begin_layout Standard
+The discussion in the Technical Note, supplemented by the memo referenced
+ there, should be adequate for this section.
+\end_layout
+
+\begin_layout Section
+Discussion of Section 4 (the Kalman filter)
+\end_layout
+
+\begin_layout Subsection
+General comments on the structure and the algorithm
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename FlowDiagrams/FlowKalmanLoop.png
+	lyxscale 50
+	width 90text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Workflow diagram for the main loop of the Kalman filter.
+ The yellow box contains the steps that are repeated for each time step,
+ using the equations listed in the algorithm summary in the technical note.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Kalman-loop-workflow"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+The structure and algorithm are discussed in detail in the technical note.
+ A flowchart describing the algorithm and the processing related to the
+ Kalman filter is shown in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Kalman-loop-workflow"
+
+\end_inset
+
+.
+ This diagram may be helpful when reading the description of the algorithm
+ in the technical note.
+ These elaborating comments may also be worth recording here:
+\end_layout
+
+\begin_layout Enumerate
+The process of smoothing the results after the processing loop finishes
+ is described in places distributed through several subsections of the technical
+ note where various plots of the results are shown, so a summary here may
+ be useful:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+When extrapolating from the Kalman-filter time step to the data time step,
+ the extrapolation is performed by the R routine 
+\begin_inset Quotes eld
+\end_inset
+
+stats::approx()
+\begin_inset Quotes erd
+\end_inset
+
+, and after extrapolation the result is smoothed by a Savitzky-Golay polynomial
+ of 4th order that spans 75
+\begin_inset space ~
+\end_inset
+
+s in the output data, and the start and end of the resulting time series
+ are padded so that the final series matches the original series in time
+ and in length.
+\end_layout
+
+\begin_layout Enumerate
+For position and velocity components, a low-pass Butterworth filter is used
+ (with cutoff frequency corresponding to a period of 600
+\begin_inset space ~
+\end_inset
+
+s) to smooth the error-state components.
+\end_layout
+
+\begin_layout Enumerate
+For latitude and longitude, the variables after correction are filtered
+ again using a low-pass Butterworth filter with cutoff frequency corresponding
+ to a period of 10
+\begin_inset space ~
+\end_inset
+
+s, to eliminate resolution noise in the original measurements.
+\end_layout
+
+\begin_layout Enumerate
+For pitch and roll, the corrections after extrapolation are transformed
+ to the 
+\emph on
+l-
+\emph default
+frame, filtered using a low-pass Butterworth filter with 900
+\begin_inset space ~
+\end_inset
+
+s cutoff period, and then transformed back to the 
+\emph on
+a-
+\emph default
+frame where they are used to correct the original measurements.
+\end_layout
+
+\begin_layout Enumerate
+Heading is treated in a special way by using a weighted spline applied to
+ the corrections from the Kalman filter, where the weight factor is the
+ inverse of the corresponding variance from the Kalman filter.
+ That spline is then used to determine the time history of the heading correctio
+n, and that correction from the spline fit is used to correct the measurement
+ of heading.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+The calculation of the transition matrix in principle can be done outside
+ the processing loop.
+ This matrix is not required for every time step in the state vector, but
+ only for every time used in the inner loop, so only a subset needs to be
+ calculated and saved.
+ After completion of the calculations in the inner loop, the corrections
+ that are obtained can then be extrapolated to times between the larger
+ time step used in the inner loop.
+ In this way high-rate data files, with measurements more frequent than
+ 1
+\begin_inset space ~
+\end_inset
+
+Hz, can be processed almost as fast as standard-rate files.
+\end_layout
+
+\begin_layout Subsection
+Some protection against erroneous input
+\end_layout
+
+\begin_layout Standard
+The Kalman-filter loop is recursive, so once overflowing or missing (NA)
+ values are used, the results can be distorted for the rest of the calculation.
+ Therefore it is useful to pr
+\change_inserted 1934758928 1498990210
+e
+\change_deleted 1934758928 1498990211
+o
+\change_unchanged
+-process the measurements to be used to remove bad points that, in R, have
+ the values NA or NAN.
+ This is accomplished in three steps:
+\end_layout
+
+\begin_layout Enumerate
+For each of the variables used in the state vector for the Kalman filter,
+ interpolation is used to fill in gaps.
+ Any NA/NAN values remaining (e.g., at the start of end of flights) are replaced
+ by 0.
+\end_layout
+
+\begin_layout Enumerate
+When the measurement vector (consisting of the differences between INS-provided
+ and GPS-provided measurements) is constructed, any missing values are set
+ to 0.
+\end_layout
+
+\begin_layout Enumerate
+When the Jacobian is calculated, any terms in the result that are NaN (e.g.,
+ because the corresponding values in the state vector are missing) are set
+ to 0.
+\end_layout
+
+\begin_layout Standard
+For most data files, these steps are not needed, but they are particularly
+ useful when running the processor on whole projects in one run because
+ they prevent the processor from aborting because it encounters bad data.
+\end_layout
+
+\begin_layout Subsection
+The vectors and matrices
+\end_layout
+
+\begin_layout Standard
+The main report defines some vectors and matrices used in the error-state
+ Kalman filter.
+ Here some of the associated R-code and variables are included to make these
+ definitions specific.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+SVE At initialization, the 
+\bar under
+e
+\emph on
+rror-state vector
+\bar default
+ 
+\emph default
+is set to SVE <- c(DZ[1, 1:6], rep(0, 9)) where DZ[1, 1:6] is a vector containin
+g the initial values of the differences between the first six INS-provided
+ state variables and the corresponding GPS-provided variables.
+ That is, DZ=c(LAT-GGLAT, LON-GGLON, ZROC-GGALT, VEW-GGVEW, VNS-GGVNS, ROC-GGVSP
+D) where all values are read from the data archive at the initial time.
+ All angular quantities at initialization and during the integration are
+ used in units of radians, including latitude and longitude.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+dcm The 
+\emph on
+\bar under
+error-state transition matrix
+\emph default
+\bar default
+ 
+\begin_inset Formula $\boldsymbol{T}_{k,k-1}$
+\end_inset
+
+is calculated, for a specified time during the integration, as follows:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\bullet$
+\end_inset
+
+ 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+The 15 components of the state vector sv from the INS mechanization are
+ read from the data archive.
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\bullet$
+\end_inset
+
+ 
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+dcm <- jacobian (STMFV, sv, .aaframe='l') * dt * NSTEP + diag(15)
+\begin_inset Newline newline
+\end_inset
+
+The argument to the jacobian function is the derivative function STMFV discussed
+ above, the state vector, and .aaframe which in this case specifies that
+ the attitude angles should be the 
+\emph on
+a-
+\emph default
+frame values, as is discussed below.
+ The variable dt contains the time interval between samples, but for increased
+ speed the integration is performed in larger time steps specified by NSTEP,
+ here set to 5
+\begin_inset space ~
+\end_inset
+
+s.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+CV The 
+\emph on
+\bar under
+covariance matrix
+\emph default
+\bar default
+ is updated during the integration, but it is set initially using values
+ specified in the technical note.
+ The squares of these values are entered into the diagonal elements of CV,
+ and off-diagonal elements are left zero at the start of the integration.
+ These values were selected to be reasonably consistent with the specifications
+ of the INS where known.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+K The 
+\emph on
+\bar under
+Kalman-gain matrix
+\emph default
+\bar default
+ will be discussed in subsequent sections.
+ It is calculated independently at each step during the integration, so
+ it does not need to be initialized.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+DZ The 
+\emph on
+\bar under
+measurement-error vector
+\bar default
+ 
+\emph default
+as determined from comparison between the INS-provided variables and the
+ corresponding GPS-provided values.
+ This is initialized in a data.frame at the start of the integration, where
+ that data.frame contains all the measurements from the flight.
+ For the error-state Kalman filter, 1-Hz measurements were sufficient, so
+ a standard-rate data file was used.
+ The values for each time during the integration are then extracted from
+ that data.frame.
+ Some preliminary steps were included:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\bullet$
+\end_inset
+
+ interpolation to provide any missing-value measurements
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula $\bullet$
+\end_inset
+
+ optionally, smoothing with a third order Savitzky-Golay polynomial spanning
+ 11 s.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+H The 
+\emph on
+\bar under
+observation matrix
+\emph default
+\bar default
+ for the initial implementation is a 15
+\begin_inset Formula $\times$
+\end_inset
+
+6 matrix that indicates that the six components of the measurement-error
+ vector DZ correspond to the first 6 components of the error-state vector.
+ In R convention ordering (which stores matrices in column-major order),
+ H has 6 rows and 15 columns.
+\end_layout
+
+\begin_layout Labeling
+\labelwidthstring 00.00.0000
+Q
+\begin_inset space ~
+\end_inset
+
+and
+\begin_inset space ~
+\end_inset
+
+R The 
+\emph on
+\bar under
+measurement-noise matrices
+\emph default
+\bar default
+ that apply to the error-state vector and the measurement-error vector,
+ respectively.
+ These are not adjusted during the integration, so they need to be specified
+ using reasonable values.
+ Those values can depend on functions of the aircraft-state vector, so the
+ matrix does not necessarily remain the same for each step in the integration,
+ but they can be specified prior to the integration and saved in data.frames
+ so that appropriate values can be read during the integration.
+ They are best specified iteratively, by finding adjustments that produce
+ results consistent with the error estimates, so the process here will be
+ to start with a simple specification for each matrix and then later consider
+ how this specification should be changed.
+ For Q, the initial choice was a diagonal matrix as specified in the text.
+ There are important off-diagonal elements that should be included, e.g.,
+ to represent strong coupling between the pitch error and the latitude error,
+ but this will be reconsidered later.
+ 
+\end_layout
+
+\begin_layout Subsection
+Detecting the error in heading
+\end_layout
+
+\begin_layout Standard
+The discussion in the technical note is extensive so no expansion is provided
+ here.
+ The addition of a seventh component to the measurement-error vector is
+ not conventional and it may be redundant in the sense that the Kalman filter
+ already makes appropriate adjustment to the errors to minimize errors in
+ velocity so using the direction of the acceleration provided by differentiating
+ the GPS-based measurements does not add information not already present.
+ However, because heading is treated specially because of the large uncertainty
+ involved in its estimated error, the inclusion of this term appears to
+ improve performance of the correction scheme as tuned in this application.
+ There is a controlling factor, 
+\begin_inset Quotes eld
+\end_inset
+
+MH
+\begin_inset Quotes erd
+\end_inset
+
+, that if set to zero will suppress the effect of this added term.
+\end_layout
+
+\begin_layout Subsection
+Smoothing the errors in pitch and roll.
+\end_layout
+
+\begin_layout Standard
+Section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:XformLA"
+
+\end_inset
+
+ and Eq.
+\begin_inset space ~
+\end_inset
+
+(
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:XformLA"
+
+\end_inset
+
+) defined and justified the transformation from an 
+\emph on
+a-
+\emph default
+frame vector to an 
+\emph on
+l-
+\emph default
+frame vector.
+ Here that transformation is adapted to the errors in pitch and roll.
+ Approximate equations (technical note Eqn.
+\begin_inset space ~
+\end_inset
+
+27) are discussed in Sect.
+\begin_inset space ~
+\end_inset
+
+4.4.3 of the technical note, but exact equations are used in the code.
+ Those equations are developed here.
+\end_layout
+
+\begin_layout Standard
+In the 
+\emph on
+a-
+\emph default
+frame where pitch and roll are measured, the roll angle is defined as the
+ reverse of the rotation about the 
+\emph on
+a-
+\emph default
+frame forward axis required to level the wings, and the pitch angle is the
+ reverse of the subsequent rotation about the starboard axis required to
+ level the fuselage.
+ The 
+\emph on
+l-
+\emph default
+frame error in pitch is defined to be the platform misalignment with tilt
+ to the south 
+\bar under
+after the roll error is removed
+\bar default
+,, while the 
+\emph on
+l-
+\emph default
+frame error in roll is the component of platform misalignment toward the
+ east.
+ If the 
+\emph on
+l-
+\emph default
+frame errors are known, one can find the 
+\emph on
+a-
+\emph default
+frame errors by considering a unit vector 
+\begin_inset Formula $\boldsymbol{u}^{(l)}$
+\end_inset
+
+ normal to the sensed platform alignment in the approximately upward 
+\emph on
+l-
+\emph default
+frame direction, with components that would result from rotating a unit
+ vector that points in the 
+\emph on
+l-
+\emph default
+frame 
+\emph on
+z
+\emph default
+ direction by the pitch error (
+\begin_inset Formula $\delta\theta{}^{(l)})$
+\end_inset
+
+ about the x-axis and then by the roll error (
+\begin_inset Formula $\delta\phi^{(l)}$
+\end_inset
+
+) about the y-axis.
+ The result of these two rotations is
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\boldsymbol{u}^{(l)} & = & \begin{bmatrix}\cos(\delta\phi^{(l)}) & 0 & \sin(\delta\phi^{(l)})\\
+0 & 1 & 0\\
+-\sin(\delta\phi^{(l)}) & 0 & \cos(\delta\phi^{(l)})
+\end{bmatrix}\begin{bmatrix}1 & 0 & 0\\
+0 & \cos(\delta\theta^{(l)}) & -\sin(\delta\theta^{(l)})\\
+0 & \sin(\delta\theta^{(l)}) & \cos(\delta\theta^{(l)})
+\end{bmatrix}\begin{bmatrix}0\\
+0\\
+1
+\end{bmatrix}\\
+ & = & \left[\begin{array}{c}
+\sin(\delta\phi^{(l)})\cos(\delta\theta^{(l)})\\
+-\sin(\delta\theta^{(l)})\\
+\cos(\delta\theta^{(l)})\cos(\delta\phi^{(l)})
+\end{array}\right]\simeq\begin{bmatrix}\delta\phi^{(l)}\\
+-\delta\theta^{(l)}\\
+1
+\end{bmatrix}
+\end{eqnarray*}
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Transformed to the 
+\emph on
+a-
+\emph default
+frame via the inverse of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:XformLA"
+
+\end_inset
+
+), this unit vector becomes
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\boldsymbol{u}^{(a)} & = & (R_{l}^{a})^{\intercal}\boldsymbol{u}^{(l)}\\
+ & = & \begin{bmatrix}\sin\psi\cos\theta\thinspace\delta\phi^{(l)}-\cos\psi\cos\theta\thinspace\delta\theta^{(l)}-\sin\theta\\
+(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\thinspace\delta\phi^{(l)}-(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(l)}+\cos\theta\sin\phi\\
+(\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi)\thinspace\delta\phi^{(l)}+(\cos\psi\sin\theta\cos\phi+\sin\psi\sin\phi)\thinspace\delta\theta^{(l)}-\cos\theta\cos\phi
+\end{bmatrix}
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The difference between this unit vector and the corresponding unit vector
+ obtained without any errors in pitch or roll is then
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\delta\boldsymbol{u}^{(a)}=\begin{bmatrix}-\cos\psi\cos\theta\thinspace\delta\theta^{(l)}+\sin\psi\cos\theta\thinspace\delta\phi^{(l)}\\
+-(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(l)}+(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\thinspace\delta\phi^{(l)}\\
+(\cos\psi\sin\theta\cos\phi+\sin\psi\sin\phi)\thinspace\delta\theta^{(l)}+(\cos\psi\sin\phi-\sin\psi\sin\theta\cos\phi)\thinspace\delta\phi^{(l)}
+\end{bmatrix}
+\]
+
+\end_inset
+
+In the 
+\emph on
+a-
+\emph default
+frame, the error in roll is 
+\begin_inset Formula $\delta\phi^{(a)}=\delta u_{y}^{(a)}$
+\end_inset
+
+ and the error in pitch is
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Formula 
+\[
+\delta\theta^{(a)}=-\cos(\delta\phi^{(a)})\delta u_{x}^{(a)}\simeq-\delta u_{x}^{(a)}\,\,\,\,,
+\]
+
+\end_inset
+
+so the transformation of (small) errors from the 
+\emph on
+l-
+\emph default
+frame to the 
+\emph on
+a-
+\emph default
+frame is
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray}
+\delta\theta^{(a)} & = & \cos\psi\cos\theta\thinspace\delta\theta^{(l)}-\sin\psi\cos\theta\thinspace\delta\phi^{(l)}\approx\cos\psi\thinspace\delta\theta^{(l)}-\sin\psi\thinspace\delta\phi^{(l)}\nonumber \\
+\delta\phi^{(a)} & = & -(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(l)}+(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\thinspace\delta\phi^{(l)}\label{eq:errors-in-a-frame}\\
+ & \approx & \cos\phi(\sin\psi\,\delta\theta^{(l)}+\cos\psi\thinspace\delta\phi^{(l)})\nonumber 
+\end{eqnarray}
+
+\end_inset
+
+where the approximations are that 
+\begin_inset Formula $\cos\theta\approx1$
+\end_inset
+
+ and 
+\begin_inset Formula $\sin\theta\approx0$
+\end_inset
+
+.
+ These are reasonable because the pitch angle seldom exceeds a few degrees,
+ but a similar approximation cannot be made for roll because the roll becomes
+ significant in turns through the factor 
+\begin_inset Formula $\cos\phi$
+\end_inset
+
+ in the last equation.
+\end_layout
+
+\begin_layout Standard
+Equations (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:errors-in-a-frame"
+
+\end_inset
+
+), without approximation, were coded into the function XPitch().
+ That function also has an argument .inverse that, when true, calculates
+ to reverse transformation from the 
+\emph on
+a-
+\emph default
+frame to the 
+\emph on
+l-
+\emph default
+frame, obtained from the inverse of (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:errors-in-a-frame"
+
+\end_inset
+
+).
+ Because the transformation is not orthonormal, the result is not simply
+ the transpose; it is given by
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\delta\theta^{(l)}=\frac{1}{\cos\theta\cos\phi}\left[(\sin\psi\sin\theta\sin\phi+\cos\psi\cos\phi)\,\delta\theta^{(a)}+\sin\psi\cos\theta\thinspace\delta\phi^{(a)}\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{eqnarray*}
+\delta\phi^{(l)} & = & \frac{1}{\cos\theta\cos\phi}\left[(\cos\psi\sin\theta\sin\phi-\sin\psi\cos\phi)\thinspace\delta\theta^{(a)}+\cos\psi\cos\theta\thinspace\delta\phi^{(a)}\right]
+\end{eqnarray*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Generation of Figs.
+\begin_inset space ~
+\end_inset
+
+6–11 in the technical note
+\end_layout
+
+\begin_layout Standard
+These figures mostly follow the procedure discussed above (cf.
+\begin_inset space ~
+\end_inset
+
+Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Generation-of-Figure"
+
+\end_inset
+
+) for Figs.
+\begin_inset space ~
+\end_inset
+
+1–3.
+ The faceting capability of the R package 
+\begin_inset Quotes eld
+\end_inset
+
+ggplot2
+\begin_inset Quotes erd
+\end_inset
+
+ was used to produce these multi-panel plots.
+ One new feature in Figs.
+\begin_inset space ~
+\end_inset
+
+8 and 9 is the addition of a shaded ribbon to show the uncertainty estimate
+ about the correction from the Kalman filter.
+ This is constructed by defining a special data.frame that contains the upper
+ and lower limits of the desired ribbon, 
+\begin_inset Quotes eld
+\end_inset
+
+melting
+\begin_inset Quotes erd
+\end_inset
+
+ that data.frame as for the basic plot, and using the function 
+\begin_inset Quotes eld
+\end_inset
+
+geom_ribbon()
+\begin_inset Quotes erd
+\end_inset
+
+ from ggplot2 to add the ribbon.
+ Figure
+\begin_inset space ~
+\end_inset
+
+11 also is different; it uses the 
+\begin_inset Quotes eld
+\end_inset
+
+position
+\begin_inset Quotes erd
+\end_inset
+
+ argument to 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::ggplotWAC()
+\begin_inset Quotes erd
+\end_inset
+
+ to define the stacked panels, and it forces the ordinate scales to be the
+ same to keep the size of the panels the same.
+\end_layout
+
+\begin_layout Section
+Discussion of Section 5 (new variables for wind)
+\end_layout
+
+\begin_layout Subsection
+Calculating the wind
+\end_layout
+
+\begin_layout Standard
+The function 
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu::WindProcessor()
+\begin_inset Quotes erd
+\end_inset
+
+ calculates new values of the wind by duplicating the standard calculations,
+ with the exception that it includes a correction for the motion of the
+ GPS antenna where relevant.
+ The procedures are documented in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Bulletin23"
+
+\end_inset
+
+, and the code is available in the GitHub archive for Ranadu.
+\end_layout
+
+\begin_layout Standard
+This section includes plots of variance spectra showing the character of
+ the new variables after correction by the Kalman filter.
+ The generation of these plots is a departure from the effort to make this
+ study reproducible, because the plots were generated using copyrighted
+ code (from 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Press:1992:NRC:148286"
+
+\end_inset
+
+).
+ The plots therefore were generated outside the R program and were inserted
+ as figures.
+ The specific algorithm used is that described on pp.
+\begin_inset space ~
+\end_inset
+
+568–575 of that reference.
+ The C code that generates these figures, without the copyrighted routines,
+ is saved with this project archive as 
+\begin_inset Quotes eld
+\end_inset
+
+otto.c
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Adding new variables to the netCDF file
+\end_layout
+
+\begin_layout Standard
+The template included in the technical note is the model used for adding
+ variables.
+ The code actually used in is R chunk 
+\begin_inset Quotes eld
+\end_inset
+
+modify-new-netcdf.R,
+\begin_inset Quotes erd
+\end_inset
+
+ which is shared with the processing code 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+ that is designed to process existing NCAR/EOL/RAF data files in netCDF
+ format and add variables after correction by this Kalman Filter.
+ The netCDF interface is based on the R package 
+\begin_inset Quotes eld
+\end_inset
+
+ncdf4
+\begin_inset Quotes erd
+\end_inset
+
+ (
+\begin_inset CommandInset citation
+LatexCommand citet
+key "ncdf4"
+
+\end_inset
+
+).
+ 
+\end_layout
+
+\begin_layout Section
+The associated processor (
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Subsection
+Getting started
+\end_layout
+
+\begin_layout Standard
+The processing discussed in the Technical Note has been incorporated into
+ a processor that can be used outside the structure of the file that generates
+ that file.
+ When the GitHub repository is retrieved, the appropriate code for the processor
+ will also be downloaded along with the R 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+ needed to run it.
+ RStudio is strongly recommended as the initial way to run this, but the
+ repository can also be downloaded outside RStudio and used with R.
+ The following are detailed instructions for downloading using RStudio.
+ These should work with minor exceptions in linux, Windows, or Mac computers.
+ A few exceptions are listed in an Appendix, and some of the following instructi
+ons are written for linux and may need some adaptation for Windows or Mac
+ systems.
+\end_layout
+
+\begin_layout Enumerate
+In your home directory, make a directory named RStudio.
+ The R code will then be downloaded into the 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter
+\begin_inset Quotes erd
+\end_inset
+
+ subdirectory, and some program components expect this structure, so installatio
+n will be much smoother if you follow this structure.
+\end_layout
+
+\begin_layout Enumerate
+Start RStudio.
+ The 
+\begin_inset CommandInset href
+LatexCommand href
+name "manual for Ranadu"
+target "https://github.com/WilliamCooper/Ranadu/blob/master/inst/RanaduManual.pdf"
+
+\end_inset
+
+ provides some instructions for obtaining RStudio and R if they are not
+ present on your computer.
+ Follow the instructions in that manual to install the package 
+\family typewriter
+\color red
+
+\begin_inset Quotes eld
+\end_inset
+
+Ranadu
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+\color inherit
+ and also add these packages to your installation if they are not there:
+ 
+\family typewriter
+\color red
+numDeriv, ggplot2, reshape2, grid, knitr, graphics, ggthemes, ncdf4, shiny,
+ signal
+\family default
+\color inherit
+ and 
+\family typewriter
+\color red
+zoo
+\family default
+\color inherit
+.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Use 
+\family typewriter
+\color black
+File -> New Project -> Version Control -> Git 
+\family default
+and provide this repository address: 
+\family typewriter
+https://github.com/WilliamCooper/KalmanFilter.git .
+ Use the Project directory name 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter
+\begin_inset Quotes erd
+\end_inset
+
+ (without quotes) and add it as a subdirectory of 
+\begin_inset Quotes eld
+\end_inset
+
+~/RStudio
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Click the 
+\begin_inset Quotes eld
+\end_inset
+
+Create Project
+\begin_inset Quotes erd
+\end_inset
+
+ button and the project files will be downloaded and installed as a new
+ project in RStudio.
+\end_layout
+
+\begin_layout Standard
+Note that this is not necessary if you use the web interface to the EOL
+ computer 
+\begin_inset Quotes eld
+\end_inset
+
+barolo.eol.ucar.edu
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The easiest way to use the Kalman-filter processor on barolo is to follow
+ the instructions in the Ranadu manual as the link given above.
+ Then copy my directory on barolo to your workspace (
+\begin_inset Quotes eld
+\end_inset
+
+cp -r ~cooperw/RStudio/KalmanFilter ~/RStudio/.
+\begin_inset Quotes erd
+\end_inset
+
+) You can then use the web interface to RStudio on barolo: (a) If you are
+ not 
+\begin_inset Quotes eld
+\end_inset
+
+inside
+\begin_inset Quotes erd
+\end_inset
+
+ VPN in; use this URL: 
+\begin_inset Quotes eld
+\end_inset
+
+barolo.eol.ucar.edu:8787
+\begin_inset Quotes erd
+\end_inset
+
+ and a web version of RStudio will start; (b) use 
+\family typewriter
+\color black
+File -> Open Project 
+\family default
+to open the KalmanFilter project.
+ You may need to use
+\family typewriter
+ File -> New Project -> Existing directory 
+\family default
+and select the KalmanFilter subdirectory to have RStudio recognize this
+ as a project.
+\end_layout
+
+\begin_layout Subsection
+Key components of 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The processor uses many components from the Technical Note via the use of
+ 
+\begin_inset Quotes eld
+\end_inset
+
+source()
+\begin_inset Quotes erd
+\end_inset
+
+ statements in the R code of each, to guarantee that the identical code
+ is used for key components.
+ The following is a list of such 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Description
+RotationCorrection.R A function that corrects measured accelerations during
+ transformation between the 
+\emph on
+l-
+\emph default
+frame and 
+\emph on
+a-
+\emph default
+frame.
+\end_layout
+
+\begin_layout Description
+STMFV The function providing the derivative of the state vector.
+\change_inserted 1934758928 1498987235
+
+\end_layout
+
+\begin_layout Description
+
+\change_inserted 1934758928 1498987288
+STMFF An alternate and faster version of STMFF better suited to the Kalman-filte
+r processor.
+\change_unchanged
+
+\end_layout
+
+\begin_layout Description
+AcquireData.R Code for reading the data file to an R-language data.frame and
+ making some initial adjustments.
+ This chunk also includes another, called 
+\series bold
+AddIRUVariables.R
+\series default
+, to add surrogate measurements from the IRU to the data.frame if the original
+ measurements of acceleration and rotation rate are not present in the data
+ file.
+\end_layout
+
+\begin_layout Description
+ROC.R Adds the new rate-of-climb variable 
+\begin_inset Quotes eld
+\end_inset
+
+ROC
+\begin_inset Quotes erd
+\end_inset
+
+ to the data file.
+\end_layout
+
+\begin_layout Description
+AdjustCal.R Applies calibration adjustments as determined in the Technical
+ Note.
+\end_layout
+
+\begin_layout Description
+Kalman-setup Defines the covariance and other matrices and vectors needed
+ for the Kalman filter.
+\end_layout
+
+\begin_layout Description
+Kalman-loop Processes the data file sequentially using the Kalman-filter
+ algorithm, then defines corrected variables.
+\end_layout
+
+\begin_layout Description
+wind-calculation Uses the corrected values from the Kalman filter to calculate
+ new values of the wind.
+\end_layout
+
+\begin_layout Description
+create-new-netcdf.R Copies the original data file and prepares it for addition
+ of new variables.
+\end_layout
+
+\begin_layout Description
+modify-new-netcdf.R Adds the new variables with appropriate attributes to
+ the new netCDF file, then writes it to storage.
+\end_layout
+
+\begin_layout Standard
+The structure of 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+ follows that described in the workflow diagrams shown as Figs.
+\begin_inset space ~
+\end_inset
+
+1 and 3-–6, except that the 
+\begin_inset Quotes eld
+\end_inset
+
+mechanization
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+compare results
+\begin_inset Quotes erd
+\end_inset
+
+ steps in the left-side box of Fig.
+\begin_inset space ~
+\end_inset
+
+1 are omitted.
+ Otherwise, the program flow duplicates that in the program constructing
+ the Technical Note except for new specifications of run parameters like
+ the data-archive file to be used, as described in the next subsection.
+\end_layout
+
+\begin_layout Subsection
+Instructions for using 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter.R
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Kalman processor does not duplicate the early part of the Technical
+ Note where the derivative is justified by performing a trial mechanization.
+ It also differs from the document generating the Technical Note by including
+ features to tailor it for particular runs.
+ Because the key mathematic structure is identical to that in the Technical
+ Note, the algorithms used will not be discussed here.
+ Instead, this section of the workflow document will emphasize the user
+ interface.
+\end_layout
+
+\begin_layout Standard
+There are three ways that the processor can be run.
+ (The third is recommended, but the second will support batch processing
+ best.)
+\end_layout
+
+\begin_layout Enumerate
+From an R console window or the console window in RStudio, after installation
+ as described above.
+ If you type 
+\begin_inset Quotes eld
+\end_inset
+
+source ('KalmanFilter.R') when in the working directory ~/RStudio/KalmanFilter,
+ the script will ask interactively for the run arguments like project name,
+ flight number, and other processing options.
+ These are described in detail for the third option listed below.
+\end_layout
+
+\begin_layout Enumerate
+With working directory set to 
+\begin_inset Quotes eld
+\end_inset
+
+~/RStudio/KalmanFilter
+\begin_inset Quotes erd
+\end_inset
+
+, type 
+\begin_inset Quotes eld
+\end_inset
+
+Rscript KalmanFilter.R [arguments]
+\begin_inset Quotes erd
+\end_inset
+
+.
+ If you omit the arguments, the script will print a brief usage statement
+ and exit, so you can use the model it provides to repeat with appropriate
+ run-time arguments.
+ The usage statement is as follows:
+\begin_inset Newline newline
+\end_inset
+
+
+\family typewriter
+\size small
+\color black
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\family typewriter
+\size small
+\color black
+
+\begin_inset space ~
+\end_inset
+
+"Usage: Rscript KalmanFilter.R Project Flight UpdateAKRD[y/N] UpdateSSRD[y,N]
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Simple[y/N] Interval
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\family default
+\size default
+\color inherit
+ 
+\family typewriter
+\size small
+\color black
+"Example: Rscript KalmanFilter.R CSET 1 y y n 15"
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+
+\family default
+\size default
+The arguments are explained in the list following item 3.(d) below.
+ This second option may be useful for batch processing.
+\end_layout
+
+\begin_layout Enumerate
+The most convenient option is probably the 
+\begin_inset Quotes eld
+\end_inset
+
+Shiny App
+\begin_inset Quotes erd
+\end_inset
+
+ version that provides an interactive graphic interface for running the
+ program and displaying some key results.
+ From RStudio, select the 
+\begin_inset Quotes eld
+\end_inset
+
+KalmanFilter
+\begin_inset Quotes erd
+\end_inset
+
+ project, and then run the ShinyApp, as follows:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Select the 
+\begin_inset Quotes eld
+\end_inset
+
+Files
+\begin_inset Quotes erd
+\end_inset
+
+ tab at the top of the bottom-right RStudio panel (*not* the 
+\begin_inset Quotes eld
+\end_inset
+
+File
+\begin_inset Quotes erd
+\end_inset
+
+ menu at the top-left).
+ 
+\end_layout
+
+\begin_layout Enumerate
+In the list of files and directories that appears, click on the directory
+ 
+\begin_inset Quotes eld
+\end_inset
+
+KFapp
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Then the list of files will include one named 
+\begin_inset Quotes eld
+\end_inset
+
+app.R
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Click on that and it will be displayed in the top-left RStudio panel.
+ 
+\end_layout
+
+\begin_layout Enumerate
+There will now be a 
+\begin_inset Quotes eld
+\end_inset
+
+Run App
+\begin_inset Quotes erd
+\end_inset
+
+ button just right of a green arrow in the panel at the top of the source
+ file.
+ Before clicking that, use the small down arrow just right of the 
+\begin_inset Quotes eld
+\end_inset
+
+Run App
+\begin_inset Quotes erd
+\end_inset
+
+ button to display a menu of choices.
+ There are different ways of displaying the ShinyApp.
+ I suggest 
+\begin_inset Quotes eld
+\end_inset
+
+Run External
+\begin_inset Quotes erd
+\end_inset
+
+ but you may want to experiment with the other choices later.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+Run External
+\begin_inset Quotes erd
+\end_inset
+
+ wil display in a new browser window.
+\end_layout
+
+\begin_layout Enumerate
+Once you have made a display selection, click the 
+\begin_inset Quotes eld
+\end_inset
+
+Run App
+\begin_inset Quotes erd
+\end_inset
+
+ button.
+ (After selecting the display mode, you can also enter 
+\begin_inset Quotes eld
+\end_inset
+
+runApp('KFapp')
+\begin_inset Quotes erd
+\end_inset
+
+ in the RStudio console window, which is the bottom left panel.) A display
+ like the following figure should appear:
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Graphics
+	filename figure/GUIfig1.png
+	width 80text%
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+This then provides ways of selecting the data-archive file to process, and
+ it provides control over some options.
+ The components in this window and the options that can be selected are
+ described here:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+Click here: 
+\series default
+The large blue button labeled 
+\begin_inset Quotes eld
+\end_inset
+
+Click Here...
+\begin_inset Quotes erd
+\end_inset
+
+ starts the processing run, once the choices of 
+\begin_inset Quotes eld
+\end_inset
+
+Run Arguments
+\begin_inset Quotes erd
+\end_inset
+
+ are made.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+(progress meter): 
+\series default
+Because the processing runs are sometimes long (depending especially on
+ the entry for 
+\begin_inset Quotes eld
+\end_inset
+
+step (s)
+\begin_inset Quotes erd
+\end_inset
+
+), a progress meter is included at the top right.
+ In this figure it says 
+\begin_inset Quotes eld
+\end_inset
+
+ready to run
+\begin_inset Quotes erd
+\end_inset
+
+, and once the run starts it will indicate progress of each step in processing
+ including reading and initial processing of the data file, retrieval of
+ the IRU measurements if they are missing, the main Kalman loop (which consumes
+ most of the time), the generation of plots, and production of the final
+ modified netCDF file.
+ A run with step size 60 (which is too large to be useful except for testing)
+ will take about 3 min, while a practical run with step size of 10 will
+ take about 11
+\begin_inset space ~
+\end_inset
+
+min and the recommended step size of 5
+\begin_inset space ~
+\end_inset
+
+s will run for typically about 21
+\begin_inset space ~
+\end_inset
+
+min on barolo.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Project: 
+\series default
+The item labeled 
+\begin_inset Quotes eld
+\end_inset
+
+DEEPWAVE
+\begin_inset Quotes erd
+\end_inset
+
+ in the figure is a drop-down menu listing all GV projects, from which you
+ can select a file for processing.
+ For this to work, the data structure should match a particular pattern,
+ as described in the 
+\begin_inset CommandInset href
+LatexCommand href
+name "RanaduShinyManual"
+target "https://github.com/WilliamCooper/Ranadu/blob/master/inst/RanaduShinyManual.pdf"
+
+\end_inset
+
+.
+ When new projects occur, they need to be added to the code in 
+\begin_inset Quotes eld
+\end_inset
+
+KFapp/app.R
+\begin_inset Quotes erd
+\end_inset
+
+ in the character vector 
+\begin_inset Quotes eld
+\end_inset
+
+PJ
+\begin_inset Quotes erd
+\end_inset
+
+ near the top of the routine.
+ The first step in defining the processing run desired is to select the
+ project name from this drop-down menu.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Flight: 
+\series default
+The entry box below the label 
+\begin_inset Quotes eld
+\end_inset
+
+Flight
+\begin_inset Quotes erd
+\end_inset
+
+ is used to specify the desired flight number.
+ The number in this box can be changed in several ways: by selecting the
+ displayed number with a left-button mouse sweep over it and then entering
+ the desired number, by left-clicking in the entry window and then using
+ the up-arrow and down-arrow keys on the keyboard, or by using the small
+ incrementing/decrementing arrows that appear to the right of the displayed
+ number when the mouse hovers there.
+ Other options for specifying the flight number are controlled by the 
+\begin_inset Quotes eld
+\end_inset
+
+ALL?
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+Next
+\begin_inset Quotes erd
+\end_inset
+
+ check-boxes to the right of this entry window, as described below.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+ALL?: 
+\series default
+The 
+\begin_inset Quotes eld
+\end_inset
+
+ALL?
+\begin_inset Quotes erd
+\end_inset
+
+ check-box needs to be used with caution because it can result in long runs
+ that are not interrupted easily.
+ When checked, this will cause all flights in a project 
+\emph on
+that do not already have a processed file with 
+\begin_inset Quotes eld
+\end_inset
+
+KF
+\begin_inset Quotes erd
+\end_inset
+
+ at the end of the name
+\emph default
+ to be processed.
+ If such files are present and you want to reprocess, you need to delete
+ or move the previously processed files from the project directory.
+ A project directory containing 20 flights, processed with a time step of
+ 5
+\begin_inset space ~
+\end_inset
+
+s, can take almost 8
+\begin_inset space ~
+\end_inset
+
+h.
+ (On the EOL machine barolo, be sure to use the 
+\begin_inset Quotes eld
+\end_inset
+
+renice
+\begin_inset Quotes erd
+\end_inset
+
+ feature to change the priority to avoid interference with other users,
+ because the run makes intensive use of the CPU.) For full-project runs,
+ it will usually be better to use method-2 processing above with a script
+ that processes each file, because that is easier to interrupt.
+ To interrupt the ShinyApp processor, dismiss the special window and click
+ the red 
+\begin_inset Quotes eld
+\end_inset
+
+STOP
+\begin_inset Quotes erd
+\end_inset
+
+ button at the top-right of the bottom-right panel of the RStudio display.
+ Processing of the current file will still continue, as well as possibly
+ the next one if that has been queued by the controlling script.
+ To stop everything, you have to terminate the R session.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Next: 
+\series default
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Next
+\begin_inset Quotes erd
+\end_inset
+
+ checkbox processes the file numbered one beyond the highest-numbered file
+ that has already been processed.
+ For example, if the data directory for the selected project contains files
+ DEEPWAVErf06KF.nc, DEEPWAVErf16KF.nc, the next run will used flight 17.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+AK 
+\series default
+and 
+\series bold
+SS: 
+\series default
+The check-boxes 
+\begin_inset Quotes eld
+\end_inset
+
+AK
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+SS
+\begin_inset Quotes erd
+\end_inset
+
+ control, respectively, if the new algorithm for angle-of-attack should
+ be used to calculate a new value for the AKRD/ATTACK variables and if the
+ sideslip calibration recommended in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Cooper2016ncartn"
+
+\end_inset
+
+ should be used.
+ If these are selected, the new angle-of-attack and sideslip will be used
+ in the new calculation of wind.
+ The 
+\begin_inset Quotes eld
+\end_inset
+
+AK
+\begin_inset Quotes erd
+\end_inset
+
+ check-box should not be used (and will not be used even if checked) for
+ projects flown on the GV before 2012 (i.e., TORERO and earlier) because an
+ earlier radome with characteristics not described well by the new algorithm
+ was used in those projects.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+step (s): 
+\series default
+The entry box labeled 
+\begin_inset Quotes eld
+\end_inset
+
+Step (s)
+\begin_inset Quotes erd
+\end_inset
+
+ specifies the interval between updates in the Kalman-filter loop.
+ This should be set to some value between 5 and 15 for normal processing,
+ although higher values may be useful for testing.
+ Lower values increase processing time, which is dominated by the Kalman
+ loop and so is almost proportional to the number of steps taken.
+ (A rough approximation on barolo is that the processing time will be about
+ 100
+\begin_inset space ~
+\end_inset
+
+min/(step_size) for a 7
+\begin_inset space ~
+\end_inset
+
+h flight.) A value of 5 is recommended for normal processing, although 10
+ will usually produce satisfactory results also.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+plots?: 
+\series default
+The 
+\begin_inset Quotes eld
+\end_inset
+
+plots?
+\begin_inset Quotes erd
+\end_inset
+
+ check-box controls the generation of plots showing the results of processing.
+ If checked, eight plots are generated for the specified flight, and those
+ plots can be displayed when the run finishes by using the 
+\begin_inset Quotes eld
+\end_inset
+
+view
+\begin_inset Quotes erd
+\end_inset
+
+ numeric entry to cycle through the plots.
+ These plots are similar to those shown in the Technical Note to characterize
+ the performance of the Kalman filter, and they have been generated using
+ the same code.
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+view: 
+\series default
+The 
+\begin_inset Quotes eld
+\end_inset
+
+view
+\begin_inset Quotes erd
+\end_inset
+
+ entry window selects the plot to be displayed, and will only be functional
+ after the run completes.
+ The plots show the Kalman-filter results for: (1) position; (2) aircraft
+ velocity; (3) pitch angle in the 
+\emph on
+l-
+\emph default
+frame; (4) pitch angle in the 
+\emph on
+a-
+\emph default
+frame; (5) heading; (6) vertical wind; (7) horizontal wind; and (8) heading
+ correction from the simplified 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectHeading()
+\begin_inset Quotes erd
+\end_inset
+
+ function (not used in normal processing).
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+Only Simple? 
+\series default
+This check-box should not be checked in most cases.
+ If it is checked, the Kalman processing is skipped and the changes made
+ to the data file are made by the simplified correction functions 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectPitch()
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectHeading()
+\begin_inset Quotes erd
+\end_inset
+
+ that are discussed in the Technical Note., as well as the revisions to angle
+ of attack and sideslip if those check-boxes are selected.
+ In that case, the final output variables for the pitch, roll, heading,
+ vertical wind, horizontal wind direction and horizontal wind speed are
+ respectively PITCHC, ROLLC, THDGC, WISC, WDSC, and WSSC.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Standard
+When the run finishes, if the 
+\begin_inset Quotes eld
+\end_inset
+
+plots?
+\begin_inset Quotes erd
+\end_inset
+
+ check-box is selected, the display window should look like this:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Graphics
+	filename figure/GUIfig2.png
+	lyxscale 40
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The plots are saved to a tar file in the subdirectory KFplots, named ProjectPlot
+sFN.tgz where 'Project' is the project name and FN the flight number.
+ The processor is then ready to run again.
+ When it does, the plots are cleared from that directory but the tar file
+ is left, so it can be examined later.
+ This is particularly useful for all-project runs.
+ The last plot in the sequence of plots is that generated by the 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectHeading()
+\begin_inset Quotes erd
+\end_inset
+
+ function.
+ If there are too few qualifying turns to produce a valid estimate, that
+ plot will not be present and the plotted line for 
+\begin_inset Quotes eld
+\end_inset
+
+HC
+\begin_inset Quotes erd
+\end_inset
+
+ in the plot of heading will be a steady default value.
+\end_layout
+
+\begin_layout Standard
+The result of the processing run is a new netCDF file with variables added
+ as described at the end of the Technical Note.
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+Manuscript Sect.\SpecialChar softhyphen
+3.2: The transformation from 
+\begin_inset Formula $a$
+\end_inset
+
+-frame to 
+\begin_inset Formula $l$
+\end_inset
+
+-frame
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection*
+Manuscript Sect.
+\begin_inset space ~
+\end_inset
+
+3.3: A proposed correction algorithm for heading
+\end_layout
+
+\begin_layout Plain Layout
+Here, the Ranadu function 
+\begin_inset Quotes eld
+\end_inset
+
+CorrectHeading()
+\begin_inset Quotes erd
+\end_inset
+
+ will be discussed to illustrate how the requirements and sequence of steps
+ can be implemented.
+ This function has a structure similar to that of CorrectPitch(), as shown
+ in Fig.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:heading-correction-workflow"
+
+\end_inset
+
+, with four sets of tasks related to initial handling of the data, calculation
+ of the required accelerations, calculation of the heading correction, and
+ formation of the output that the function returns.
+ Before calling this function, time shifts should be applied to the measurements
+ as needed to obtain coincidence between values reported by the INS and
+ the GPS receiver, and if desired corrections to pitch and roll should be
+ made and saved in the data.frame as variables PITCHC and ROLLC.
+ These will be used in place of PITCH and ROLL if they are present.
+ The task description for the function call is as follows:
+\end_layout
+
+\begin_layout Enumerate
+Prepare the data.frame: This section is the same as for the pitch/roll correction
+, except the required variables are different (including the body accelerations
+ but not needing the INS-provided ground-speed components) and the interpolation
+ for missing values applies to the revised set of variables (BLATA, BLONGA,
+ BNORMA, GGVNS, GGVEW, GGALT, LAT, PITCH, ROLL, THDG).
+ A 1-Hz data.frame is generated if the input data.frame is higher rate, to
+ speed the calculations and because it is not expected that the heading
+ error will fluctuate at high frequency (or at least cannot be corrected
+ for such fluctuations).
+\end_layout
+
+\begin_layout Enumerate
+Calculate the accelerations:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Determine the derivatives of the GPS-measured ground-speed components GGVNS
+ and GGVEW using third-order Savitzky-Golay filters, specifically the R
+ function signal::sgolayfilt().
+ In this case, a much shorter span of 21 1-Hz points is used (changeable
+ via an argument to CorrectHeading()) because the accelerations change in
+ turns much faster than do the velocity errors used in the pitch-correction
+ function.
+ Again, the first derivative was found by supplying an appropriate argument
+ (m=1) to the filter routine.
+\end_layout
+
+\begin_layout Enumerate
+Calculate the acceleration of gravity as a function of latitude and altitude
+ using the Ranadu function Gravity() and add this to BNORMA, the normal
+ component of acceleration provided by the INS, because this is subtracted
+ before the normal acceleration is reported.
+ Then form a matrix of the 
+\begin_inset Formula $a$
+\end_inset
+
+-frame accelerations that has three columns and a number of rows matching
+ the length of the working 1-Hz data.frame.
+\end_layout
+
+\begin_layout Enumerate
+Transform the resulting matrix to the 
+\begin_inset Formula $a$
+\end_inset
+
+-frame using the Ranadu transformation routine 
+\begin_inset Quotes eld
+\end_inset
+
+XformLA ()
+\begin_inset Quotes erd
+\end_inset
+
+, described in Sect.
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:XformLA"
+
+\end_inset
+
+ above, which returns a matrix containing the corresponding 
+\begin_inset Formula $l$
+\end_inset
+
+-frame accelerations.
+ After transformation, again add the acceleration of gravity to the third
+ component (with positive sign because the direction of the 
+\begin_inset Formula $z$
+\end_inset
+
+-axis is now upward).
+\end_layout
+
+\begin_layout Enumerate
+Adjust the resulting accelerations for the rotation terms given by (11)–(13).
+ 
+\end_layout
+
+\begin_layout Enumerate
+Apply the same-span and same-order Savitzky-Golay filter to the transformed
+ 
+\begin_inset Formula $l$
+\end_inset
+
+-frame accelerations from the INS, to match the filtering applied to the
+ GPS measurements.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Find the error in heading:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Use (10) from the manuscript to estimate the heading error at each point.
+ Qualify these values by requiring that the magnitude of the horizontal
+ acceleration be greater than 1
+\begin_inset space \thinspace{}
+\end_inset
+
+m
+\begin_inset space \thinspace{}
+\end_inset
+
+s
+\begin_inset Formula $^{-2}$
+\end_inset
+
+ for the estimate to be considered valid; replace others with the missing-value
+ flag NA.
+\end_layout
+
+\begin_layout Enumerate
+Search for turns, separately assembling data from left turns (ROLL<-10
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+) and from right turns (ROLL>10
+\begin_inset Formula $^{\circ}$
+\end_inset
+
+).
+ End each segment when there are 5 min of flight without meeting either
+ turn criterion.
+ If the accumulated measurements have at least 25 1-Hz measurements in each
+ turn direction, consider this to be valid data for estimating the heading
+ correction and save the mean values and standard deviations for each turn
+ direction, along with the mean time, in accumulation arrays.
+ If the accumulated measurements do not meet this test, discard.
+ In either case, reinitialize to look for the next segment.
+ The internal parameters TGAP and NSL respectively set the 5-min and 25-sample
+ tests in the function; they can only be changed at present by changing
+ the code.
+\end_layout
+
+\begin_layout Enumerate
+Test the number of qualifying turns:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If less than three, return a default value (-0.08).
+ This can be provided as an optional argument (.default) to the function.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Otherwise, form the accumulated characteristics from the turns, including
+ the mean error and the standard deviation, into a data.frame named EH.
+ 
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Enumerate
+Calculate the vector of error estimates to return from the function:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If the default value has not already been returned, fit a cubic spline to
+ the accumulated measurements from qualifying turns.
+ The fit is determined using the R function 
+\begin_inset Quotes eld
+\end_inset
+
+smooth.spline ()
+\begin_inset Quotes erd
+\end_inset
+
+ with a number of degrees of freedom equal to one less than twice the number
+ of qualifying turns (because each qualifying turn provides two data points,
+ one for each turn direction), with weights for each point equal to the
+ inverse of the variance of the contributing measurements of heading error,
+ and with a parameter 
+\begin_inset Quotes eld
+\end_inset
+
+spar
+\begin_inset Quotes erd
+\end_inset
+
+ set to 0.7.
+ The latter determines the degree of smoothing, and this choice was the
+ result of exploration with various parameters.
+ This appears to provide a reasonable representation of the variation in
+ the measurements while maintaining a slowly varying result over the course
+ of research flights.
+ Exploration with a variety of research flights led to this choice, but
+ there is no further backup for this choice except that it seemed to produce
+ reasonable results.
+ The R documentation for the basic graphics package includes more discussion
+ of the fit routine and the effect of the 
+\begin_inset Quotes eld
+\end_inset
+
+spar
+\begin_inset Quotes erd
+\end_inset
+
+ parameter, and it also provides literature references.
+\end_layout
+
+\begin_layout Enumerate
+Construct the vector to return using the fitted cubic spline to find the
+ value of the estimated heading error for each time in the input data.frame.
+ The heading can then be corrected via
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+THDGC <- D$THDG - CorrectHeading (D)
+\end_layout
+
+\end_deeper
+\begin_layout Plain Layout
+The routine also includes optional code, enabled by setting 
+\begin_inset Quotes eld
+\end_inset
+
+GeneratePlot <- TRUE
+\begin_inset Quotes erd
+\end_inset
+
+ at the beginning of the routine, to create a plot showing the results.
+ This code is normally inactive but can be copied or activated when it is
+ useful to see the results in plotted form.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+
+\lang british
+\begin_inset Note Note
+status open
+
+\begin_layout Subsection*
+Data Derivation Graph
+\end_layout
+
+\begin_layout Plain Layout
+In case it will be useful, the structure of the R code in this routine is
+ also presented here in a DDG (Data Derivation Graph) format, generated
+ using the R package RDataTracker
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+Lerner B, Boose E, Ellison A, Osterweil L.
+ 2014.
+ Scientific Data Provenance in R: RDataTracker and DDG Explorer.
+ Harvard Forest Data Archive: HF091.
+\end_layout
+
+\end_inset
+
+ and the java routine DDGExplorer
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+ibid.
+\end_layout
+
+\end_inset
+
+.
+ Two plots are presented, one a high-level plot showing the individual R
+ 
+\begin_inset Quotes eld
+\end_inset
+
+chunks
+\begin_inset Quotes erd
+\end_inset
+
+ and another providing an expanded view of the filtering step in chunk 
+\begin_inset Quotes eld
+\end_inset
+
+filter-WIC
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The other sections can also be expanded to provide more detail.
+ This is available by running DDGExplorer.jar and selecting the file 
+\begin_inset Quotes eld
+\end_inset
+
+FilterForWIC.R
+\begin_inset Quotes erd
+\end_inset
+
+ with time-tag 2015-10-22T00.58.54MDT, saved in the directory ~cooperw/.ddg
+ on tikal.eol.ucar.edu.
+ That provides an interactive display that can be used to check values of
+ variables, expand or collapse sections (via mouse right-click), move or
+ rearrange the diagram, etc.
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\lang british
+\begin_inset Graphics
+	filename ../../../Reprocessing/DDGExplorerFilterForWIC1.png
+	lyxscale 50
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\lang british
+\begin_inset Graphics
+	filename ../../../Reprocessing/DDGExplorerFilterForWIC2.png
+	lyxscale 50
+	width 95text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+clearpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang british
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "WAC"
+options "copernicus"
+
+\end_inset
+
+
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\family sans
+\color blue
+– End of Memo –
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Reproducibility information for this workflow document:
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+include enough info to re-run.
+ in zip, include program, pdf if not too big, and subset data, not entire
+ file.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="0pt">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Project:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+WorkflowKalmanFilter
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Archive package:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+WorkflowKalmanFilter.zip
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Contains:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+attachment list below
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Program:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+WorkflowKalmanFilter.Rnw
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Diagrams:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dot/*, FlowDiagrams/*
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family sans
+\shape smallcaps
+\color blue
+Git:
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/WilliamCooper/KalmanFilter.git
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+attachm{WorkflowKalmanFilter.Rnw
+\backslash
+
+\backslash
+WorkflowKalmanFilter.pdf
+\backslash
+
+\backslash
+WAC.bib
+\backslash
+
+\backslash
+dot/*
+\backslash
+
+\backslash
+FlowDiagrams/*
+\backslash
+
+\backslash
+otto.c
+\backslash
+
+\backslash
+SessionInfo}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attach{attachment}
+\end_layout
+
+\begin_layout Plain Layout
+
+%
+\backslash
+attachm{first
+\backslash
+
+\backslash
+second} %
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\begin_layout Plain Layout
+
+<<save-system-info, echo=FALSE>>= 
+\end_layout
+
+\begin_layout Plain Layout
+
+cat (toLatex(sessionInfo()), file="SessionInfo")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@ 
+\end_layout
+
+\begin_layout Plain Layout
+
+<<make-zip-archive, echo=TRUE, INCLUDE=TRUE>>=
+\end_layout
+
+\begin_layout Plain Layout
+
+system (sprintf("zip WorkflowKalmanFilter.zip WorkflowKalmanFilter.Rnw WorkflowKal
+manFilter.pdf WAC.bib    ./dot/* ./FlowDiagrams/* otto.c SessionInfo"))
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+@ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+attach{attachment}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+% 
+\backslash
+attachm{ProgramFile
+\backslash
+
+\backslash
+Document.pdf
+\backslash
+
+\backslash
+SaveRData}
+\end_layout
+
+\begin_layout Plain Layout
+
+% remember otto.c
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+%
+\backslash
+cc{first attachment
+\backslash
+
+\backslash
+second
+\backslash
+
+\backslash
+3rd att}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Note Note
+status open
+
+\begin_layout Plain Layout
+to run generating program, export to pdflatex, edit ..._WAC line for bibliography
+ to be just WAC, proceed with pdflatex, bibtex, splitindex, makeindex, pdflatex
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

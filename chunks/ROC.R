@@ -14,7 +14,7 @@ WPSTAR <- cumsum(ACINS)
 DIF <- WPPRIME - WPSTAR
 DIF <- zoo::na.approx (as.vector(DIF), maxgap=1000, na.rm=FALSE)
 DIF[is.na(DIF)] <- 0
-tau <- 300
+tau <- 300 * Rate
 DIF <- signal::filtfilt (signal::butter (3, 2/tau), DIF)
 Data$ROC <- WPSTAR + DIF
 Data$ZROC <- Data$GGALT[1] + cumsum (Data$ROC)

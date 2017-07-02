@@ -12,7 +12,7 @@ DataW$THDG <- D1$THDGKF
 DataW$VEW <- D1$VEWKF
 DataW$VNS <- D1$VNSKF
 DataW$GGVSPD <- D1$ROCKF
-DataN <- WindProcessor(DataW, LG=0, CompF=FALSE)    ## suppress comp filter and GPS lever arm)
+DataN <- WindProcessor(DataW, CompF=FALSE)    ## suppress comp filter and GPS lever arm)
 D1$WDKF <- DataN$WDN
 D1$WSKF <- DataN$WSN
 D1$WIKF <- DataN$WIN

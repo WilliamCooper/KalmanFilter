@@ -16,14 +16,18 @@ if (('BLATA' %in% FI$Variables) && ('BYAWR' %in% FI$Variables)) {
 VROC <- 'GGVSPD'
 if (VROC %in% FI$Variables) {
 } else {
-  VROC <- 'VSPD_G'
+  VROC <- 'GGVSPDB'
   if (VROC %in% FI$Variables) {
   } else {
-    VROC <- 'VSPD_A'
+    VROC <- 'VSPD_G'
     if (VROC %in% FI$Variables) {
     } else {
-      print ('required variable for GPS ROC not found; exiting')
-      exit ()
+      VROC <- 'VSPD_A'
+      if (VROC %in% FI$Variables) {
+      } else {
+        print ('required variable for GPS ROC not found; exiting')
+        exit ()
+      }
     }
   }
 }
@@ -70,6 +74,7 @@ DL <- nrow(Data)
 MaxGap <- 1000
 for (V in VarList) {
   Data[, V] <- zoo::na.approx (as.vector (Data[, V]), maxgap=MaxGap, na.rm=FALSE)
+  Data[is.na(Data[, V]), V] <- 0
 }
 
 ## now add the l-frame accelerations to the data.frame
