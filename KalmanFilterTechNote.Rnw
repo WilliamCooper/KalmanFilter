@@ -3460,7 +3460,7 @@ that generated this document via \LaTeX, using principles and techniques
 described by \citet{Xie2014a} as implemented in the R \index{R language!package!knitr}package\index{knitr}
 'knitr' (\citet{Xie2014b}). The program, 'KalmanFilterTechNote.Rnw',
 is archived on 'GitHub' \index{GitHub repository}in the \index{repository!github}directory\index{archive!for this document}
-at \href{https://github.com/WilliamCooper/KalmanFilterTechNote.git}{this URL}.
+at \href{https://github.com/WilliamCooper/KalmanFilter.git}{this URL}.
 There is some \index{supplemental material}supplemental material
 in that directory, including the workflow document\index{workflow document},
 the bibliography and many code segments saved in the ``chunks''\index{R language!program chunks}
@@ -3513,12 +3513,13 @@ of primary variables for various measurements thus is preserved.
 
 \begin{tabular}{ll}
 \textsf{\textsc{\textcolor{blue}{Project:}}}  & KalmanFilterTechNote\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Archive package:}}}  & KalmanFilterTechNote.zip\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Archive package:}}}  & \href{https://github.com/WilliamCooper/KalmanFilter/blob/master/KalmanFilterTechNote.zip}{KalmanFilterTechNote.zip}\tabularnewline
 \textsf{\textsc{\textcolor{blue}{Contains:}}}  & attachment list below\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Program:}}}  & KalmanFilterTechNote.Rnw\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Original Data:}}}  & /scr/raf\_data/DEEPWAVE/\index{DEEPWAVE research project} \tabularnewline
-\textsf{\textsc{\textcolor{blue}{Workflow Document:}}}  & WorkflowKalmanFilter.pdf\tabularnewline
-\textsf{\textsc{\textcolor{blue}{Git:}}}  & \index{GitHub repository}https://github.com/WilliamCooper/KalmanFilter.git\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Program:}}}  & \href{https://github.com/WilliamCooper/KalmanFilter/blob/master/KalmanFilterTechNote.Rnw}{KalmanFilterTechNote.Rnw}\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Original Data:}}}  & \citet{EOL_DEEPWAVE-_2015}\index{DEEPWAVE research project} \tabularnewline
+\textsf{\textsc{\textcolor{blue}{Special Data Files:}}}  & KalmanFilterTechNote.Rdata, KalmanFilterTechNote2.Rdata\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Workflow Document:}}}  & \href{https://github.com/WilliamCooper/KalmanFilter/blob/master/WorkflowKalmanFilter.pdf}{WorkflowKalmanFilter.pdf}\tabularnewline
+\textsf{\textsc{\textcolor{blue}{Git:}}}  & \index{GitHub repository}\href{https://github.com/WilliamCooper/KalmanFilter.git}{https://github.com/WilliamCooper/KalmanFilter.git}\tabularnewline
 \end{tabular}
 
 \attachm{KalmanFilterTechNote.Rnw\\
@@ -3546,10 +3547,10 @@ SessionInfo}
 \clearpage
 \phantomsection \addcontentsline{toc}{section}{References}
 
-\label{sec:bibliography-1} 
+\label{sec:bibliography} 
 
 \bibliographystyle{plainnat}
-\bibliography{WAC}
+\phantomsection\addcontentsline{toc}{section}{\refname}\bibliography{WAC}
 
 %\centerline{-- Blank Page, End of this Technical Report --}
 \vfill\eject
