@@ -190,13 +190,7 @@ William A.
 \color red
 DRAFT
 \color inherit
- 
-\change_deleted 1934758928 1498832918
-3/6
-\change_inserted 1934758928 1498832925
-6/30
-\change_unchanged
-/2017
+ 6/30/2017
 \begin_inset Newline newline
 \end_inset
 
@@ -398,17 +392,7 @@ iating the recorded variables representing attitude angles and aircraft-velocity
  components.
  In addition, some new algorithms are introduced for estimating the rate
  of climb of the aircraft from the measured accelerations and for estimating
- the angle of attack from pressure
-\change_inserted 1934758928 1498749027
-s
-\change_unchanged
- measure
-\change_inserted 1934758928 1498749032
-d
-\change_deleted 1934758928 1498749036
-ments made
-\change_unchanged
- at ports on the radome.
+ the angle of attack from pressures measured at ports on the radome.
  In addition, simplified methods for estimating the errors in pitch and
  heading without the full complexity and processing requirements of the
  Kalman filter are documented.
@@ -478,11 +462,7 @@ aircraft!NSF/NCAR GV
 \end_inset
 
 Gulfstream V often called "HIAPER", was the result of an extensive effort
- both within and outside of NCAR
-\change_deleted 1934758928 1498927131
-,
-\change_unchanged
- and at the National Science Foundation.
+ both within and outside of NCAR and at the National Science Foundation.
  Chris Webster's development and maintenance of the software used for data
  processing was a very important contribution to this effort.
  The technical staff of the NCAR Earth Observing Laboratory were involved
@@ -495,13 +475,9 @@ Gulfstream V often called "HIAPER", was the result of an extensive effort
  NCAR is sponsored by the National Science Foundation (NSF), and the NSF
  also supported the experiments that collected the data used in this technical
  note.
-\change_inserted 1934758928 1498774300
-
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498926660
 Two reviewers, Donald Lenschow and Matthew Hayman, made many suggestions
  that improved this document.
  In many other ways, Don Lenschow established the basis for this work and,
@@ -509,8 +485,6 @@ Two reviewers, Donald Lenschow and Matthew Hayman, made many suggestions
  measurement of wind.
  The suggestions of Matt Hayman were particularly helpful in regard to the
  mathematical equations and associated descriptions.
-\change_unchanged
-
 \end_layout
 
 \begin_layout Standard
@@ -535,17 +509,7 @@ DEEPWAVE research project
 \end_inset
 
  project (Deep Propagating Gravity Wave Experiment over New Zealand), described
- at
-\change_deleted 1934758928 1498927033
-
-\begin_inset Newline newline
-\end_inset
-
-
-\change_inserted 1934758928 1498927040
- 
-\change_unchanged
-
+ at 
 \begin_inset CommandInset href
 LatexCommand href
 name "this URL"
@@ -555,56 +519,34 @@ target "https://www.eol.ucar.edu/field_projects/deepwave"
 
 .
  
-\change_deleted 1934758928 1498830076
-[NEED A DATA CITATION HERE] 
-\change_inserted 1934758928 1498830076
-
 \begin_inset Note Note
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498830076
 [NEED A DATA CITATION HERE] 
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
-Measurements 
-\change_inserted 1934758928 1498831213
-(
+Measurements (
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "EOL_DEEPWAVE-_2015"
 
 \end_inset
 
-) 
-\change_unchanged
-were collected by the DEEPWAVE experiment team, and flight operations and
- data acquisition and processing were performed by the Research Aviation
+) were collected by the DEEPWAVE experiment team, and flight operations
+ and data acquisition and processing were performed by the Research Aviation
  Facility, Earth Observing Laboratory, National Center for Atmospheric Research
  (NCAR).
- The analyses reported here were mostly performed using R
-\change_inserted 1934758928 1498926867
- (
-\change_unchanged
-
+ The analyses reported here were mostly performed using R (
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Rlanguage"
 
 \end_inset
 
-
-\change_inserted 1934758928 1498926873
-)
-\change_unchanged
-, with 
+), with 
 \begin_inset Index idx
 status open
 
@@ -614,22 +556,14 @@ RStudio
 
 \end_inset
 
-RStudio 
-\change_inserted 1934758928 1498926937
-(
-\change_unchanged
-
+RStudio (
 \begin_inset CommandInset citation
 LatexCommand citet
 key "RStudio2012"
 
 \end_inset
 
-
-\change_inserted 1934758928 1498926941
-)
-\change_unchanged
- and 
+) and 
 \begin_inset Index idx
 status open
 
@@ -639,34 +573,20 @@ knitr
 
 \end_inset
 
-knitr 
-\change_inserted 1934758928 1498926949
-(
-\change_unchanged
-
+knitr (
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Xie2014a,Xie2014b"
 
 \end_inset
 
-
-\change_inserted 1934758928 1498926952
-)
-\change_unchanged
-.
- 
-\change_inserted 1934758928 1489228975
-Data files in netCDF format have been read and written using the R 
+).
+ Data files in netCDF format have been read and written using the R 
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1489228999
 R language!package!ncdf4
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -691,9 +611,7 @@ key "ncdf4"
 \end_inset
 
 .
- 
-\change_unchanged
-Substantial use also was made of the 
+ Substantial use also was made of the 
 \begin_inset Index idx
 status open
 
@@ -713,22 +631,14 @@ R language!package!ggplot2
 
 \end_inset
 
-ggplot2 package 
-\change_inserted 1934758928 1498926972
-(
-\change_unchanged
-
+ggplot2 package (
 \begin_inset CommandInset citation
 LatexCommand citet
 key "wickham2009"
 
 \end_inset
 
-
-\change_inserted 1934758928 1498926976
-)
-\change_unchanged
- for R.
+) for R.
  The code used for the Kalman filter relies on the Jacobian function
 \begin_inset Index idx
 status open
@@ -1465,14 +1375,8 @@ GPS=global positioning system
 \end_inset
 
 receiver.
- The measurements from the GPS receiver 
-\change_inserted 1934758928 1498749124
-have low uncertainty
-\change_deleted 1934758928 1498749130
-are very good
-\change_unchanged
- for aircraft position and velocity, so the Kalman filter adds little to
- these measurements.
+ The measurements from the GPS receiver have low uncertainty for aircraft
+ position and velocity, so the Kalman filter adds little to these measurements.
  The primary value of the 
 \begin_inset Index idx
 status open
@@ -1806,11 +1710,7 @@ measurement!from INS
 
 \end_inset
 
-measurements to propagate the position, velocity
-\change_deleted 1934758928 1498814364
-,
-\change_unchanged
- and attitude angles
+measurements to propagate the position, velocity and attitude angles
 \begin_inset Index idx
 status open
 
@@ -2261,7 +2161,11 @@ measurement!rotation rate
 
 \end_inset
 
-  were not recorded, yet they are needed by the Kalman filter.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ were not recorded, yet they are needed by the Kalman filter.
  Reconstructing them makes it possible to process those older 
 \begin_inset Index idx
 status open
@@ -2860,13 +2764,7 @@ options(stringsAsFactors=FALSE)
 
 \begin_layout Plain Layout
 
-CACHE <- 
-\change_inserted 1934758928 1498945018
-FALSE
-\change_deleted 1934758928 1498945016
-TRUE
-\change_unchanged
-
+CACHE <- FALSE
 \end_layout
 
 \begin_layout Plain Layout
@@ -3595,21 +3493,15 @@ variable names!in R code
 \end_inset
 
 [SVE] 
-\change_inserted 1934758928 1498774773
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498774763
 deltax@
 \begin_inset Formula $\boldsymbol{\delta x}$
 \end_inset
 
 =error-state vector
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -3619,21 +3511,15 @@ deltax@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498774803
 x@
 \begin_inset Formula $\boldsymbol{x}$
 \end_inset
 
 =state vector
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 The error-state vector
 \begin_inset Index idx
 status open
@@ -3764,27 +3650,19 @@ measurement!acceleration
 \end_inset
 
 [dcm] 
-\change_inserted 1934758928 1498774822
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815784
 T@
 \begin_inset Formula $\mathbf{T}_{k,k-1}$
 \end_inset
 
 =state transition matrix
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 The 15
 \begin_inset Formula $\times$
 \end_inset
@@ -3888,7 +3766,11 @@ state vector!derivative
 
 \end_inset
 
-  matrix describing the state transition.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ matrix describing the state transition.
  As applied to the state vector, a state transition vector would involve
  the derivatives used for normal mechanization to advance the state vector
  and so would duplicate the action of the internal INS data processing.
@@ -3981,27 +3863,19 @@ components; i.e.,
 \end_inset
 
 [CV] 
-\change_inserted 1934758928 1498774925
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815816
 V@
 \begin_inset Formula $\mathbf{V}$
 \end_inset
 
 =covariance matrix
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 The 
 \begin_inset Index idx
 status open
@@ -4053,27 +3927,19 @@ state vector
 \end_inset
 
 [K] 
-\change_inserted 1934758928 1498774969
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815697
 K@
 \begin_inset Formula $\mathbf{K}$
 \end_inset
 
 =Kalman-gain matrix
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 The 
 \begin_inset Index idx
 status open
@@ -4137,27 +4003,19 @@ measurements.
 \end_inset
 
 [DZ] 
-\change_inserted 1934758928 1498775101
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815350
 deltaz@
 \begin_inset Formula $\mathbf{\delta z}$
 \end_inset
 
 =multicomponent vector of measured errors
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 The 6-component error
 \begin_inset Index idx
 status open
@@ -4222,14 +4080,10 @@ measurement!from INS
 \end_inset
 
 [H] 
-\change_inserted 1934758928 1498775164
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498775193
 H@
 \begin_inset Formula $\mathbf{H}$
 \end_inset
@@ -4239,8 +4093,6 @@ H@
 
 \end_inset
 
-
-\change_unchanged
 The 15
 \begin_inset Formula $\times$
 \end_inset
@@ -4287,14 +4139,10 @@ error-state vector.
 \end_inset
 
 R] 
-\change_inserted 1934758928 1498775246
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815905
 Q@
 \begin_inset Formula $\mathbf{Q}$
 \end_inset
@@ -4309,8 +4157,6 @@ Q@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815925
 R@
 \begin_inset Formula $\mathbf{R}$
 \end_inset
@@ -4320,8 +4166,6 @@ R@
 
 \end_inset
 
-
-\change_unchanged
 Matrices
 \begin_inset Index idx
 status open
@@ -4776,7 +4620,11 @@ acceleration!measurement
 
 \end_inset
 
-  will be added to the 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ will be added to the 
 \begin_inset Index idx
 status open
 
@@ -4979,25 +4827,9 @@ status open
 \emph on
 l-
 \emph default
-frame, the local-level reference frame that rotates 
-\change_deleted 1934758928 1498749185
-wiith
-\change_inserted 1934758928 1498834987
-with
-\change_unchanged
- the Earth and has axes pointing east, north, and upward at the location
- of the aircraft
-\change_deleted 1934758928 1498775397
-; 
-\change_unchanged
-.
- This reference frame
-\change_deleted 1934758928 1498749225
-,
-\change_inserted 1934758928 1498749232
- is
-\change_unchanged
- also called the local-level or ENU 
+frame, the local-level reference frame that rotates with the Earth and has
+ axes pointing east, north, and upward at the location of the aircraft.
+ This reference frame is also called the local-level or ENU 
 \begin_inset Index idx
 status open
 
@@ -5011,23 +4843,7 @@ frame
 
 \end_inset
 
-reference frame
-\change_inserted 1934758928 1498749283
-;
-\change_deleted 1934758928 1498749273
-, has axes pointing 
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-Earth!reference frame
-\end_layout
-
-\end_inset
-
-east, north, and upward at the location of the aircraft;
-\change_unchanged
-
+reference frame;
 \end_layout
 
 \begin_layout Enumerate
@@ -5035,11 +4851,7 @@ east, north, and upward velocity in the
 \emph on
 l-
 \emph default
-frame
-\change_inserted 1934758928 1498749306
-;
-\change_unchanged
-
+frame;
 \end_layout
 
 \begin_layout Enumerate
@@ -5252,7 +5064,11 @@ state vector!derivative
 
 \end_inset
 
-  In the case of the attitude angles,
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ In the case of the attitude angles,
 \begin_inset Index idx
 status open
 
@@ -5379,7 +5195,11 @@ state vector!derivative
 
 \end_inset
 
-  to increment the state vector, compensating for possible wrap-around of
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ to increment the state vector, compensating for possible wrap-around of
  the heading at 0 and 360 deg so that values stay within that range.
 \end_layout
 
@@ -5470,14 +5290,10 @@ velocity of aircraft
 \end_inset
 
 
-\change_inserted 1934758928 1498775621
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498813908
 vn@
 \begin_inset Formula $v_{n}$
 \end_inset
@@ -5492,8 +5308,6 @@ vn@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498813922
 ve@
 \begin_inset Formula $v_{e}$
 \end_inset
@@ -5503,8 +5317,6 @@ ve@
 
 \end_inset
 
-
-\change_unchanged
  The changes in latitude
 \begin_inset Index idx
 status open
@@ -5578,21 +5390,15 @@ status open
 \end_inset
 
 , respectively denoted
-\change_inserted 1934758928 1498776023
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776020
 Rm@
 \begin_inset Formula $R_{m}$
 \end_inset
 
 =meridional radius of curvature of the Earth
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -5602,8 +5408,6 @@ Rm@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776051
 Rn@
 \begin_inset Formula $R_{n}$
 \end_inset
@@ -5613,8 +5417,6 @@ Rn@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $R_{n}$
 \end_inset
@@ -5647,14 +5449,10 @@ latitude!symbol
 \end_inset
 
 latitude
-\change_inserted 1934758928 1498775972
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498775722
 lambda@
 \begin_inset Formula $\lambda$
 \end_inset
@@ -5664,8 +5462,6 @@ lambda@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\lambda$
 \end_inset
@@ -5681,14 +5477,10 @@ longitude!symbol
 \end_inset
 
 
-\change_inserted 1934758928 1498775972
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498775775
 Phi@
 \begin_inset Formula $\Phi$
 \end_inset
@@ -5703,8 +5495,6 @@ Phi@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498775837
 Phidot@
 \begin_inset Formula $\dot{\Phi}$
 \end_inset
@@ -5719,8 +5509,6 @@ Phidot@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498775878
 lambdadot@
 \begin_inset Formula $\dot{\lambda}$
 \end_inset
@@ -5730,8 +5518,6 @@ lambdadot@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\Phi$
 \end_inset
@@ -5750,14 +5536,10 @@ lambdadot@
 \end_inset
 
 where
-\change_inserted 1934758928 1498775972
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498775937
 z@
 \begin_inset Formula $z$
 \end_inset
@@ -5767,8 +5549,6 @@ z@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $z$
 \end_inset
@@ -5784,14 +5564,10 @@ altitude of aircraft
 \end_inset
 
  with the derivative
-\change_inserted 1934758928 1498776139
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776122
 zdot@
 \begin_inset Formula $\dot{z}$
 \end_inset
@@ -5806,8 +5582,6 @@ zdot@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776165
 vz@
 \begin_inset Formula $v_{z}$
 \end_inset
@@ -5817,8 +5591,6 @@ vz@
 
 \end_inset
 
-
-\change_unchanged
 
 \begin_inset Newline newline
 \end_inset
@@ -5869,7 +5641,11 @@ acceleration!measurement
 
 \end_inset
 
-  but the accelerations are measured in the 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ but the accelerations are measured in the 
 \begin_inset Index idx
 status open
 
@@ -5902,14 +5678,10 @@ frame!unit vectors
 \end_inset
 
  are
-\change_inserted 1934758928 1498776288
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776236
 xhat@
 \begin_inset Formula $\hat{x}$
 \end_inset
@@ -5924,8 +5696,6 @@ xhat@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776280
 yhat@
 \begin_inset Formula $\hat{y}$
 \end_inset
@@ -5940,8 +5710,6 @@ yhat@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776401
 zhat@
 \begin_inset Formula $\hat{z}$
 \end_inset
@@ -5955,8 +5723,6 @@ zhat@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\hat{x}$
 \end_inset
@@ -6035,14 +5801,10 @@ heading!**
 \end_inset
 
 heading, denoted
-\change_inserted 1934758928 1498776506
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776478
 theta@
 \begin_inset Formula $\theta$
 \end_inset
@@ -6057,8 +5819,6 @@ theta@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776504
 phi@
 \begin_inset Formula $\phi$
 \end_inset
@@ -6073,8 +5833,6 @@ phi@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498776527
 psi@
 \begin_inset Formula $\psi$
 \end_inset
@@ -6084,8 +5842,6 @@ psi@
 
 \end_inset
 
-
-\change_unchanged
  {
 \begin_inset Formula $\theta,\,\phi,\,\psi$
 \end_inset
@@ -6102,16 +5858,12 @@ reference frame!inertial
 \end_inset
 
 frame, 
-\change_inserted 1934758928 1498838246
-
 \begin_inset CommandInset label
 LatexCommand label
 name "enu:inertial-corrections"
 
 \end_inset
 
-
-\change_unchanged
 corrections must be made for the inertial forces
 \begin_inset Index idx
 status open
@@ -6126,11 +5878,8 @@ inertial corrections
 \emph on
 l-
 \emph default
-frame is moving relative to the Earth and so is changing orientation
-\change_deleted 1934758928 1498838070
-,
-\change_unchanged
- and because the rotation of the Earth
+frame is moving relative to the Earth and so is changing orientation and
+ because the rotation of the Earth
 \begin_inset Index idx
 status open
 
@@ -6235,14 +5984,10 @@ matrix!coordinate transformation
 \end_inset
 
  transformation matrix
-\change_inserted 1934758928 1498776782
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498816276
 Rla@
 \begin_inset Formula $\mathbf{R}_{a}^{l}$
 \end_inset
@@ -6260,8 +6005,6 @@ frame
 
 \end_inset
 
-
-\change_unchanged
  that 
 \begin_inset Index idx
 status open
@@ -6696,16 +6439,10 @@ function
 \begin_inset Quotes eld
 \end_inset
 
-STMFV
-\change_inserted 1934758928 1498835026
-,
-\change_unchanged
-
+STMFV,
 \begin_inset Quotes erd
 \end_inset
 
-
-\change_inserted 1934758928 1498835084
  one of the R-code 
 \begin_inset Quotes eld
 \end_inset
@@ -6714,9 +6451,7 @@ chunks
 \begin_inset Quotes erd
 \end_inset
 
- included in the project archive,
-\change_unchanged
- returns these 
+ included in the project archive, returns these 
 \begin_inset Index idx
 status open
 
@@ -6726,11 +6461,7 @@ state vector!derivative
 
 \end_inset
 
- derivatives
-\change_deleted 1934758928 1498835100
-,
-\change_unchanged
- given the 
+ derivatives given the 
 \begin_inset Index idx
 status open
 
@@ -6762,15 +6493,7 @@ inertial reference unit
 
 IRU\SpecialChar endofsentence
  The algorithms and code are complicated enough that validation is important,
- so several tests 
-\change_deleted 1934758928 1498835124
-are made 
-\change_unchanged
-of the results 
-\change_inserted 1934758928 1498835136
-are included 
-\change_unchanged
-in the remainder of this section.
+ so several tests of the results are included in the remainder of this section.
 \end_layout
 
 \begin_layout Subsection
@@ -7049,17 +6772,11 @@ fb3 <- lm(AA2[, 3] ~ D1$BNORMA)
 \begin_layout Plain Layout
 
 cfa1 <- coef(fa1); cfa2 <- coef(fa2); cfa3 <- coef(fa3)
-\change_inserted 1934758928 1489265416
-
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1934758928 1489265613
-
 save(cfa1, cfa2, cfa3, file="./BodyAccCal.Rdata")
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -7394,7 +7111,11 @@ acceleration!measurement
 
 \end_inset
 
-  expressed in the 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ expressed in the 
 \emph on
 l-
 \emph default
@@ -7567,18 +7288,9 @@ Deep Propagating Gravity Wave Experiment over New Zealand
 \end_inset
 
 ) research flight 15, 3 July 2014, 3:16:00–3:18:00 UTC was used.
- 
-\change_deleted 1934758928 1498749404
-Shifting
-\change_inserted 1934758928 1498749420
-Adjusting the relative timing
-\change_unchanged
- among 
-\change_deleted 1934758928 1498749434
-the 
-\change_unchanged
-measurements from the INS was explored to see what provided the best agreement
- between measured accelerations (variables 
+ Adjusting the relative timing among measurements from the INS was explored
+ to see what provided the best agreement between measured accelerations
+ (variables 
 \begin_inset Index var
 status open
 
@@ -7832,7 +7544,11 @@ inertial corrections
 
 \end_inset
 
-  as discussed in Sect.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ as discussed in Sect.
 \begin_inset space ~
 \end_inset
 
@@ -7974,19 +7690,12 @@ ms for velocity components, so these shifts are within the approximate range
 status open
 
 \begin_layout Plain Layout
-There is no assurance that these shifts will be constant
-\change_inserted 1934758928 1498835991
-, and there are cases where the apparent shifts even change during a flight
-\change_deleted 1934758928 1498835945
-.
-
-\change_inserted 1934758928 1498836150
- Adjustments are important for this comparison but the subsequent Kalman
- filter results are relatively insensitive to all but the heading timing,
- as discussed later.
+There is no assurance that these shifts will be constant, and there are
+ cases where the apparent shifts even change during a flight Adjustments
+ are important for this comparison but the subsequent Kalman filter results
+ are relatively insensitive to all but the heading timing, as discussed
+ later.
  
-\change_unchanged
-
 \end_layout
 
 \end_inset
@@ -8565,7 +8274,11 @@ acceleration!measurement
 
 \end_inset
 
-  as a function of the derivative
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ as a function of the derivative
 \begin_inset Index idx
 status open
 
@@ -8957,7 +8670,11 @@ acceleration!measurement
 
 \end_inset
 
-  in the 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ in the 
 \begin_inset Index idx
 status open
 
@@ -9001,14 +8718,10 @@ name "tab:a-frame-fits"
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498836256
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814753
 c01@
 \begin_inset Formula $c_{0,1}$
 \end_inset
@@ -9023,8 +8736,6 @@ c01@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777091
 sigma@
 \begin_inset Formula $\sigma$
 \end_inset
@@ -9039,21 +8750,15 @@ sigma@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498836305
 R@
 \begin_inset Formula $R$
 \end_inset
 
 =correlation coefficient
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
 Table 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -9268,9 +8973,8 @@ frame
 a-
 \emph default
 frame, where they can be compared directly to the components of the measured
- accelerations
-\change_inserted 1934758928 1498837348
-; i.e., by comparing the measurements {BLATA, BLONGA, BNORMA} to 
+ accelerations; i.e., by comparing the measurements {BLATA, BLONGA, BNORMA}
+ to 
 \begin_inset Formula $\mathbf{R}_{l}^{a}\thinspace\dot{\boldsymbol{v}}_{GPS}$
 \end_inset
 
@@ -9295,23 +8999,15 @@ frame and
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498837406
 vgps@
 \begin_inset Formula $\dot{\boldsymbol{v}}_{GPS}$
 \end_inset
 
 =GPS-based aircraft velocity vector
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_deleted 1934758928 1498836612
-.
-\change_unchanged
 
 \begin_inset Index idx
 status open
@@ -9596,7 +9292,11 @@ comparison!acceleration
 
 \end_inset
 
-  shows a short flight segment comparing the measured 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ shows a short flight segment comparing the measured 
 \begin_inset Index idx
 status open
 
@@ -10227,14 +9927,10 @@ comparison!rotation rate
  of rotation rates obtained in these two independent ways.
  The consistency between turn rates is remarkable, and a calibration representin
 g both turn directions is
-\change_inserted 1934758928 1498777478
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814615
 a01@
 \begin_inset Formula $a_{9,1}$
 \end_inset
@@ -10244,8 +9940,6 @@ a01@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\dot{\psi}_{cal}=a_{0}+a_{1}\dot{\psi}$
 \end_inset
@@ -10289,17 +9983,8 @@ Sexpr{round(cfydot[2],3)}
 \end_inset
 
 .
- Because the cosine of the mean roll angle was steady at 0.89
-\change_inserted 1934758928 1498777445
-(4)
-\change_deleted 1934758928 1498750269
-
-\begin_inset Formula $_{4}$
-\end_inset
-
-
-\change_unchanged
-, the corresponding calibration
+ Because the cosine of the mean roll angle was steady at 0.89(4), the correspondi
+ng calibration
 \begin_inset Index idx
 status open
 
@@ -10329,17 +10014,7 @@ variable in data files!BYAWR
 
 \end_inset
 
- would use the first coefficient multiplied by 0.89
-\change_inserted 1934758928 1498777445
-4
-\change_deleted 1934758928 1498750292
-
-\begin_inset Formula $_{4}$
-\end_inset
-
-
-\change_unchanged
-; i.e., 
+ would use the first coefficient multiplied by 0.894; i.e., 
 \begin_inset Formula $\mathrm{BYAWR}{}_{cal}=a_{0}^{*}+a_{1}\mathrm{BYAWR}$
 \end_inset
 
@@ -10790,10 +10465,6 @@ name "tab:hrot-comparison"
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -10961,9 +10632,7 @@ inertial corrections
 
 \end_inset
 
-effects
-\change_inserted 1934758928 1498838596
- (discussed on p.\SpecialChar softhyphen
+effects (discussed on p.\SpecialChar softhyphen
 
 \begin_inset CommandInset ref
 LatexCommand pageref
@@ -10978,11 +10647,7 @@ reference "enu:inertial-corrections"
 
 \end_inset
 
-)
-\change_deleted 1934758928 1498838689
-,
-\change_unchanged
- and verify that the results match the 
+) and verify that the results match the 
 \begin_inset Index idx
 status open
 
@@ -11866,11 +11531,8 @@ aircraft!NSF/NCAR GV
 
 \end_inset
 
- 
-\change_inserted 1934758928 1498839070
-radome-based system 
-\change_unchanged
-are usually considered to have increased uncertainty in turns.
+ radome-based system are usually considered to have increased uncertainty
+ in turns.
  Figure
 \begin_inset space ~
 \end_inset
@@ -12312,15 +11974,7 @@ measurement!from INS!new rate of climb
 
 \end_inset
 
-measurements that can then be 
-\change_deleted 1934758928 1498750916
-updated
-\change_inserted 1934758928 1498750969
-adjusted toward
-\change_deleted 1934758928 1498750978
- to
-\change_unchanged
- GGVSPD via the Kalman filter.
+measurements that can then be adjusted toward GGVSPD via the Kalman filter.
  
 \end_layout
 
@@ -12337,14 +11991,10 @@ hydrostatic equation
 
 hydrostatic equation provides a basis for updating that is independent of
  the GPS:
-\change_inserted 1934758928 1498777722
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777658
 p@
 \begin_inset Formula $p$
 \end_inset
@@ -12359,8 +12009,6 @@ p@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777685
 Rd@
 \begin_inset Formula $R_{d}$
 \end_inset
@@ -12375,8 +12023,6 @@ Rd@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777717
 T@
 \begin_inset Formula $T$
 \end_inset
@@ -12391,8 +12037,6 @@ T@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777739
 g@
 \begin_inset Formula $g$
 \end_inset
@@ -12402,8 +12046,6 @@ g@
 
 \end_inset
 
-
-\change_unchanged
  
 \end_layout
 
@@ -12518,14 +12160,10 @@ gravity
 \end_inset
 
  Then
-\change_inserted 1934758928 1498777776
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777839
 wpprime@
 \begin_inset Formula $w_{p}^{\prime}$
 \end_inset
@@ -12535,8 +12173,6 @@ wpprime@
 
 \end_inset
 
-
-\change_unchanged
  
 \end_layout
 
@@ -12591,19 +12227,11 @@ rate of climb!hydrostatic equation
 
 estimate too noisy to use directly, but it can be used to update the integrated
  vertical acceleration from the INS.
- Define these 
-\change_inserted 1934758928 1498751190
-additional 
-\change_unchanged
-variables:
-\change_inserted 1934758928 1498777950
-
+ Define these additional variables:
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777894
 wpstar@
 \begin_inset Formula $w_{p}^{*}$
 \end_inset
@@ -12618,8 +12246,6 @@ wpstar@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777937
 a@
 \begin_inset Formula $a$
 \end_inset
@@ -12634,8 +12260,6 @@ a@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498777959
 t@
 \begin_inset Formula $t$
 \end_inset
@@ -12645,24 +12269,7 @@ t@
 
 \end_inset
 
-
-\change_unchanged
  
-\change_deleted 1934758928 1498751208
-
-\begin_inset Formula $w_{p}^{\prime}$
-\end_inset
-
- as provided by (
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "eq:w-hydro"
-
-\end_inset
-
-) and 
-\change_unchanged
-
 \begin_inset Formula $w_{p}^{*}=\int_{0}^{t}a(t)dt$
 \end_inset
 
@@ -12690,38 +12297,15 @@ variable in data files!ACINS
 
 \end_inset
 
- as provided by the INS
-\change_inserted 1934758928 1498777912
-,
-\change_deleted 1934758928 1498751223
-.
-
-\change_unchanged
- 
-\change_deleted 1934758928 1498751233
-Define 
-\change_unchanged
-
+ as provided by the INS, 
 \begin_inset Formula $\Delta w_{p}=w_{p}^{\prime}-w_{p}^{*}$
 \end_inset
 
-
-\change_inserted 1934758928 1498777912
-,
-\change_unchanged
- and 
-\change_deleted 1934758928 1498751340
-the same variable after low-pass filtering to be 
-\change_unchanged
-
+, and 
 \begin_inset Formula $\overline{\Delta w_{p}}$
 \end_inset
 
-
-\change_inserted 1934758928 1498777912
- to represent the same variable after low-pass filtering
-\change_unchanged
-.
+ to represent the same variable after low-pass filtering.
  
 \begin_inset Index idx
 status open
@@ -13454,9 +13038,7 @@ inertial corrections
 
 \end_inset
 
-effects 
-\change_inserted 1934758928 1498839991
-based on equations from 
+effects based on equations from 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "noureldin2013fundamentals"
@@ -13467,9 +13049,7 @@ key "noureldin2013fundamentals"
 \begin_inset space ~
 \end_inset
 
-178–179, 
-\change_unchanged
-as was discussed for the derivative of the state vector in Sect.
+178–179, as was discussed for the derivative of the state vector in Sect.
 \begin_inset space ~
 \end_inset
 
@@ -13497,21 +13077,13 @@ filter can proceed using these surrogates for the original measurements.
 \begin_layout Standard
 For the rotation rates, the calculation proceeds as follows: (For additional
  detail, see the code is in the R program 
-\change_inserted 1934758928 1498751589
-
 \begin_inset Quotes eld
 \end_inset
 
-
-\change_unchanged
 chunk
-\change_inserted 1934758928 1498751593
-
 \begin_inset Quotes erd
 \end_inset
 
-
-\change_unchanged
  named find-rotation-correction.
  )
 \end_layout
@@ -13551,27 +13123,11 @@ attitude angle
 
 \end_inset
 
- (
-\change_deleted 1934758928 1498751712
-
+ ( pitch, roll, and heading} denoted {
 \begin_inset Formula $\theta,\,\phi,\,\psi$
 \end_inset
 
-,
-\change_unchanged
- pitch, roll, and heading
-\change_inserted 1934758928 1498751742
-}
-\change_deleted 1934758928 1498751740
-)
-\change_inserted 1934758928 1498751779
- denoted {
-\begin_inset Formula $\theta,\,\phi,\,\psi$
-\end_inset
-
-}
-\change_unchanged
- and their time 
+} and their time 
 \begin_inset Index idx
 status open
 
@@ -13581,11 +13137,7 @@ state vector!derivative
 
 \end_inset
 
-derivatives 
-\change_inserted 1934758928 1498751807
-{
-\change_unchanged
-
+derivatives {
 \begin_inset Formula $\dot{\theta}$
 \end_inset
 
@@ -13597,11 +13149,7 @@ derivatives
 \begin_inset Formula $\dot{\psi}$
 \end_inset
 
-
-\change_inserted 1934758928 1498751821
-}
-\change_unchanged
-.
+}.
 \end_layout
 
 \begin_layout Enumerate
@@ -13811,14 +13359,10 @@ measured rotation rates,
 \end_inset
 
 , 
-\change_inserted 1934758928 1498778091
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498778169
 Omegaiaa@
 \begin_inset Formula $\Omega_{ia}^{a}$
 \end_inset
@@ -13828,8 +13372,6 @@ Omegaiaa@
 
 \end_inset
 
-
-\change_unchanged
 from which the surrogate for the measurements can be extracted.
  
 \end_layout
@@ -13854,14 +13396,10 @@ eject
 
 \begin_layout Standard
 A mathematical expression of this algorithm, with
-\change_inserted 1934758928 1498778519
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498778252
 Omegaila@
 \begin_inset Formula $\mathbf{\boldsymbol{\Omega}}_{il}^{a}$
 \end_inset
@@ -13876,8 +13414,6 @@ Omegaila@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498816344
 Rla@
 \begin_inset Formula $\mathbf{R}_{l}^{a}$
 \end_inset
@@ -13900,8 +13436,6 @@ a
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498778511
 Omegaiel@
 \series bold
 
@@ -13920,8 +13454,6 @@ Omegaiel@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498778572
 Omegaell@
 \begin_inset Formula $\boldsymbol{\Omega}_{el}^{l}$
 \end_inset
@@ -13935,8 +13467,6 @@ l
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\Omega_{il}^{a}$
 \end_inset
@@ -14685,8 +14215,12 @@ acceleration!measurement
 
 \end_inset
 
-  determined by differentiating the ground-speed components produced by
- the 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ determined by differentiating the ground-speed components produced by the
+ 
 \begin_inset Index idx
 status open
 
@@ -15184,14 +14718,10 @@ Schuler oscillation!period
 \end_inset
 
 
-\change_inserted 1934758928 1498806313
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498806306
 Tsch@
 \begin_inset Formula $T_{Sch}$
 \end_inset
@@ -15206,8 +14736,6 @@ Tsch@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498806343
 Re@
 \begin_inset Formula $R_{e}$
 \end_inset
@@ -15217,8 +14745,6 @@ Re@
 
 \end_inset
 
-
-\change_unchanged
 period of 
 \begin_inset Formula $T_{Sch}=(R_{e}/g)^{0.5}/(2\pi)\approx5064\thinspace s$
 \end_inset
@@ -15367,7 +14893,11 @@ acceleration!measurement
 
 \end_inset
 
-  of the aircraft
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ of the aircraft
 \begin_inset Index idx
 status open
 
@@ -15404,14 +14934,10 @@ acceleration!error
 \end_inset
 
 
-\change_inserted 1934758928 1498806510
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814159
 anl@
 \begin_inset Formula $a_{n}^{(l)}$
 \end_inset
@@ -15430,8 +14956,6 @@ frame northward acceleration
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498806556
 thetal@
 \begin_inset Formula $\theta^{(l)}$
 \end_inset
@@ -15445,8 +14969,6 @@ frame
 
 \end_inset
 
-
-\change_unchanged
 where 
 \begin_inset Formula $\delta\theta^{(l)}$
 \end_inset
@@ -15543,14 +15065,10 @@ pitch!error
 
 measured northward acceleration provides a direct measure of the error in
  pitch:
-\change_inserted 1934758928 1498806610
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814132
 vnl@
 \begin_inset Formula $v_{n}^{(l)}$
 \end_inset
@@ -15564,8 +15082,6 @@ frame northward groundspeed
 
 \end_inset
 
-
-\change_unchanged
 
 \begin_inset Newline newline
 \end_inset
@@ -15661,14 +15177,10 @@ frame
 \end_inset
 
 , is
-\change_inserted 1934758928 1498806805
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498806782
 phil@
 \begin_inset Formula $\phi^{(l)}$
 \end_inset
@@ -15687,8 +15199,6 @@ frame
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814219
 vel@
 \begin_inset Formula $v_{e}^{(l)}$
 \end_inset
@@ -15702,8 +15212,6 @@ frame eastward groundspeed
 
 \end_inset
 
-
-\change_unchanged
 
 \begin_inset Note Note
 status open
@@ -16048,11 +15556,6 @@ the
 a-
 \emph default
 frame, the normal reference frame for these angles.
-
-\change_deleted 1934758928 1498751920
- 
-\change_unchanged
-
 \begin_inset Foot
 status open
 
@@ -16106,11 +15609,7 @@ frame!axes interchanged
 
 \end_inset
 
-
-\change_inserted 1934758928 1498751936
- 
-\change_unchanged
-This calculation has been incorporated into a 
+ This calculation has been incorporated into a 
 \begin_inset Index idx
 status open
 
@@ -16803,14 +16302,10 @@ error!heading!equation for
 \end_inset
 
 ) the last rotation will give final components
-\change_inserted 1934758928 1498807151
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807100
 al@
 \begin_inset Formula $a^{(l)}$
 \end_inset
@@ -16829,8 +16324,6 @@ frame acceleration
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807210
 delta@
 \begin_inset Formula $\delta$
 \end_inset
@@ -16840,8 +16333,6 @@ delta@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $a_{x,y,z}^{(l)}$
 \end_inset
@@ -16894,13 +16385,7 @@ If the error measure to be minimized is
 \begin_inset Formula $\chi^{2}=(\delta a_{x}+a_{y}\delta\psi)^{2}+(\delta a_{y}-a_{x}\delta\psi)^{2}$
 \end_inset
 
-
-\change_inserted 1934758928 1498807308
-,
-\change_deleted 1934758928 1498807308
-,
-\change_unchanged
- differentiating 
+, differentiating 
 \begin_inset Formula $\chi^{2}$
 \end_inset
 
@@ -16957,7 +16442,11 @@ acceleration!measurement
 
 \end_inset
 
-  and those determined from the derivatives
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ and those determined from the derivatives
 \begin_inset Index idx
 status open
 
@@ -17086,21 +16575,7 @@ polynomial!Savitzky-Golay
 
 \end_inset
 
-
-\change_deleted 1934758928 1498752014
-,
-\change_unchanged
- but with a
-\change_inserted 1934758928 1498807043
-n
-\change_unchanged
- 
-\change_deleted 1934758928 1498767427
-3
-\change_inserted 1934758928 1498807043
-1
-\change_unchanged
-1
+ but with an 11
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -17152,14 +16627,10 @@ s
 \end_inset
 
  where
-\change_inserted 1934758928 1498807362
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807397
 tau@
 \begin_inset Formula $\tau$
 \end_inset
@@ -17169,46 +16640,20 @@ tau@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\tau$
 \end_inset
 
  is the time over which the average is calculated.
- For polynomials spanning 
-\change_deleted 1934758928 1498767448
-3
-\change_inserted 1934758928 1498807043
-1
-\change_unchanged
-1 1
-\change_deleted 1934758928 1498768317
-_
-\change_inserted 1934758928 1498807043
-
+ For polynomials spanning 11 1
 \begin_inset space ~
 \end_inset
 
-
-\change_unchanged
-Hz samples, the effective averaging time is about 
-\change_deleted 1934758928 1498767481
-20
-\change_inserted 1934758928 1498807043
-5
-\change_unchanged
-
+Hz samples, the effective averaging time is about 5
 \begin_inset space \thinspace{}
 \end_inset
 
-s, leading to a minimum uncertainty of about 0.00
-\change_inserted 1934758928 1498807043
-4
-\change_deleted 1934758928 1498767903
-05
-\change_unchanged
-
+s, leading to a minimum uncertainty of about 0.004
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -17242,47 +16687,15 @@ heading!uncertainty
 
 \end_inset
 
- in the heading correction of 0.
-\change_inserted 1934758928 1498807043
-2
-\change_deleted 1934758928 1498768499
-1
-\change_unchanged
-
+ in the heading correction of 0.2
 \begin_inset Formula $^{\circ}$
 \end_inset
 
- or about 0.00
-\change_inserted 1934758928 1498807043
-4
-\change_deleted 1934758928 1498768505
-2
-\change_unchanged
-
+ or about 0.004
 \begin_inset space ~
 \end_inset
 
-radians, the total horizontal acceleration should then be at least 0.00
-\change_inserted 1934758928 1498807043
-4
-\change_deleted 1934758928 1498768017
-05
-\change_unchanged
-/0.00
-\change_inserted 1934758928 1498807043
-4
-\change_deleted 1934758928 1498768519
-2
-\change_unchanged
-=
-\change_deleted 1934758928 1498768024
-0
-\change_inserted 1934758928 1498807043
-1
-\change_deleted 1934758928 1498768029
-.25
-\change_unchanged
-
+radians, the total horizontal acceleration should then be at least 0.004/0.004=1
 \begin_inset space ~
 \end_inset
 
@@ -17367,13 +16780,8 @@ s
 \end_inset
 
  to avoid excessive noise and uncertainty.
- For a flight that transits in a straight line from start to finish, 
-\change_deleted 1934758928 1498768775
-attempts to use these estimates are cannot
-\change_inserted 1934758928 1498768788
-the heading corrections will not
-\change_unchanged
- be useful.
+ For a flight that transits in a straight line from start to finish, the
+ heading corrections will not be useful.
  Fortunately, in most research flights there are many turns, e.g., as the
  aircraft flies back and forth over a mountain range or flies fixed raster
  patterns for mapping.
@@ -17993,13 +17401,7 @@ polynomial!Savitzky-Golay
 
 \end_inset
 
- spanning 
-\change_deleted 1934758928 1498768632
-2
-\change_inserted 1934758928 1498768637
-1
-\change_unchanged
-1
+ spanning 11
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -18398,14 +17800,10 @@ angle of attack!empirical representation
 \end_inset
 
 
-\change_inserted 1934758928 1498807622
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807603
 alpha@
 \begin_inset Formula $\alpha$
 \end_inset
@@ -18420,8 +17818,6 @@ alpha@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814900
 e012@
 \begin_inset Formula $e_{i}$
 \end_inset
@@ -18435,17 +17831,11 @@ e012@
 
 \end_inset
 
-
-\change_unchanged
  has been
-\change_inserted 1934758928 1498807838
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498811663
 Deltapalpha@
 \begin_inset Formula $\Delta p_{\alpha}$
 \end_inset
@@ -18460,8 +17850,6 @@ Deltapalpha@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807805
 q@
 \begin_inset Formula $q$
 \end_inset
@@ -18476,8 +17864,6 @@ q@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807852
 M@
 \begin_inset Formula $M$
 \end_inset
@@ -18487,8 +17873,6 @@ M@
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -18634,14 +18018,10 @@ angle of attack!empirical representation!reference for calibration
 \end_inset
 
 reference value
-\change_inserted 1934758928 1498807992
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807920
 alphastar@
 \begin_inset Formula $\alpha^{*}$
 \end_inset
@@ -18656,8 +18036,6 @@ alphastar@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498807958
 V@
 \begin_inset Formula $V$
 \end_inset
@@ -18672,8 +18050,6 @@ V@
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498808019
 wp@
 \begin_inset Formula $w_{p}$
 \end_inset
@@ -18683,8 +18059,6 @@ wp@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\alpha^{*}$
 \end_inset
@@ -18769,15 +18143,11 @@ filter!Butterworth
 
 \end_inset
 
- 
-\change_inserted 1934758928 1498841648
-with cutoff frequency equal to (1/600)
+ with cutoff frequency equal to (1/600)
 \begin_inset space ~
 \end_inset
 
-Hz
-\change_unchanged
- to 
+Hz to 
 \begin_inset Formula $\alpha^{*}$
 \end_inset
 
@@ -18801,23 +18171,15 @@ Hz
 \begin_inset Formula $s$
 \end_inset
 
- subscripts represent the high-pass 
-\change_inserted 1934758928 1498840517
-(
+ subscripts represent the high-pass (
 \begin_inset Formula $f$
 \end_inset
 
-, fast) 
-\change_unchanged
-and low-pass 
-\change_inserted 1934758928 1498840534
-(
+, fast) and low-pass (
 \begin_inset Formula $s$
 \end_inset
 
-, slow) 
-\change_unchanged
-components after filtering.
+, slow) components after filtering.
  These components are then represented by 
 \begin_inset Index idx
 status open
@@ -18829,14 +18191,10 @@ fit!angle of attack!new
 \end_inset
 
 separate fits:
-\change_inserted 1934758928 1498808172
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498814782
 d012@
 \begin_inset Formula $d_{i}$
 \end_inset
@@ -18846,8 +18204,6 @@ d012@
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -18867,21 +18223,8 @@ d012@
 
 \end_inset
 
-
-\change_deleted 1934758928 1489275747
- 
-\change_unchanged
-where the second equalit
-\change_inserted 1934758928 1498808146
-y
-\change_deleted 1934758928 1498808147
-ies
-\change_unchanged
- in each line reference
-\change_inserted 1934758928 1498808152
-s
-\change_unchanged
- the standard variable names used in 
+where the second equality in each line references the standard variable
+ names used in 
 \begin_inset Index idx
 status open
 
@@ -19144,18 +18487,16 @@ filter!Butterworth
 
 \end_inset
 
-  
-\change_inserted 1934758928 1498841763
-with the same cutoff frequency, (1/600)
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ with the same cutoff frequency, (1/600)
 \begin_inset space ~
 \end_inset
 
 Hz, used to find the original coefficients.
- That produced 
-\change_deleted 1934758928 1498841773
-to find 
-\change_unchanged
-the slowly varying components 
+ That produced the slowly varying components 
 \begin_inset Formula $(\Delta p_{\alpha}/q)_{s}$
 \end_inset
 
@@ -19188,17 +18529,7 @@ aircraft!NSF/NCAR GV
 
 \end_inset
 
- projects 
-\change_deleted 1934758928 1498862699
-since
-\change_inserted 1934758928 1498862702
-flown after
-\change_unchanged
- a change was made to the radome
-\change_inserted 1934758928 1498862846
- in January 2012
-\change_unchanged
-.
+ projects flown after a change was made to the radome in January 2012.
  
 \end_layout
 
@@ -19484,7 +18815,11 @@ acceleration!measurement
 
 \end_inset
 
-  longitudinal component of acceleration, and normal component of acceleration.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ longitudinal component of acceleration, and normal component of acceleration.
  The 
 \begin_inset Index idx
 status open
@@ -19768,9 +19103,7 @@ STMFV
 \begin_inset Quotes erd
 \end_inset
 
- 
-\change_inserted 1934758928 1498919837
-(symbol 
+ (symbol 
 \begin_inset Formula $\mathbf{D}$
 \end_inset
 
@@ -19779,26 +19112,16 @@ STMFV
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498919873
 D@
 \begin_inset Formula $\mathbf{D}$
 \end_inset
 
 =time derivative of the state vector
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
- 
-\change_unchanged
-was verified above and so provides appropriate
-\change_inserted 1934758928 1498863328
- time
-\change_unchanged
- 
+ was verified above and so provides appropriate time 
 \begin_inset Index idx
 status open
 
@@ -19808,15 +19131,11 @@ state vector!derivative
 
 \end_inset
 
-derivatives of the state vector
-\change_inserted 1934758928 1498916520
- (
+derivatives of the state vector (
 \begin_inset Formula $\dot{\mathbf{x}}=\mathbf{D}(\mathbf{x})$
 \end_inset
 
-)
-\change_unchanged
-, for the first nine components.
+), for the first nine components.
  The error-state 
 \begin_inset Index idx
 status open
@@ -19827,13 +19146,8 @@ error-state vector
 
 \end_inset
 
-vector, however, 
-\change_deleted 1934758928 1498864155
-also includes
-\change_inserted 1934758928 1498864159
-must also include
-\change_unchanged
- errors in the additional six components representing the 
+vector, however, must also include errors in the additional six components
+ representing the 
 \begin_inset Index idx
 status open
 
@@ -19853,30 +19167,9 @@ error!acceleration
 
 \end_inset
 
-acceleration vectors
-\change_inserted 1934758928 1498864180
-, and
-\change_deleted 1934758928 1498864183
-.
-
-\change_unchanged
- 
-\change_deleted 1934758928 1498864187
-T
-\change_inserted 1934758928 1498864187
-t
-\change_unchanged
-he derivatives of the first nine components depend on the 
-\change_deleted 1934758928 1498864208
-derivatives of the additional
-\change_inserted 1934758928 1498864210
-last
-\change_unchanged
- six components
-\change_inserted 1934758928 1498864221
- of the state vector
-\change_unchanged
-, so all 15 elements in the error-state vector must be considered.
+acceleration vectors, and the derivatives of the first nine components depend
+ on the last six components of the state vector, so all 15 elements in the
+ error-state vector must be considered.
  For an error-state Kalman
 \begin_inset Index idx
 status open
@@ -19908,14 +19201,10 @@ Jacobian!of derivative function
 \end_inset
 
 
-\change_inserted 1934758928 1498808379
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498808407
 J@
 \begin_inset Formula $\mathbf{J}$
 \end_inset
@@ -19925,21 +19214,11 @@ J@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $\mathbf{J}(\dot{\mathbf{x}})$
 \end_inset
 
- of 
-\change_deleted 1934758928 1498864239
-that
-\change_inserted 1934758928 1498864239
-the
-\change_unchanged
- derivative function of the state vector
-\change_inserted 1934758928 1498918564
- 
+ of the derivative function of the state vector 
 \begin_inset Formula $\dot{\boldsymbol{x}}$
 \end_inset
 
@@ -19948,8 +19227,6 @@ the
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498918978
 Using indexed notation,
 \begin_inset Newline newline
 \end_inset
@@ -19971,9 +19248,7 @@ Using indexed notation,
 \begin_inset Formula $\dot{\delta\mathbf{x}}=\boldsymbol{J}(\mathbf{D}(\mathbf{x}))\thinspace\delta\mathbf{x}^{t}$
 \end_inset
 
-]
-\change_unchanged
-, so the 
+], so the 
 \begin_inset Index idx
 status open
 
@@ -20008,14 +19283,10 @@ time step
 \end_inset
 
 
-\change_inserted 1934758928 1498808468
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498808497
 deltat@
 \begin_inset Formula $\Delta t$
 \end_inset
@@ -20025,17 +19296,11 @@ deltat@
 
 \end_inset
 
-
-\change_unchanged
-step) and the 15-element diagonal 
-\change_inserted 1934758928 1498808531
-identity
+step) and the 15-element diagonal identity
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498808560
 I@
 \begin_inset Formula $\mathbf{I}$
 \end_inset
@@ -20045,9 +19310,7 @@ I@
 
 \end_inset
 
- 
-\change_unchanged
-matrix:
+ matrix:
 \begin_inset Newline newline
 \end_inset
 
@@ -20059,8 +19322,6 @@ matrix:
 
 \end_inset
 
-
-\change_inserted 1934758928 1498922814
 where the index 
 \begin_inset Formula $k$
 \end_inset
@@ -20070,23 +19331,17 @@ where the index
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498922853
 k@
 \begin_inset Formula $k$
 \end_inset
 
 =time index
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
  is the time index.
- 
-\change_unchanged
-The derivative
+ The derivative
 \begin_inset Index idx
 status open
 
@@ -20218,7 +19473,11 @@ acceleration!measurement
 
 \end_inset
 
-  changes with the change in velocity component.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ changes with the change in velocity component.
  The highest 6
 \begin_inset Formula $\times$
 \end_inset
@@ -20382,11 +19641,7 @@ s
 \begin_inset Formula $^{-1}$
 \end_inset
 
-,
-\change_deleted 1934758928 1498768983
-,
-\change_unchanged
- 0.05
+, 0.05
 \begin_inset space ~
 \end_inset
 
@@ -20398,11 +19653,7 @@ s
 \begin_inset Formula $^{-1}$
 \end_inset
 
-,
-\change_deleted 1934758928 1498768974
-,
-\change_unchanged
- 0.01
+, 0.01
 \begin_inset Formula $^{\circ}$
 \end_inset
 
@@ -20463,14 +19714,10 @@ s
 \end_inset
 
 } where
-\change_inserted 1934758928 1498808604
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498808656
 L@
 \begin_inset Formula $L$
 \end_inset
@@ -20480,8 +19727,6 @@ L@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $L$
 \end_inset
@@ -21028,14 +20273,10 @@ Define
  
 \series default
 as the set of six measurements
-\change_inserted 1934758928 1498808903
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498815443
 deltazbold@
 \begin_inset Formula $\mathbf{\delta z}$
 \end_inset
@@ -21045,8 +20286,6 @@ deltazbold@
 
 \end_inset
 
-
-\change_unchanged
  consisting of the differences between 
 \begin_inset Index idx
 status open
@@ -21099,14 +20338,10 @@ aircraft!NSF/NCAR GV
 \end_inset
 
 GV is located
-\change_inserted 1934758928 1498808985
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498809046
 Lg@
 \begin_inset Formula $L_{g}$
 \end_inset
@@ -21116,8 +20351,6 @@ Lg@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $L_{G}=4.3$
 \end_inset
@@ -21374,7 +20607,11 @@ acceleration!measurement
 
 \end_inset
 
-  will be shifted in time where needed and then smoothed before applying
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ will be shifted in time where needed and then smoothed before applying
  the Kalman filter.
  DEEPWAVE
 \begin_inset Index idx
@@ -21963,7 +21200,11 @@ acceleration!measurement
 
 \end_inset
 
-  are too noisy for this to be effective except during turns, so updating
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ are too noisy for this to be effective except during turns, so updating
  to this reference value must consider the variance in the estimated error.
  
 \end_layout
@@ -22306,7 +21547,11 @@ acceleration!measurement
 
 \end_inset
 
-  to the 
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ to the 
 \begin_inset Index idx
 status open
 
@@ -22415,14 +21660,10 @@ fit!time shift
 \end_inset
 
  the subset to find the slope
-\change_inserted 1934758928 1498809429
-
 \begin_inset Index lis
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498809478
 b01@
 \begin_inset Formula $b_{0,1}$
 \end_inset
@@ -22432,8 +21673,6 @@ b01@
 
 \end_inset
 
-
-\change_unchanged
  
 \begin_inset Formula $b_{1}$
 \end_inset
@@ -23486,28 +22725,16 @@ status open
 
 \begin_layout Plain Layout
 
-<<Kalman-loop, include=
-\change_deleted 1934758928 1498946942
-TRUE
-\change_inserted 1934758928 1498946943
-FALSE
-\change_unchanged
-, cache=CACHE>>=
+<<Kalman-loop, include=FALSE, cache=CACHE>>=
 \end_layout
 
 \begin_layout Plain Layout
 
-\change_inserted 1934758928 1498943577
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498943577
 
 source ('chunks/STMFF.R')
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -23837,7 +23064,11 @@ filter!Butterworth
 
 \end_inset
 
-  with cutoff frequency
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ with cutoff frequency
 \begin_inset Index idx
 status open
 
@@ -23939,7 +23170,11 @@ variable in data files!ALT
 
 \end_inset
 
-  had been used, because then the correction would need to remove the difference
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ had been used, because then the correction would need to remove the difference
  between pressure altitude,
 \begin_inset Index idx
 status open
@@ -23960,7 +23195,11 @@ altitude of aircraft!geometric
 
 \end_inset
 
-  from the GPS.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ from the GPS.
  
 \end_layout
 
@@ -24801,7 +24040,11 @@ DEEPWAVE research project
 
 \end_inset
 
-  instead of VSPD.
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ instead of VSPD.
  The Kalman filter then updates that variable to the 
 \begin_inset Index idx
 status open
@@ -25207,17 +24450,11 @@ status open
  The red lines result from the application of a centered low-pass third-order
  Butterworth filter to the errors, where the filter cutoff frequency corresponds
  to a period of 900 s.
- The shaded ribbon shows 
-\change_deleted 1934758928 1498771403
-the estimated
-\change_inserted 1934758928 1498771435
-$
+ The shaded ribbon shows $
 \backslash
 
 \backslash
-pm2u$ where $u$ is the
-\change_unchanged
- standard uncertainty.', dev='png', dpi=100, cache=CACHE>>=
+pm2u$ where $u$ is the standard uncertainty.', dev='png', dpi=100, cache=CACHE>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -25610,14 +24847,10 @@ where
 
  denote pitch, roll and heading, respectively, and the superscripts in parenthes
 es indicate the reference frame.
-\change_inserted 1934758928 1488990822
-
 \begin_inset Foot
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1488992334
 The transformation used in the code was the exact transformation, valid
  in turns.
  The full equations are given in the workflow document, Sect.
@@ -25625,14 +24858,10 @@ The transformation used in the code was the exact transformation, valid
 \end_inset
 
 7.2.
-\change_unchanged
-
 \end_layout
 
 \end_inset
 
-
-\change_unchanged
  After this transformation is applied to the 
 \begin_inset Index idx
 status open
@@ -25793,18 +25022,12 @@ frame, and it also shows the result of the simplified algorithm of Sect.
 \end_inset
 
 
-\change_deleted 1934758928 1498810440
-XX
-\change_inserted 1934758928 1498810476
-
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Correcting-the-pitch"
 
 \end_inset
 
-
-\change_unchanged
  as the red line labeled 
 \begin_inset Quotes eld
 \end_inset
@@ -25843,16 +25066,12 @@ status open
  the previous figure back from the l-frame to the a-frame.
  The red lines show the result of the separate pitch-correction function
  discussed in the text.
- The shaded ribbon shows 
-\change_inserted 1934758928 1498771477
-$
+ The shaded ribbon shows $
 \backslash
 
 \backslash
-pm2u$ where $u$ is 
-\change_unchanged
-the estimated standard uncertainty in the Kalman-filter result.', dev='png',
- dpi=100, cache=CACHE>>=
+pm2u$ where $u$ is the estimated standard uncertainty in the Kalman-filter
+ result.', dev='png', dpi=100, cache=CACHE>>=
 \end_layout
 
 \begin_layout Plain Layout
@@ -25884,11 +25103,7 @@ DP$RC <- PC[, 2]
 
 \begin_layout Plain Layout
 
-\change_inserted 1934758928 1490282444
-
 ## in both cases, these are the errors, negative of the corrections
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
@@ -26055,20 +25270,12 @@ print (g9)
 
 \begin_layout Plain Layout
 
-\change_inserted 1934758928 1490282526
-
 ## this is the error, negative of the correction
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
 
-DP$HC <- 
-\change_deleted 1934758928 1490282534
--
-\change_unchanged
-CorrectHeading (DP, .plotfile='./HCPlot.pdf')
+DP$HC <- CorrectHeading (DP, .plotfile='./HCPlot.pdf')
 \end_layout
 
 \begin_layout Plain Layout
@@ -26136,11 +25343,7 @@ frame
 
 \end_inset
 
- pitch and roll 
-\change_inserted 1934758928 1498769765
-errors 
-\change_unchanged
-can be found by appropriate derivation from (
+ pitch and roll errors can be found by appropriate derivation from (
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:a-to-l-frame"
@@ -26178,29 +25381,11 @@ filter!cutoff frequency
 
 \end_inset
 
- 
-\change_inserted 1934758928 1498769558
-In the absence of correlations, 
-\change_deleted 1934758928 1498769560
-A
-\change_inserted 1934758928 1498769560
-a
-\change_unchanged
-veraging 900 points would reduce the expected standard deviation by a factor
- of 1/30
-\change_inserted 1934758928 1498770683
-.
-\change_deleted 1934758928 1498770684
-,
-\change_unchanged
- 
-\change_inserted 1934758928 1498770976
-Correlations appear to persist for only a few seconds, so a reasonable estimate
- is that 250–300 points are independent and 1/15 may be 
-\change_deleted 1934758928 1498770979
-so this seems 
-\change_unchanged
-an appropriate factor to use when representing the 
+ In the absence of correlations, averaging 900 points would reduce the expected
+ standard deviation by a factor of 1/30.
+ Correlations appear to persist for only a few seconds, so a reasonable
+ estimate is that 250–300 points are independent and 1/15 may be an appropriate
+ factor to use when representing the 
 \begin_inset Index idx
 status open
 
@@ -26360,11 +25545,7 @@ function!CorrectPitch
 \end_inset
 
 .
- The mean standard deviation obtained in this way is 
-\change_inserted 1934758928 1498771025
-about 
-\change_unchanged
-0.01
+ The mean standard deviation obtained in this way is about 0.01
 \begin_inset Formula $^{\circ}$
 \end_inset
 
@@ -26376,12 +25557,8 @@ frame or
 \emph on
 l-
 \emph default
-frame, so this is 
-\change_inserted 1934758928 1498771641
-a 
-\change_unchanged
-reasonable estimate of the uncertainty after correction using the Kalman
- filter.
+frame, so this is a reasonable estimate of the uncertainty after correction
+ using the Kalman filter.
 \end_layout
 
 \begin_layout Subsubsection
@@ -26548,26 +25725,16 @@ suppressWarnings (
 \begin_layout Plain Layout
 
 DP$SDH <- sqrt(VCor[r,9]) / (Cradeg * 30)
-\change_inserted 1934758928 1490283822
-
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1490283816
 
 ## minus sign to change back to error from correction:
-\change_unchanged
-
 \end_layout
 
 \begin_layout Plain Layout
 
-DP$CCTHDG <- 
-\change_inserted 1934758928 1490283830
--
-\change_unchanged
-SmoothInterp (DP$CTHDG, .Length=181)
+DP$CCTHDG <- -SmoothInterp (DP$CTHDG, .Length=181)
 \end_layout
 
 \begin_layout Plain Layout
@@ -26592,11 +25759,8 @@ suppressWarnings (
 
 \begin_layout Plain Layout
 
-    ggplotWAC(data.frame(Time, 'Kalman'=CCTHDG, 'Ranadu'=HC, 'spline'=
-\change_inserted 1934758928 1490283870
--
-\change_unchanged
-HCS, 'KF'=CCCTHDG), 
+    ggplotWAC(data.frame(Time, 'Kalman'=CCTHDG, 'Ranadu'=HC, 'spline'=-HCS,
+ 'KF'=CCCTHDG), 
 \end_layout
 
 \begin_layout Plain Layout
@@ -26771,13 +25935,7 @@ status open
 
 
 \backslash
-Sexpr{round(sd(D1$deltaPsi[r], na.rm=TRUE)/Cradeg, 
-\change_inserted 1934758928 1498810602
-1
-\change_deleted 1934758928 1498810602
-3
-\change_unchanged
-)}
+Sexpr{round(sd(D1$deltaPsi[r], na.rm=TRUE)/Cradeg, 1)}
 \end_layout
 
 \end_inset
@@ -27043,22 +26201,14 @@ R language!package!stats
 
 \end_inset
 
-package in R 
-\change_inserted 1934758928 1498810694
-(
-\change_unchanged
-
+package in R (
 \begin_inset CommandInset citation
 LatexCommand citet
 key "Rlanguage"
 
 \end_inset
 
-
-\change_inserted 1934758928 1498810691
-)
-\change_unchanged
- was used, with parameter 
+) was used, with parameter 
 \begin_inset Quotes eld
 \end_inset
 
@@ -27759,7 +26909,11 @@ acceleration!measurement
 
 \end_inset
 
-  from the INS
+
+\change_deleted 1934758928 1499088376
+ 
+\change_unchanged
+ from the INS
 \begin_inset Index idx
 status open
 
@@ -28104,17 +27258,7 @@ index{acceleration!vertical} adjusted to match the rate of climb required
 \backslash
 index{ROC=rate of climb}(ROCKF).
  The thin red line shows the spectrum without smoothing for ROCKF; other
- lines have been smoothed 
-\change_inserted 1934758928 1498925109
-by averaging 
-\change_unchanged
-in 50 
-\change_inserted 1934758928 1498925125
-logarithmic intervals in 
-\change_deleted 1934758928 1498925128
-bins in the logarithm of 
-\change_unchanged
-frequency.
+ lines have been smoothed by averaging in 50 logarithmic intervals in frequency.
  Data from a region with intense waves encountered during 
 \backslash
 index{DEEPWAVE research project}DEEPWAVE flight 16 on 4 July 2014 over New
@@ -28317,10 +27461,6 @@ ROC=rate of climb
 \end_inset
 
 
-\change_deleted 1934758928 1498773925
-ROCKF
-\change_unchanged
-
 \begin_inset Index var
 status open
 
@@ -28350,10 +27490,6 @@ ACINS: vertical acceleration, INS
 
 \end_inset
 
-
-\change_deleted 1934758928 1498773971
-ACINS)
-\change_unchanged
 
 \begin_inset Index idx
 status open
@@ -28457,11 +27593,8 @@ status open
 
 \end_inset
 
-, so the difference is the same as the claimed uncertainty in measur
-\change_deleted 1934758928 1498774001
-i
-\change_unchanged
-ed vertical wind.
+, so the difference is the same as the claimed uncertainty in measured vertical
+ wind.
  The evidence from Sect.
 \begin_inset space ~
 \end_inset
@@ -28538,24 +27671,10 @@ index{wind!vertical!Kalman filter}wind, WIKF as adjusted by the Kalman filter
  and WIC from conventional data processing.
 \backslash
 index{data processing!conventional} The thin red line shows the spectrum
- without smoothing for WIKF; other lines have been smoothed 
-\change_inserted 1934758928 1498925038
-by averaging 
-\change_unchanged
-in 50 logarithmic 
-\change_deleted 1934758928 1498925069
-frequency
-\change_inserted 1934758928 1498925075
-intervals in frequency
-\change_deleted 1934758928 1498925078
- bins
-\change_unchanged
-.
- Measurements 
-\change_inserted 1934758928 1498925088
-are 
-\change_unchanged
-from a region where intense waves were encountered during 
+ without smoothing for WIKF; other lines have been smoothed by averaging
+ in 50 logarithmic intervals in frequency.
+ Measurements are from a region where intense waves were encountered during
+ 
 \backslash
 index{DEEPWAVE research project}DEEPWAVE flight 16, 4 July 2014.
  
@@ -29355,11 +28474,8 @@ key "Cooper2016ncartn"
 \end_inset
 
 51.
- The remaining uncertainty is now dominated by the uncertainty in meas
-\change_deleted 1934758928 1498774052
-s
-\change_unchanged
-urement of sideslip, and recent studies of the sideslip using a laser air-motion
+ The remaining uncertainty is now dominated by the uncertainty in measurement
+ of sideslip, and recent studies of the sideslip using a laser air-motion
  sensor suggest that there is still opportunity to improve that measurement
  also.
 \end_layout
@@ -29584,17 +28700,7 @@ index{wind!lateral} relative to the orientation of the aircraft, and the
  corresponding results for the winds produced after correction by the Kalman
  filter (UXKF and VYKF).
  The thin red line shows the spectrum without smoothing for UXKF; the other
- lines have been smoothed 
-\change_inserted 1934758928 1498925211
-by averaging 
-\change_unchanged
-in 50 logarithmic 
-\change_deleted 1934758928 1498925217
-bins
-\change_inserted 1934758928 1498925219
-intervals
-\change_unchanged
- in frequency.
+ lines have been smoothed by averaging in 50 logarithmic intervals in frequency.
  Data are from 
 \backslash
 index{DEEPWAVE research project}DEEPWAVE flight 16, 4 July 2014, in waves
@@ -29788,21 +28894,8 @@ program!file
 \end_inset
 
  for the actual code, which has additional statements to protect against
- missing variables
-\change_inserted 1934758928 1498810852
-,
-\change_unchanged
- 
-\change_deleted 1934758928 1498810859
-or
-\change_inserted 1934758928 1498810862
-to use
-\change_unchanged
- substitute variables when some are missing
-\change_inserted 1934758928 1498810880
-,
-\change_unchanged
- and to handle high-rate data files.
+ missing variables, to use substitute variables when some are missing, and
+ to handle high-rate data files.
  This example
 \begin_inset Index idx
 status open
@@ -30296,11 +29389,7 @@ status open
 
 \begin_layout Plain Layout
 
-\change_inserted 1934758928 1498812863
-
-# 
-\change_unchanged
-source ('chunks/modify-new-netcdf.R')
+# source ('chunks/modify-new-netcdf.R')
 \end_layout
 
 \begin_layout Plain Layout
@@ -30855,24 +29944,16 @@ calibration coefficients and processing chains for the variables.
  Key information like the processing date, the program version that produced
  the archive, and the selection of primary variables for various measurements
  thus is preserved.
-\change_inserted 1934758928 1489256353
-
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1489256388
 (See the related list of project components on the next page.)
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1489256316
 \begin_inset Newpage clearpage
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -30932,11 +30013,6 @@ Archive package:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_deleted 1934758928 1499008631
-KalmanFilterTechNote.zip
-\change_inserted 1934758928 1499008640
-
 \begin_inset CommandInset href
 LatexCommand href
 name "KalmanFilterTechNote.zip"
@@ -30944,8 +30020,6 @@ target "https://github.com/WilliamCooper/KalmanFilter/blob/master/KalmanFilterTe
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -31002,11 +30076,6 @@ Program:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_deleted 1934758928 1499006845
-KalmanFilterTechNote.Rnw
-\change_inserted 1934758928 1499006852
-
 \begin_inset CommandInset href
 LatexCommand href
 name "KalmanFilterTechNote.Rnw"
@@ -31014,8 +30083,6 @@ target "https://github.com/WilliamCooper/KalmanFilter/blob/master/KalmanFilterTe
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -31044,16 +30111,12 @@ Original Data:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1499007586
 \begin_inset CommandInset citation
 LatexCommand citet
 key "EOL_DEEPWAVE-_2015"
 
 \end_inset
 
-
-\change_unchanged
 
 \begin_inset Index idx
 status open
@@ -31076,8 +30139,6 @@ DEEPWAVE research project
 
 \begin_layout Plain Layout
 
-\change_inserted 1934758928 1499008408
-
 \family sans
 \shape smallcaps
 \color blue
@@ -31094,8 +30155,6 @@ Special Data Files:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1499008431
 KalmanFilterTechNote.Rdata, KalmanFilterTechNote2.Rdata
 \end_layout
 
@@ -31124,11 +30183,6 @@ Workflow Document:
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\change_deleted 1934758928 1499006981
-WorkflowKalmanFilter.pdf
-\change_inserted 1934758928 1499006990
-
 \begin_inset CommandInset href
 LatexCommand href
 name "WorkflowKalmanFilter.pdf"
@@ -31136,8 +30190,6 @@ target "https://github.com/WilliamCooper/KalmanFilter/blob/master/WorkflowKalman
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -31176,8 +30228,6 @@ GitHub repository
 \end_inset
 
 
-\change_inserted 1934758928 1499008540
-
 \begin_inset CommandInset href
 LatexCommand href
 name "https://github.com/WilliamCooper/KalmanFilter.git"
@@ -31185,8 +30235,6 @@ target "https://github.com/WilliamCooper/KalmanFilter.git"
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -31248,14 +30296,10 @@ status collapsed
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498811088
 \begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498811058
 
 
 \backslash
@@ -31263,8 +30307,6 @@ clearpage
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498811074
 
 
 \backslash
@@ -31279,16 +30321,12 @@ addcontentsline{toc}{section}{List of Symbols}
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498811138
 \begin_inset CommandInset index_print
 LatexCommand printindex
 type "lis"
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
@@ -31389,19 +30427,13 @@ type "idx"
 \end_inset
 
 
-\change_inserted 1934758928 1498832797
-
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498832800
 \begin_inset ERT
 status open
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498832800
 
 
 \backslash
@@ -31409,8 +30441,6 @@ clearpage
 \end_layout
 
 \begin_layout Plain Layout
-
-\change_inserted 1934758928 1498832800
 
 
 \backslash
@@ -31425,8 +30455,6 @@ addcontentsline{toc}{section}{References}
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498832800
 \begin_inset CommandInset label
 LatexCommand label
 name "sec:bibliography"
@@ -31437,8 +30465,6 @@ name "sec:bibliography"
 \end_layout
 
 \begin_layout Standard
-
-\change_inserted 1934758928 1498832800
 \begin_inset CommandInset bibtex
 LatexCommand bibtex
 bibfiles "WAC"
@@ -31446,8 +30472,6 @@ options "bibtotoc,plainnat"
 
 \end_inset
 
-
-\change_unchanged
 
 \end_layout
 
