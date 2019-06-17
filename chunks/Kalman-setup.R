@@ -119,7 +119,7 @@ RCV[7,7] <- 1000  ## but update this each time step
 ## errors might be large at the start
 CV <- matrix (rep(0,225), ncol=15)
 CV[1,1] <- 2000^2 / D1$Rm[1]^2
-CV[2,2] <- 2000^2 / (D1$Rn[1]*cos(SV[1]))^2
+CV[2,2] <- as.numeric(2000^2 / (D1$Rn[1]*cos(SV[1]))^2)
 CV[3,3] <- 500^2
 CV[4,4] <- 4
 CV[5,5] <- 4

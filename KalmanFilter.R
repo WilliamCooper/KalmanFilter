@@ -155,7 +155,7 @@ source ('chunks/RotationCorrection.R')
 source ('chunks/STMFF.R')
 
 ## adjust GPS velocity components for GPS antenna location
-LG <- -4.30 
+LG <- ifelse (grepl('130', FI$Platform), -9.88, -4.30)
 MaxGap <- 1000
 .span <- 25    
 
