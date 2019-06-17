@@ -163,7 +163,6 @@ knitr
 \html_math_output 0
 \html_css_as_file 0
 \html_be_strict false
-\author 1934758928 "Al Cooper" cooperw@ucar.edu
 \end_header
 
 \begin_body
@@ -226,6 +225,24 @@ status open
 
 \backslash
 pagenumbering{roman}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+renewcommand{
+\backslash
+contentsname}{Table of Contents} 
 \end_layout
 
 \end_inset
@@ -2161,10 +2178,6 @@ measurement!rotation rate
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  were not recorded, yet they are needed by the Kalman filter.
  Reconstructing them makes it possible to process those older 
 \begin_inset Index idx
@@ -3766,10 +3779,6 @@ state vector!derivative
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  matrix describing the state transition.
  As applied to the state vector, a state transition vector would involve
  the derivatives used for normal mechanization to advance the state vector
@@ -4620,10 +4629,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  will be added to the 
 \begin_inset Index idx
 status open
@@ -5064,10 +5069,6 @@ state vector!derivative
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  In the case of the attitude angles,
 \begin_inset Index idx
 status open
@@ -5195,10 +5196,6 @@ state vector!derivative
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  to increment the state vector, compensating for possible wrap-around of
  the heading at 0 and 360 deg so that values stay within that range.
 \end_layout
@@ -5641,10 +5638,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  but the accelerations are measured in the 
 \begin_inset Index idx
 status open
@@ -7111,10 +7104,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  expressed in the 
 \emph on
 l-
@@ -7544,10 +7533,6 @@ inertial corrections
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  as discussed in Sect.
 \begin_inset space ~
 \end_inset
@@ -8274,10 +8259,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  as a function of the derivative
 \begin_inset Index idx
 status open
@@ -8670,10 +8651,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  in the 
 \begin_inset Index idx
 status open
@@ -9292,10 +9269,6 @@ comparison!acceleration
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  shows a short flight segment comparing the measured 
 \begin_inset Index idx
 status open
@@ -14215,10 +14188,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  determined by differentiating the ground-speed components produced by the
  
 \begin_inset Index idx
@@ -14893,10 +14862,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  of the aircraft
 \begin_inset Index idx
 status open
@@ -16442,10 +16407,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  and those determined from the derivatives
 \begin_inset Index idx
 status open
@@ -18487,10 +18448,6 @@ filter!Butterworth
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  with the same cutoff frequency, (1/600)
 \begin_inset space ~
 \end_inset
@@ -18815,10 +18772,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  longitudinal component of acceleration, and normal component of acceleration.
  The 
 \begin_inset Index idx
@@ -19473,10 +19426,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  changes with the change in velocity component.
  The highest 6
 \begin_inset Formula $\times$
@@ -20607,10 +20556,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  will be shifted in time where needed and then smoothed before applying
  the Kalman filter.
  DEEPWAVE
@@ -21200,10 +21145,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  are too noisy for this to be effective except during turns, so updating
  to this reference value must consider the variance in the estimated error.
  
@@ -21547,10 +21488,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  to the 
 \begin_inset Index idx
 status open
@@ -23064,10 +23001,6 @@ filter!Butterworth
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  with cutoff frequency
 \begin_inset Index idx
 status open
@@ -23170,10 +23103,6 @@ variable in data files!ALT
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  had been used, because then the correction would need to remove the difference
  between pressure altitude,
 \begin_inset Index idx
@@ -23195,10 +23124,6 @@ altitude of aircraft!geometric
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  from the GPS.
  
 \end_layout
@@ -24040,10 +23965,6 @@ DEEPWAVE research project
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  instead of VSPD.
  The Kalman filter then updates that variable to the 
 \begin_inset Index idx
@@ -26909,10 +26830,6 @@ acceleration!measurement
 
 \end_inset
 
-
-\change_deleted 1934758928 1499088376
- 
-\change_unchanged
  from the INS
 \begin_inset Index idx
 status open
@@ -30442,7 +30359,7 @@ clearpage
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 phantomsection 
 \backslash
@@ -30504,7 +30421,7 @@ clearpage
 
 \begin_layout Plain Layout
 
-
+%
 \backslash
 addcontentsline{toc}{section}{End}
 \end_layout
