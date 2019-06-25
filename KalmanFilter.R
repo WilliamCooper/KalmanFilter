@@ -155,7 +155,8 @@ source ('chunks/RotationCorrection.R')
 source ('chunks/STMFF.R')
 
 ## adjust GPS velocity components for GPS antenna location
-LG <- ifelse (grepl('130', FI$Platform), -9.88, -4.30)
+FI_KF <- DataFileInfo (fname, LLrange=FALSE)
+LG <- ifelse (grepl('130', FI_KF$Platform), -9.88, -4.30)
 MaxGap <- 1000
 .span <- 25    
 
@@ -473,6 +474,10 @@ if (GeneratePlots && !SimpleOnly) {
 cffn <- 19.70547
 cff <- 21.481
 cfs <- c(4.525341674, 19.933222011, -0.001960992)
+if (grepl('130', FI_KF$Platform)) { # C-130 WECAN values
+  cff <- 10.3123
+  cfs <- c(5.6885, 14.0452, -0.00461)
+}
 if (SimpleOnly) {
   PC <- CorrectPitch(D1, .span=901)
   D1$PC <- PC[, 1]
@@ -493,6 +498,9 @@ D1$QCFS <- signal::filtfilt (signal::butter (3, 2/CutoffFreq), D1$QCFS)
 D1$AKKF <- cff * D1$QRF + cfs[1] + cfs[2] * D1$QRS + cfs[3] * D1$QCFS
 D1$AKKF[D1$QCF < 10] <- NA
 D1$SSKF <- 0.008 + 22.301 * D1$BDIFR / D1$QCF
+if (grepl('130', FI_KF$Platform)) { # C-130 WECAN values; use with heading offset +0.76
+  D1$SSKF <- 0.85 + 12.6582 * D1$BDIFR / D1$QCF
+}
 D1$SSKF[D1$QCF < 10] <- NA
 if (UpdateAKRD) {
   D1$ATTACK <- D1$AKRD <- D1$AKKF
