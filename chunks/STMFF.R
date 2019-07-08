@@ -28,7 +28,7 @@
 #' should be included before and after calculating the derivative to
 #' provide results applicable in the l-frame. Anything else skips these
 #' transformations.
-#' @param .components (default 9) The number of components in the derivative
+#' @param .components (default 15) The number of components in the derivative
 #' vector to return. This is normally 9 for mechanization, but needs to be
 #' 15 when used to calculate the Jacobian of the derivative matrix.
 #' @return A 9-component or 15-component array, with one row for each row 

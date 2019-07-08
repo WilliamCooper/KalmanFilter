@@ -48,6 +48,9 @@ dim(GAEL) <- c(DL, 3)
 GAE <- XformLA (D1, GAEL, .inverse=TRUE)
 ## get rotation-rate corrections to apply to GPS measurements
 LR <- 4.42; LG <- -4.30
+if (grepl ('130', attr(D1, 'Platform'))) {
+  LR <- 5.18; LG <- -9.88
+}
 Pdot <- c(0, diff (D1$PITCH*Cradeg)) * Rate  # diff does step-wise differentiation
 Hdot <- c(0, diff (D1$THDG*Cradeg))          # see Rate multiplication few lines down
 Hdot[is.na(Hdot)] <- 0
