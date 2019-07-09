@@ -3,13 +3,16 @@
 ## to some other variables. Also add the l-frame accelerations determined by
 ## differentiation of the GPS measurements
 
+## this loads the cal coefficients cfa1, cfa2, cfa3 determined in Tech Note, for GV
+load(file='./BodyAccCal.Rdata')
+if (grepl('130', FI_KF$Platform) && (file.exists('./BodyAccCalC130.Rdata'))) {load(file='./BodyAccCalC130.Rdata')}
 ## adjustments:
-D1$BYAWR <- (D1$BYAWR - 0.0003) * 1.008
-D1$BROLLR <- D1$BROLLR + 0.0005
-D1$BPITCHR <- D1$BPITCHR + 0.0003
-D1$BNORMA <- D1$BNORMA*1.0086 - 0.0083
-D1$BLONGA <- D1$BLONGA * 1.0062 - 0.0002
-D1$BLATA <- D1$BLATA * 1.0604 + 0.0030
+  D1$BLONGA <- cfa1[1] + cfa1[2] * Data$BLONGA
+  # D1$BLATA  <- cfa2[1] + cfa2[2] * Data$BLATA
+  D1$BNORMA <- cfa3[1] + cfa3[2] * Data$BNORMA
+# D1$BYAWR <- (D1$BYAWR - 0.0003) * 1.008
+# D1$BROLLR <- D1$BROLLR + 0.0005
+# D1$BPITCHR <- D1$BPITCHR + 0.0003
 ## consider the possible effects of misalignment of INS wrt AC axes
 VROT <- array(c(D1$BPITCHR, D1$BROLLR, D1$BYAWR), dim=c(nrow(D1), 3))
 SX <- data.frame(ROLL=rep(0.05,nrow(D1)), PITCH=rep(0.15,nrow(D1)), THDG=rep(0,nrow(D1)))
@@ -32,6 +35,10 @@ if (SHIFT) {
   D1$GGVEW <- ShiftInTime (D1$GGVEW, Rate, s)
   D1$GGVNS <- ShiftInTime (D1$GGVNS, Rate, s)
   D1[, VROC] <- ShiftInTime (D1[, VROC], Rate, s)
+  ## Save the shifts (used later in "CorrectHeading" to avoid duplication in shifts)
+  attr(D1$GGVEW, 'TimeLag') <- -s
+  attr(D1$GGVNS, 'TimeLag') <- -s
+  attr(D1[, VROC], 'TimeLag') <- -s
   # D1$BLONGA <- ShiftInTime (D1$BLONGA, Rate, s-80)
   # D1$BLATA <- ShiftInTime (D1$BLATA, Rate, s-80)
   # D1$BNORMA <- ShiftInTime (D1$BNORMA, Rate, s-80)

@@ -1,9 +1,5 @@
 ## ----initialization, echo=FALSE,include=FALSE----------------------------
 
-## This chunk loads some needed R packages,
-## specifies the variables needed from the archive file, and
-## specifies some time shifts. 
-
 print (sprintf ('Kalman Processor is starting -- %s', Sys.time()))
 thisFileName <- "KalmanFilter"
 require(Ranadu, quietly = TRUE, warn.conflicts=FALSE)
@@ -19,23 +15,25 @@ setwd ('~/RStudio/KalmanFilter')
 ## These are the run options to set via command-line or UI:
 GeneratePlots <- TRUE
 ShowPlots <- FALSE  ## leave FALSE for batch runs or shiny-app runs
-UpdateAKRD <- TRUE
-UpdateSSRD <- TRUE
+UpdateAKRD <- FALSE
+UpdateSSRD <- FALSE
 SimpleOnly <- FALSE   ## set TRUE to use CorrectPitch/CorrectHeading w/o KF
 ALL <- FALSE
 NEXT <- FALSE
 ReloadData <- FALSE
 ReloadData <- TRUE
-NSTEP <- 30      ## update interval
+NSTEP <- 15      ## update interval
 
 Directory <- DataDirectory ()
 ##----------------------------------------------------------
 
 Project <- 'CSET'
 Project <- 'DEEPWAVE'
+Project <- 'WECAN'
 ProjectDir <- Project
 Flight <- 1
 Flight <- 17
+Flight <- 9
 if (!interactive()) {  ## can run interactively or via Rscript
   run.args <- commandArgs (TRUE)
   if (length (run.args) > 0) {
@@ -155,17 +153,11 @@ source ('chunks/RotationCorrection.R')
 source ('chunks/STMFF.R')
 
 ## adjust GPS velocity components for GPS antenna location
-LG <- -4.30 
+FI_KF <- DataFileInfo (fname, LLrange=FALSE)
+LG <- ifelse (grepl('130', FI_KF$Platform), -9.88, -4.30)
 MaxGap <- 1000
 .span <- 25    
 
-## use the calibration determined by comparison to GPS:
-# cfa1 <- coef(fa1); cfa2 <- coef(fa2); cfa3 <- coef(fa3)
-# Data$BLONGA <- cfa1[1] + cfa1[2] * Data$BLONGA
-# Data$BLATA  <- cfa2[1] + cfa2[2] * Data$BLATA
-# Data$BNORMA <- cfa3[1] + cfa3[2] * Data$BNORMA
-## this loads the cal coefficients cfa1, cfa2, cfa3 determined in Tech Note:
-load(file='./BodyAccCal.Rdata')
 
 ## These very small adjustments prevent gradual ramping during the flight.
 # D1$BROLLR <- D1$BROLLR + 0.00026
@@ -173,6 +165,8 @@ load(file='./BodyAccCal.Rdata')
 ## ----new-data, include=TRUE, cache=FALSE---------------------------------
 
 SaveRData2 <- sprintf("%s2.Rdata", thisFileName)
+SaveRData <- sprintf("%s.Rdata", thisFileName)
+
 if (ReloadData) {
   print ('reading netCDF file')
   source ('chunks/AcquireData.R')
@@ -180,8 +174,23 @@ if (ReloadData) {
   source ('chunks/ROC.R')
   save (list=c('Data', 'DL', 'dt', 'Rate', 'tau', 'VarList', 'VROC'), file=SaveRData2)
 } else {
-  load(file=SaveRData2)
+  load (SaveRData2)
 }
+ 
+
+# VV <- c('BLONGA', 'BLATA', 'BNORMA')
+# .shift <- c(-50,-50,-50)
+# names(.shift) <- VV
+# for (V in VV) {
+#   Data[, V] <- ShiftInTime (Data[, V], Rate, .shift[V])
+# }
+# # Data[, 'VSPD'] <- ShiftInTime (Data[, 'VSPD'], Rate, 40)
+# # Data[, 'VEW'] <- ShiftInTime (Data[, 'VEW'], Rate, 60)
+# # Data[, 'VNS'] <- ShiftInTime (Data[, 'VNS'], Rate, 60)
+# Data[, 'PITCH'] <- ShiftInTime (Data[, 'PITCH'], Rate, 20)
+# Data[, 'ROLL'] <- ShiftInTime (Data[, 'ROLL'], Rate, 20)
+.shift = 60
+
 D1 <- Data  ## make adjustments to a copy; avoid changing original
 ## adjustments:
 source ('chunks/AdjustCal.R')
@@ -191,10 +200,12 @@ source ('chunks/AdjustCal.R')
 ## interpolate and protect against missing values
 VV <- c('LAT', 'LON', 'ZROC', 'VEW', 'VNS', 'ROC', 'PITCH', 'ROLL', 'THDG',
         'BPITCHR', 'BROLLR', 'BYAWR')
+DSave <- D1
 for (V in VV) {
-  D1[, V] <- zoo::na.approx (as.vector (D1[, V]), maxgap=1000*Rate, na.rm=FALSE)
+  D1[, V] <- zoo::na.approx (as.vector (D1[, V]), maxgap=1000*Rate, na.rm=FALSE, rule=2)
   D1[is.na(D1[, V]), V] <- 0
 }
+D1 <- transferAttributes(DSave, D1)
 
 ## transform to the a-frame for comparison to the IRU:
 VL <- matrix(c(D1$VEW, D1$VNS, D1$VSPD), ncol=3) 
@@ -207,6 +218,8 @@ fa3 <- lm(D1$BNORMA ~ AA[, 3])
 fm1 <- lm (D1$vedot ~ D1$LACCX)
 fm2 <- lm (D1$vndot ~ D1$LACCY)
 fm3 <- lm (D1$vudot ~ D1$LACCZ)
+cfa1 <- coef(fa1); cfa2 <- coef(fa2); cfa3 <- coef(fa3)
+# save(cfa1, cfa2, cfa3, file="./BodyAccCal.Rdata")  ## Don't over-write; data from new file.
 
 ## ----Kalman-setup, include=TRUE, cache=CACHE-----------------------------
 
@@ -219,6 +232,10 @@ fm3 <- lm (D1$vudot ~ D1$LACCZ)
 if (!SimpleOnly) {
   source ('chunks/Kalman-setup.R')
 } 
+PC <- CorrectPitch(D1, .span=901)
+D1$PC <- PC[, 1]
+D1$RC <- PC[, 2]
+D1$HC <- CorrectHeading(D1, .plotfile='KFplots/HCPlot.pdf')
 
 ## ----Kalman-loop, include=TRUE, cache=CACHE------------------------------
 
@@ -234,11 +251,12 @@ if (!SimpleOnly) {
 ## (e.g., from two-pass filtering of LAT/LON)
 minT <- D1$Time[1]- as.integer (D1$Time[1]) %% 60 + 120
 maxT <- D1$Time[nrow(D1)]- as.integer (D1$Time[nrow(D1)]) %% 60 - 120
-r1 <- max(which(D1$Time == minT)[1], which(D1$TASX > 50)[1])
-r2 <- which(D1$TASX > 50); r2 <- r2[length(r2)]
+r1 <- max(which(D1$Time == minT)[1], which(D1$TASX > 90)[1])
+r2 <- which(D1$TASX > 90); r2 <- r2[length(r2)]
 r2 <- min(which(D1$Time == maxT)[1], r2)
 r <- r1:r2
 DP <- D1[r, ]
+DP <- transferAttributes(D1, DP)
 if (GeneratePlots && !SimpleOnly) {
   print ("generating plots")
   png (file='KFplots/Position.png', width=900, height=600, res=150)
@@ -296,6 +314,10 @@ if (GeneratePlots && !SimpleOnly) {
   
   ## ----errors-in-pitch,
   ## must construct using many of the elements of ggplotWAC but in this order:
+  attr(DP$CPLF, 'filtered') <- TRUE
+  attr(DP$CRLF, 'filtered') <- TRUE
+  attributes(DP$SDCPL) <- NULL
+  attributes(DP$SDCRL) <- NULL
   d1 <- with(DP, data.frame(Time, CPL, CPLF, CRL, CRLF))
   lines_per_panel <- 2; panels <- 2
   labelL=c('KF value', 'smoothed')
@@ -305,10 +327,11 @@ if (GeneratePlots && !SimpleOnly) {
   PanelGroup <- gl (panels, lines_per_panel*DLP, labels=labelP)
   dd <- data.frame(reshape2::melt(d1, 1), VarGroup, PanelGroup)
   lvl <- levels(dd$VarGroup)
-  d2 <- with(DP, data.frame(Time, "plo"=CPLF-4*SDCPL, "rlo"=CRLF-4*SDCRL,
-                            "phi"=CPLF+4*SDCPL, "rhi"=CRLF+4*SDCRL))
+  d2 <- with(DP, data.frame(Time, "plo"=CPLF-2*SDCPL, "rlo"=CRLF-2*SDCRL,
+                            "phi"=CPLF+2*SDCPL, "rhi"=CRLF+2*SDCRL))
+  attributes(d2$plo) <- NULL  ## (Don't know why this makes the ribbon-plot work...)
   ## note the required order below:
-  de <- data.frame (reshape2::melt(d2, 1, c(2,4,3,5)), VarGroup, PanelGroup)
+  de <- data.frame (reshape2::melt(d2, 1, c(2,4,3,5), factorsAsStrings=TRUE), VarGroup, PanelGroup)
   g7 <- ggplot(dd, aes(x=Time)) + facet_grid(PanelGroup ~ .) 
   g7 <- g7 + geom_ribbon(aes(x=Time, ymin=value, ymax=value), data=de, alpha=0.25)  ##alpha=.25 
   g7 <- g7 + geom_path(aes(x=Time, y=value, colour=VarGroup, linetype=VarGroup, size=VarGroup), data=dd)
@@ -337,11 +360,8 @@ if (GeneratePlots && !SimpleOnly) {
   
   ## ----a-frame-errors
   
-  PC <- CorrectPitch(DP, .span=901)
-  DP$PC <- PC[, 1]
-  DP$RC <- PC[, 2]
-  
-  
+  attr(DP$CRAF, 'filtered') <- TRUE
+  attr(DP$CPAF, 'filtered') <- TRUE
   d1 <- with(DP, data.frame(Time, CPAF, PC, CRAF, RC))
   lines_per_panel <- 2; panels <- 2
   labelL=c('smoothed KF value', 'PC')
@@ -351,8 +371,9 @@ if (GeneratePlots && !SimpleOnly) {
   PanelGroup <- gl (panels, lines_per_panel*DLP, labels=labelP)
   dd <- data.frame(reshape2::melt(d1, 1), VarGroup, PanelGroup)
   lvl <- levels(dd$VarGroup)
-  d2 <- with(DP, data.frame(Time, "plo"=CPAF-4*SDCPA, "rlo"=CRAF-4*SDCRA,
-                            "phi"=CPAF+4*SDCPA, "rhi"=CRAF+4*SDCRA))
+  d2 <- with(DP, data.frame(Time, "plo"=CPAF-2*SDCPA, "rlo"=CRAF-2*SDCRA,
+                            "phi"=CPAF+2*SDCPA, "rhi"=CRAF+2*SDCRA))
+  attributes(d2$plo) <- NULL
   ## note the required order below:
   de <- data.frame (reshape2::melt(d2, 1, c(2,4,3,5)), VarGroup, PanelGroup)
   g9 <- ggplot(dd, aes(x=Time)) + facet_grid(PanelGroup ~ .) 
@@ -379,17 +400,16 @@ if (GeneratePlots && !SimpleOnly) {
   pct <- as.integer(100*4/8)
   print (sprintf ('figures %d%% done', pct))
   
-  DP$HC <- CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
   pct <- as.integer(100*5/8)
   print (sprintf ('figures %d%% done', pct))
 }
 
-if (SimpleOnly) {
+if (SimpleOnly) { ## Skip now because these were calculated earlier
   ## these are the errors, negative of the corrections
-  PC <- CorrectPitch(DP, .span=901)
-  DP$PC <- PC[, 1]
-  DP$RC <- PC[, 2]
-  DP$HC <- CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
+  # PC <- CorrectPitch(DP, .span=901)
+  # DP$PC <- PC[, 1]
+  # DP$RC <- PC[, 2]
+  # DP$HC <- CorrectHeading (DP, .plotfile='KFplots/HCPlot.pdf')
 } else {
   DP$dP <- DP$deltaPsi/Cradeg
   HA <- with(DP, sqrt(LACCX^2+LACCY^2))
@@ -473,17 +493,21 @@ if (GeneratePlots && !SimpleOnly) {
 cffn <- 19.70547
 cff <- 21.481
 cfs <- c(4.525341674, 19.933222011, -0.001960992)
-if (SimpleOnly) {
-  PC <- CorrectPitch(D1, .span=901)
-  D1$PC <- PC[, 1]
-  D1$RC <- PC[, 2]
-  D1$HC <- CorrectHeading (D1)
+if (grepl('130', FI_KF$Platform)) { # C-130 WECAN values
+  cff <- 10.3123
+  cfs <- c(5.6885, 14.0452, -0.00461)
+}
+if (SimpleOnly) {  # Skip because these were calculated previously
+  # PC <- CorrectPitch(D1, .span=901)
+  # D1$PC <- PC[, 1]
+  # D1$RC <- PC[, 2]
+  # D1$HC <- CorrectHeading (D1)
 }
 D1$QR <- D1$ADIFR / D1$QCF
 D1$QR[D1$QCF < 20] <- NA
 D1$QR[is.infinite(D1$QR)] <- NA
 CutoffFreq <- 600 * Rate
-D1$QRS <- zoo::na.approx (as.vector(D1$QR), maxgap=1000*Rate, na.rm = FALSE)
+D1$QRS <- zoo::na.approx (as.vector(D1$QR), maxgap=1000*Rate, na.rm = FALSE, rule=2)
 D1$QRS[is.na(D1$QRS)] <- 0
 D1$QRS <- signal::filtfilt (signal::butter (3, 2/CutoffFreq), D1$QRS)
 D1$QRF <-  D1$QR - D1$QRS
@@ -493,6 +517,9 @@ D1$QCFS <- signal::filtfilt (signal::butter (3, 2/CutoffFreq), D1$QCFS)
 D1$AKKF <- cff * D1$QRF + cfs[1] + cfs[2] * D1$QRS + cfs[3] * D1$QCFS
 D1$AKKF[D1$QCF < 10] <- NA
 D1$SSKF <- 0.008 + 22.301 * D1$BDIFR / D1$QCF
+if (grepl('130', FI_KF$Platform)) { # C-130 WECAN values; use with heading offset +0.76
+  D1$SSKF <- 0.85 + 12.6582 * D1$BDIFR / D1$QCF
+}
 D1$SSKF[D1$QCF < 10] <- NA
 if (UpdateAKRD) {
   D1$ATTACK <- D1$AKRD <- D1$AKKF
@@ -575,9 +602,9 @@ if (GeneratePlots) {
       ylab=expression(paste('KF correction [', degree, ' (top) or m ', s^-1, ' (bottom)]')),
       panels=2,
       labelL=c('Kalman correction'),
-      labelP=c('direction', 'speed'),
+      labelP=c('            direction', '               speed'),
       legend.position=c(0.8,0.94), theme.version=1,
-      gtitle=sprintf ('%s Flight rf%02d', Project, Flight))
+      gtitle=sprintf ('%s Flight rf%02d', Project, Flight)) + ylim(-5,5)
     )
     invisible(dev.off())
   }
@@ -594,12 +621,12 @@ if (GeneratePlots) {
     )
     print (ggplotWAC(
       with(D1[r, ], 
-           data.frame (Time, 'direction'=WDKF-WDCC, 'speed'=WSKF-WSCC)),
+           data.frame (Time, 'direction'=(WDKF-WDCC + 540) %% 360 - 180, 'speed'=WSKF-WSCC)),
       ylab=expression(paste('KF correction [', degree, ' (top) or m ', s^-1, ' (bottom)]')),
       panels=2,
       labelL=c('Kalman correction'),
-      labelP=c('direction', 'speed'),
-      legend.position=c(0.8,0.94), theme.version=1)
+      labelP=c('            direction', '               speed'),
+      legend.position=c(0.8,0.94), theme.version=1) + ylim(-5,5)
     )
   }
 }

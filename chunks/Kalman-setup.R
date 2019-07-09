@@ -48,6 +48,9 @@ dim(GAEL) <- c(DL, 3)
 GAE <- XformLA (D1, GAEL, .inverse=TRUE)
 ## get rotation-rate corrections to apply to GPS measurements
 LR <- 4.42; LG <- -4.30
+if (grepl ('130', attr(D1, 'Platform'))) {
+  LR <- 5.18; LG <- -9.88
+}
 Pdot <- c(0, diff (D1$PITCH*Cradeg)) * Rate  # diff does step-wise differentiation
 Hdot <- c(0, diff (D1$THDG*Cradeg))          # see Rate multiplication few lines down
 Hdot[is.na(Hdot)] <- 0
@@ -119,7 +122,7 @@ RCV[7,7] <- 1000  ## but update this each time step
 ## errors might be large at the start
 CV <- matrix (rep(0,225), ncol=15)
 CV[1,1] <- 2000^2 / D1$Rm[1]^2
-CV[2,2] <- 2000^2 / (D1$Rn[1]*cos(SV[1]))^2
+CV[2,2] <- as.numeric(2000^2 / (D1$Rn[1]*cos(SV[1]))^2)
 CV[3,3] <- 500^2
 CV[4,4] <- 4
 CV[5,5] <- 4

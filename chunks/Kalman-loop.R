@@ -101,13 +101,11 @@ X <- SVEF[, 1]
 for (j in 1:15) {
   Cor[, j] <- c(IntFilter (SVEF[, j], 1, NSTEP), rep (SVEF[DLSV, j], Xtra))
   VCor[, j] <- c(IntFilter (CVEF[, j], 1, NSTEP), rep (CVEF[DLSV, j], Xtra))
-  Cor[, j] <- zoo::na.approx (as.vector (Cor[, j]), maxgap=1000, na.rm=FALSE)
+  Cor[, j] <- zoo::na.approx (as.vector (Cor[, j]), maxgap=1000, na.rm=FALSE, rule=2)
   Cor[is.na(Cor[, j]), j] <- 0 
   VCor[is.na(VCor[, j])] <- 0
   VCor[VCor[,j] < 0] <- 0 
-  if (j <= 6) {
     Cor[, j] <- signal::filtfilt (signal::butter (3, 2/600), Cor[, j])
-  }
 }
 # Cor7 <- Cor[, 7]
 # VC7 <- VCor[, 7]
@@ -119,8 +117,8 @@ for (j in 1:15) {
 D1$LATKF <- D1$LAT - Cor[, 1]/Cradeg
 D1$LONKF <- D1$LON - Cor[, 2]/Cradeg
 ## filter the result to smooth the jumps arising from limited INS resolution:
-D1$LATKF <- zoo::na.approx (as.vector (D1$LATKF), maxgap=1000, na.rm=FALSE)
-D1$LONKF <- zoo::na.approx (as.vector (D1$LONKF), maxgap=1000, na.rm=FALSE)
+D1$LATKF <- zoo::na.approx (as.vector (D1$LATKF), maxgap=1000, na.rm=FALSE, rule=2)
+D1$LONKF <- zoo::na.approx (as.vector (D1$LONKF), maxgap=1000, na.rm=FALSE, rule=2)
 D1$LATKF[is.na(D1$LATKF)] <- 0
 D1$LONKF[is.na(D1$LONKF)] <- 0
 D1$LATKF <- signal::filtfilt (signal::butter (3, 2/(10*Rate)), D1$LATKF)
