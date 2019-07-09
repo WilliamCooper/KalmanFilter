@@ -106,7 +106,6 @@ for (j in 1:15) {
   VCor[is.na(VCor[, j])] <- 0
   VCor[VCor[,j] < 0] <- 0 
     Cor[, j] <- signal::filtfilt (signal::butter (3, 2/600), Cor[, j])
-  }
 }
 # Cor7 <- Cor[, 7]
 # VC7 <- VCor[, 7]
