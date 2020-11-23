@@ -1,0 +1,168 @@
+---
+title: "checkKalmanFilter"
+author: "Al Cooper"
+date: "11/20/2020"
+runtime: shiny
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(Ranadu)
+```
+
+```{r echo = FALSE}
+KFVARS <- c("AKKF", "ALTKF",  "LATKF", "LONKF", "PITCHKF", "ROCKF",
+             "ROLLKF",  "SSKF",  "THDGKF",  "UXKF",  "VEWKF",
+             "VNSKF", "VYKF",   "WDKF",   "WIKF",
+             "WSKF")
+STDVARS <- c('AKRD', 'GGALT', 'LATC', 'LONC', 'PITCH', 'GGVSPD', 'ACINS',
+             'ROLL', 'SSRD', 'THDG', 'UXC', 'VYC', 'WIC', 'WSC', 'WDC',
+             'VEW', 'VNS', 'GGLAT', 'GGLON', 'GGVEW', 'GGVNS')
+Data <- getNetCDF(setFileName('WCR-TEST', 'tf01hKF'), standardVariables(unique(c(STDVARS, KFVARS))))
+if(any(Data$TASX > 80)) {
+  Data <- Data[Data$TASX > 80, ]
+}
+# Data$DPITCH <- (Data$PITCHKF - Data$PITCH) * 100
+# Data$DLAT <- (Data$LATKF - Data$LATC) * 1000
+# Data$DROLL <- (Data$ROLLKF - Data$ROLL) * 100
+# Data$DALT <- (Data$ALTKF - Data$GGALT) * 1000
+# plt <- rep('', 6)
+# dim(plt) <- c(3,2)
+# plt[, 1] <- c('LATC', 'LATKF', 'DLAT')
+# plt[, 2] <- c('PITCH', 'PITCHKF', 'DPITCH')
+# plt <- cbind(plt, c('ROLL', 'ROLLKF', 'DROLL'))
+# plt <- cbind(plt, c('GGALT', 'ALTKF', 'DALT'))
+HRD <- reactiveVal(data.frame())
+LRD <- reactiveVal(data.frame())
+lastData <- ' '
+lastFLT <- ' '
+fluidRow(
+  column(5,
+     selectInput(inputId='variables', label='KFvar', choices=sort(KFVARS),                  selected='PITCHKF', multiple=TRUE, selectize = FALSE)),
+  column(3,
+         checkboxInput('HR', '25-Hz')),
+  column(2,
+         numericInput('FLT', 'tf:', value = 1))
+)
+renderPlot({
+  if(input$HR) {
+    if((lastData == 'HR') && (input$FLT == lastFLT)) {
+      Data <- HRD()
+    } else {
+      lastFLT <<- input$FLT
+      fname <- setFileName('WCR-TEST', sprintf('tf%02dhKF', 
+                                               as.numeric(input$FLT)))
+      Data <- getNetCDF(fname,
+                      standardVariables(unique(c(STDVARS, KFVARS))))
+      if(any(Data$TASX > 80)) {
+        Data <- Data[Data$TASX > 80, ]
+      }
+      lastData <<- 'HR'
+      HRD(Data)
+    } 
+  } else {
+    if((lastData == 'LR') && (input$FLT == lastFLT)) {
+      Data <- LRD()
+    } else {
+      lastFLT <<- input$FLT
+      fname <- setFileName('WCR-TEST', sprintf('tf%02dKF', 
+                                               as.numeric(input$FLT)))
+      Data <- getNetCDF(fname,
+                      standardVariables(unique(c(STDVARS, KFVARS))))
+      if(any(Data$TASX > 80)) {
+        Data <- Data[Data$TASX > 80, ]
+      }
+      lastData <<- 'LR'
+      LRD(Data)
+    }
+  }
+  Vars <- input$variables
+  ylim <- NULL
+  if(any(grepl('PITCH', Vars))) {
+    Rline <- mean(Data$PITCHKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$PITCHKF - Data$PITCH) * 100 + Rline
+    Vars <- c(Vars, 'PITCH', 'DIFFx100')
+  }
+  if(any(grepl('ROLL', Vars))) {
+    Rline <- mean(Data$ROLLKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$ROLLKF - Data$ROLL) * 100 + Rline
+    Vars <- c(Vars, 'ROLL', 'DIFFx100')
+  }
+  if(any(grepl('AKKF', Vars))) {
+    Rline <- mean(Data$AKKF, na.rm=TRUE)
+    Data$DIFFx10 <- (Data$AKKF - Data$AKRD) * 10 + Rline
+    Vars <- c(Vars, 'AKRD', 'DIFFx10')
+    ylim <- c(0,10)
+  }
+  if(any(grepl('SSKF', Vars))) {
+    Rline <- mean(Data$SSKF, na.rm=TRUE)
+    Data$DIFFx1 <- (Data$SSKF - Data$SSRD) * 1 + Rline
+    Vars <- c(Vars, 'SSRD', 'DIFFx1')
+  }
+  if(any(grepl('ALTKF', Vars))) {
+    Rline <- mean(Data$ALTKF, na.rm=TRUE)
+    Data$DIFFx10 <- (Data$ALTKF - Data$GGALT) * 10 + Rline
+    Vars <- c(Vars, 'GGALT', 'DIFFx10')
+  }
+  if(any(grepl('LATKF', Vars))) {
+    Rline <- mean(Data$LATKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$LATKF - Data$LATC) * 100 + Rline
+    Vars <- c(Vars, 'LATC', 'DIFFx100', 'GGLAT')
+  }
+  if(any(grepl('LONKF', Vars))) {
+    Rline <- mean(Data$LONKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$LONKF - Data$LONC) * 100 + Rline
+    Vars <- c(Vars, 'LONC', 'DIFFx100', 'GGLON')
+  }
+  if(any(grepl('ROCKF', Vars))) {
+    Rline <- mean(Data$ROCKF, na.rm=TRUE)
+    Data$DIFFx10 <- (Data$ROCKF - Data$GGVSPD) * 10 + Rline
+    Vars <- c(Vars, 'GGVSPD', 'DIFFx10')
+  }
+  if(any(grepl('THDGKF', Vars))) {
+    Rline <- mean(Data$THDGKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$THDGKF - Data$THDG) * 100 + Rline
+    Vars <- c(Vars, 'THDG', 'DIFFx100')
+  }
+  if(any(grepl('WDKF', Vars))) {
+    Rline <- mean(Data$WDKF, na.rm=TRUE)
+    Data$DIFFx10 <- (Data$WDKF - Data$WDC) * 10 + Rline
+    Vars <- c(Vars, 'WDC', 'DIFFx10')
+  }
+  if(any(grepl('WSKF', Vars))) {
+    Rline <- mean(Data$WSKF, na.rm=TRUE)
+    Data$DIFFx10 <- (Data$WSKF - Data$WSC) * 10 + Rline
+    Vars <- c(Vars, 'WSC', 'DIFFx10')
+  }
+  if(any(grepl('UXKF', Vars))) {
+    Rline <- mean(Data$UXKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$UXKF - Data$UXC) * 100 + Rline
+    Vars <- c(Vars, 'UXC', 'DIFFx100')
+  }
+  if(any(grepl('VYKF', Vars))) {
+    Rline <- mean(Data$VYKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$VYKF - Data$VYC) * 100 + Rline
+    Vars <- c(Vars, 'VYC', 'DIFFx100')
+  }
+  if(any(grepl('VEWKF', Vars))) {
+    Rline <- mean(Data$VEWKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$VEWKF - Data$VEW) * 100 + Rline
+    Vars <- c(Vars, 'VEW', 'DIFFx100')
+  }
+  if(any(grepl('VNSKF', Vars))) {
+    Rline <- mean(Data$VNSKF, na.rm=TRUE)
+    Data$DIFFx100 <- (Data$VNSKF - Data$VNS) * 100 + Rline
+    Vars <- c(Vars, 'VNS', 'DIFFx100')
+  }
+  if(any(grepl('WIKF', Vars))) {
+    Rline <- mean(Data$WIKF, na.rm=TRUE)
+    Data$DIFFx10 <- (Data$WIKF - Data$WIC) * 10 + Rline
+    Vars <- c(Vars, 'WIC', 'DIFFx10')
+  }
+  Data %>% select(Time, all_of(Vars)) %>% plotWAC(lwd=c(3,2,1,2), lty=c(1,4,1,2),
+                                    col = c('blue', 'red', 'forestgreen', 'magenta'),
+                                    ylim = ylim)
+  abline(h = Rline, lty=2)
+})
+```
