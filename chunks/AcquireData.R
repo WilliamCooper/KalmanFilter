@@ -124,9 +124,9 @@ Data$LACCZ <- -Data$LACCZ
 
 ## smooth to match GPS-velocity derivatives
 
-Data$LACCX <- zoo::na.approx (as.vector(Data$LACCX), maxgap=1000, na.rm=FALSE, rule=2)
-Data$LACCY <- zoo::na.approx (as.vector(Data$LACCY), maxgap=1000, na.rm=FALSE, rule=2)
-Data$LACCZ <- zoo::na.approx (as.vector(Data$LACCZ), maxgap=1000, na.rm=FALSE, rule=2)
+Data$LACCX <- zoo::na.approx (as.vector(Data$LACCX), maxgap=MaxGap, na.rm=FALSE, rule=2)
+Data$LACCY <- zoo::na.approx (as.vector(Data$LACCY), maxgap=MaxGap, na.rm=FALSE, rule=2)
+Data$LACCZ <- zoo::na.approx (as.vector(Data$LACCZ), maxgap=MaxGap, na.rm=FALSE, rule=2)
 Data$LACCX[is.na(Data$LACCX)] <- 0
 Data$LACCY[is.na(Data$LACCY)] <- 0
 Data$LACCZ[is.na(Data$LACCZ)] <- 0
