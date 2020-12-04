@@ -58,8 +58,6 @@ ALL <- FALSE
 ALLHR <- FALSE
 NEXT <- FALSE
 NEXTHR <- FALSE
-ReloadData <- FALSE
-ReloadData <- TRUE
 NSTEP <- 15      ## update interval
 HighRate <- FALSE
 
@@ -289,9 +287,10 @@ for (flight in Fl) {
     fname = sprintf("%s%s/%s%s.nc", Directory, ProjectDir, Project, flight)
     ## Check if the LR KF file exists; if not, branch out of loop
     fcheck <- sub('h.nc', 'KF.nc', fname)
-    fckeck2 <- paste0('KFoutput/', sub('.*/', '', fname))
+    fcheck2 <- paste0('KFoutput/', sub('.*/', '', sub('h.nc$', 'KF.nc', fname)))
     if (!file.exists(fcheck) && !file.exists(fcheck2)) {
-      print (sprintf ('LR processed KF file not present; skipping file %s', fname))
+      print (sprintf ('LR processed KF file %s or %s not present; skipping file %s', 
+                      fcheck, fcheck2, fname))
       next
     }
   } else {
@@ -618,16 +617,10 @@ for (flight in Fl) {
     SaveRData2 <- sprintf("%s2.Rdata", thisFileName)
     SaveRData <- sprintf("%s.Rdata", thisFileName)
     
-    if (ReloadData) {
-      print ('reading netCDF file')
-      source ('chunks/AcquireData.R')
-      ## add ROC variable
-      source ('chunks/ROC.R')
-      save (list=c('Data', 'DL', 'dt', 'Rate', 'tau', 'VarList', 'VROC'), file=SaveRData2)
-    } else {
-      load (SaveRData2)
-    }
-    
+    print ('reading netCDF file')
+    source ('chunks/AcquireData.R')
+    ## add ROC variable
+    source ('chunks/ROC.R')
     
     # VV <- c('BLONGA', 'BLATA', 'BNORMA')
     # .shift <- c(-50,-50,-50)
