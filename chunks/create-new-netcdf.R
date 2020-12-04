@@ -1,6 +1,9 @@
 ## create-new-netcdf.R
 
 fnew <- sub ('.nc', 'KF.nc', fname)
+if(SHINY) {
+  fnew <- paste0('KFoutput/', sub('.*/', '', fnew))
+}
 ## beware: overwrites without warning!!
 Z <- file.copy (fname, fnew, overwrite=TRUE)  ## BEWARE: overwrites without warning!!
 

@@ -42,6 +42,8 @@ require(numDeriv, quietly = TRUE, warn.conflicts=FALSE)    ## needed for the jac
 library(reshape2)    ## used with ggplot facet plots
 library(grid)
 options(stringsAsFactors=FALSE)
+## See if this is being run as user "shiny":
+SHINY <- ifelse(Sys.info()['user'] == 'shiny', TRUE, FALSE)
 
 # setwd ('~/RStudio/KalmanFilter')
 
@@ -62,11 +64,43 @@ NSTEP <- 15      ## update interval
 HighRate <- FALSE
 
 Directory <- DataDirectory ()
+KFDirectory <- ifelse(SHINY, 'KFoutput', Directory)
 ##----------------------------------------------------------
 
 Project <- 'WCR-TEST'
 ProjectDir <- Project
 Flight <- 1
+## Functions to supply next flight for which processing is needed:
+getNext <- function(ProjectDir, Project) {
+  Fl <- sort (list.files (sprintf ("%s%s/", Directory, ProjectDir),
+                          sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
+  ## Consider also if a processed version exists in KFoutput:
+  Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..KF.nc", Project))),
+              decreasing = TRUE)[1]
+  if (is.na (Fl)) {
+    Flight <- 1
+  } else {
+    Flight <- sub (".*rf", '',  sub ("KF.nc", '', Fl))
+    Flight <- as.numeric(Flight)+1
+  }
+  return (Flight)
+}
+
+getNextHR <- function(ProjectDir, Project) {
+  Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
+                          sprintf ("%srf..hKF.nc", Project)), decreasing = TRUE)[1]
+  ## Consider also if a processed version exists in KFoutput:
+  Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..hKF.nc", Project))),
+              decreasing = TRUE)[1]
+  if (is.na (Fl)) {
+    Flight <- 1
+  } else {
+    Flight <- sub (".*rf", '',  sub ("hKF.nc", '', Fl))
+    Flight <- as.numeric(Flight)+1
+  }
+  return (Flight)
+}
+
 if (!interactive()) {  ## can run interactively or via Rscript
   run.args <- commandArgs (TRUE)
   if (length (run.args) > 0) {
@@ -91,33 +125,11 @@ if (!interactive()) {  ## can run interactively or via Rscript
     } else if (run.args[2] == 'NEXT') {
       ## Find max rf in data directory,
       ## Use as default if none supplied via command line:
-      getNext <- function(ProjectDir, Project) {
-        Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
-                                sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
-        if (is.na (Fl)) {
-          Flight <- 1
-        } else {
-          Flight <- sub (".*rf", '',  sub ("KF.nc", '', Fl))
-          Flight <- as.numeric(Flight)+1
-        }
-        return (Flight)
-      }
       flight <- sprintf('rf%02d', getNext(ProjectDir, Project))
     } else if (run.args[2] == 'NEXTHR') {
       HighRate <- TRUE
       ## Find max rf in data directory,
       ## Use as default if none supplied via command line:
-      getNextHR <- function(ProjectDir, Project) {
-        Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
-                                sprintf ("%srf..hKF.nc", Project)), decreasing = TRUE)[1]
-        if (is.na (Fl)) {
-          Flight <- 1
-        } else {
-          Flight <- sub (".*rf", '',  sub ("hKF.nc", '', Fl))
-          Flight <- as.numeric(Flight)+1
-        }
-        return (Flight)
-      }
       flight <- sprintf('rf%02d', getNextHR(ProjectDir, Project))
       HighRate <- TRUE
     } else {
@@ -227,6 +239,8 @@ if (ALL) {
                           sprintf ("%srf...nc", Project)))
   FlKF <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                             sprintf ("%srf..KF.nc", Project)))
+  FlKF <- sort (c(FlKF, list.files ('KFoutput', 
+                                    sprintf ("%srf..KF.nc", Project))))
   if (is.na (Fl[1])) {
     print (sprintf ('no files to process for project %s', Project))
     exit()
@@ -248,6 +262,8 @@ if (ALL) {
                           sprintf ("%srf..h.nc", Project)))
   FlKF <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                             sprintf ("%srf..hKF.nc", Project)))
+  FlKF <- sort (c(FlKF, list.files ('KFoutput', 
+                                    sprintf ("%srf..hKF.nc", Project))))
   if (is.na (Fl[1])) {
     print (sprintf ('no files to process for project %s', Project))
     exit()
@@ -271,9 +287,10 @@ if (ALL) {
 for (flight in Fl) {
   if(HighRate) {
     fname = sprintf("%s%s/%s%s.nc", Directory, ProjectDir, Project, flight)
-    ## Check if the LR KF file exists; if not, branch out of for loop
+    ## Check if the LR KF file exists; if not, branch out of loop
     fcheck <- sub('h.nc', 'KF.nc', fname)
-    if (!file.exists(fcheck)) {
+    fckeck2 <- paste0('KFoutput/', sub('.*/', '', fname))
+    if (!file.exists(fcheck) && !file.exists(fcheck2)) {
       print (sprintf ('LR processed KF file not present; skipping file %s', fname))
       next
     }
@@ -289,7 +306,12 @@ for (flight in Fl) {
                  'AKKF', 'SSKF', 'ADIFR', 'BDIFR', 'QCF', 'TASX', 'GGVSPD', 'VSPD',
                  'GGVEW', 'GGVNS',
                  'PITCHKF', 'ROLLKF', 'THDGKF', 'PSXC', 'GGLAT', 'GGALT', 'ACINS')
-    D1 <- getNetCDF(setFileName(Project, paste0(sub('h$', '', flight), 'KF')), VarList)
+    fname1 <- setFileName(Project, paste0(sub('h$', '', flight), 'KF'))
+    fname1b <- paste0('KFoutput/', Project, sub('h$', '', flight), 'KF.nc')
+    if(file.exists(fname1b)) {
+      fname1 <- fname1b
+    }
+    D1 <- getNetCDF(fname1, VarList)
     Rate <- 1
     D1$Grav <- Gravity (D1$LAT, D1$GGALT)
     Cradeg <- pi/180
@@ -451,6 +473,9 @@ for (flight in Fl) {
     print (sprintf ('create new netCDF file -- %s', Sys.time()))
     
     fnew <- sub ('h.nc', 'hKF.nc', fname25)
+    if(SHINY) {
+      fnew <- paste0('KFoutput/', sub('.*/', '', fnew))
+    }
     ## beware: overwrites without warning!!
     Z <- file.copy (fname25, fnew, overwrite=TRUE)  ## BEWARE: overwrites without warning!!
     
