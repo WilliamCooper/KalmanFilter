@@ -29,6 +29,9 @@ showPlots <- TRUE
 viewPlot <- 1
 genPlot <- TRUE
 firstRun <- TRUE
+## See if this is being run as user "shiny":
+SHINY <- ifelse(Sys.info()['user'] == 'shiny', TRUE, FALSE)
+
 PJ <- c('WCR-TEST', 'MethaneAIR', 'ACCLIP-TEST', 'OTREC', 'ECLIPSE2019', 
         'OTREC-TEST', 'WECAN', 'SOCRATES', 'WECAN-TEST', 'ECLIPSE', 
         'ARISTO2017', 'ORCAS', 'CSET', 'NOREASTER', 'HCRTEST',
@@ -74,9 +77,15 @@ getNext <- function(Project) {
   if (HighRate) {
     Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
                             sprintf ("%srf..hKF.nc", Project)), decreasing = TRUE)[1]
+    ## Consider also if a processed version exists in KFoutput:
+    Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..hKF.nc", Project))),
+                decreasing = TRUE)[1]
   } else {
     Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
                             sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
+    ## Consider also if a processed version exists in KFoutput:
+    Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..KF.nc", Project))),
+                decreasing = TRUE)[1]
   }
   if (is.na (Fl)) {
     Flight <- 1
