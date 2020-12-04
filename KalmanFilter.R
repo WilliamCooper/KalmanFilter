@@ -380,8 +380,10 @@ for (flight in Fl) {
       Cor <- Cor[1:(nrow(Cor) - gap), ]
     } else if (SE1[2] < SE25[2]) {
       gap <- nsec(SE25[2]) - nsec(SE1[2])
-      for (n in 1:gap) {
-        Cor <- rbind(Cor, Cor[nrow(Cor), ])
+      if (gap > 0) {
+        for (n in 1:gap) {
+          Cor <- rbind(Cor, Cor[nrow(Cor), ])
+        }
       }
     }
     print (sprintf ('interpolation -- %s', Sys.time()))
@@ -389,6 +391,8 @@ for (flight in Fl) {
     C25 <- vector('numeric', nrow(D25) * 9)
     dim (C25) <- c(nrow(D25), 9)
     for (j in 1:9) {
+      # print (sprintf ('j=%d, nrow(D25)=%d', j, nrow(D25)))
+      # print (str(IntFilter (Cor[, j], 1, 25)))
       C25[, j] <- IntFilter (Cor[, j], 1, 25)
     }
     
