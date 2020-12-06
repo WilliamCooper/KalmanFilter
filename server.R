@@ -34,6 +34,14 @@ server <- function(input, output, session) {
   })
   obsOutDir <- observe (exprOutDir, quoted=TRUE)
   
+  exprtypeFlight <- quote ({
+    if (input$type != typeFlight) {
+      typeFlight <<- input$type
+      progress$set(message = 'ready to run', detail = sprintf('flight %s%02d', 
+                                                              typeFlight,Flight))
+    }
+  })
+  obstypeFlight <- observe (exprtypeFlight, quoted=TRUE) 
   
   exprFlight <- quote ({
     if (input$Flight != Flight) {
@@ -156,8 +164,9 @@ server <- function(input, output, session) {
     progress$set (value=1)
     progress <<- progress
     progressExists <<- TRUE
-    messg <<- sprintf ("%srf%02d.nc dt=%d AK=%s SS=%s Simple=%s",
-                       input$Project, input$Flight, input$NSTEP, input$newAK, input$newSS, input$simple)
+    messg <<- sprintf ("%s%s%02d.nc dt=%d AK=%s SS=%s Simple=%s",
+                       input$Project, input$type, input$Flight, input$NSTEP, 
+                       input$newAK, input$newSS, input$simple)
     messg <- NULL
   })
   

@@ -17,7 +17,7 @@ ui <- fluidPage(
                                            choices=PJ, selected=Project, width='100px')),
                    column (5, checkboxInput ('simple', label='Only Simple?', value=FALSE))),
                  fluidRow (
-                   column (3, selectInput('typeflight', 'type', choices=c('rf', 'tf', 'ff'))),
+                   column (3, selectInput('type', 'type flt', choices=c('rf', 'tf', 'ff'))),
                    column (5, numericInput (inputId='Flight', label='Flight', value=Flight,
                                             min=1, max=99, step=1, width='80px')),
                    column (2, checkboxInput (inputId='HR', label='25Hz', value=FALSE))),

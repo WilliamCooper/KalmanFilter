@@ -16,6 +16,7 @@ require(numDeriv)
 ## global stuff here
 Project <- 'WCR-TEST'
 Flight <- 1
+typeFlight <- 'rf'
 ALL <- FALSE
 ALLHR <- FALSE
 NEXT <- FALSE
@@ -278,17 +279,18 @@ runScript <- function (ssn) {
   } else {
     if (HighRate) {
       progress$set(message = 'read data, initialize', 
-                   detail = sprintf('flight rf%02dh', Flight),
+                   detail = sprintf('flight %s%02dh', typeFlight, Flight),
                    value=0)
       cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %s %s %s %s %d %s %s | tee -a KFlog', 
-                     Project, sprintf('rf%02dh', Flight), newAK, newSS, simple, 
+                     Project, sprintf('%s%02dh', typeFlight, Flight), newAK, newSS, simple, 
                      NSTEP, outputDirectory, genPlot)
     } else {
       progress$set(message = 'read data, initialize', 
-                   detail = sprintf('flight %d', Flight),
+                   detail = sprintf('flight %s%02d', typeFlight, Flight),
                    value=0)
-      cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %d %s %s %s %d %s %s | tee -a KFlog', 
-                     Project, Flight, newAK, newSS, simple, NSTEP, outputDirectory, genPlot)
+      cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %s%02d %s %s %s %d %s %s | tee -a KFlog', 
+                     Project, typeFlight, Flight, newAK, newSS, simple, NSTEP, 
+                     outputDirectory, genPlot)
     }
     system (cmd, wait=FALSE)
     ShowProgress (NSTEP, progress, Flight)
