@@ -1,5 +1,8 @@
 library(Ranadu)
 
+Project <- 'WCR-TEST'
+typeFlight <- 'tf'
+
 KFVARS <- c("AKKF", "ALTKF",  "LATKF", "LONKF", "PITCHKF", "ROCKF",
             "ROLLKF",  "SSKF",  "THDGKF",  "UXKF",  "VEWKF",
             "VNSKF", "VYKF",   "WDKF",   "WIKF",
