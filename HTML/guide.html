@@ -425,7 +425,7 @@ summary {
 
 <h1 class="title toc-ignore">User Guide</h1>
 <h4 class="author">Al Cooper</h4>
-<h4 class="date">12/2/2020</h4>
+<h4 class="date">12/4/2020</h4>
 
 </div>
 
@@ -447,6 +447,13 @@ summary {
 <p>Once appropriate selections are entered into these control windows, the processor should be started using the large “Click here …” button at the top. A progress bar at the top right will indicate progress and, once finished, will show “processing is complete” at the end of each specified flight.</p>
 <p>At that point, eight figures will be available for inspection. They can be selected using the “view” selector. They are also saved in the directory KFplots with a name like WCR-TESTPlotsrf01.tgz. (descriptions of the plots need to be added here.)</p>
 <p>Instructions for running the KalmanFilter.R script without this Shiny app are included in the header for that script and so aren’t repeated here.</p>
+<hr />
+<p><strong>Special Note:</strong></p>
+<p>At present the Shiny app does not have permission to write to /scr/raf_data, so output files are written to this directory on datavis instead:</p>
+<blockquote>
+<p>/srv/shiny-server/KalmanFilter/KFoutput/</p>
+</blockquote>
+<p>That directory is readable by anyone and writeable by those in the “shiny” group, so the files can be copied elsewhere and shiny-group-members can also delete them.</p>
 <hr />
 </div>
 

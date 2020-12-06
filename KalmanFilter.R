@@ -3,6 +3,8 @@
 ## 1. As an R script using a command in a terminal window following this pattern:
 ##    Rscript KalmanFilter.R Project Flight UpdateAKRD[y/N] UpdateSSRD[y,N] Simple[y/N] Interval[10]")
 ##    Example: Rscript KalmanFilter.R CSET rf01 y y n 15
+##    You can also append a directory for output. The default is DataDirectory()/Project/KF/,
+##    e.g., /scr/raf_data/WCR-TEST/KF/
 ## 2. Interactively from an R console or RStudio console:
 ##    Set working directory to the KalmanFilter directory.
 ##    Using R:
@@ -72,8 +74,11 @@ Flight <- 1
 getNext <- function(ProjectDir, Project) {
   Fl <- sort (list.files (sprintf ("%s%s/", Directory, ProjectDir),
                           sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
-  ## Consider also if a processed version exists in KFoutput:
-  Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..KF.nc", Project))),
+  ## Consider also if a processed version exists in KF or KFoutput:
+  Fl <- sort (c(Fl, 
+                list.files (sprintf ("%s%s/KF/", Directory, ProjectDir),
+                            sprintf ("%srf..KF.nc", Project)),
+                list.files ("KFoutput", sprintf ("%srf..KF.nc", Project))),
               decreasing = TRUE)[1]
   if (is.na (Fl)) {
     Flight <- 1
@@ -87,8 +92,11 @@ getNext <- function(ProjectDir, Project) {
 getNextHR <- function(ProjectDir, Project) {
   Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                           sprintf ("%srf..hKF.nc", Project)), decreasing = TRUE)[1]
-  ## Consider also if a processed version exists in KFoutput:
-  Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..hKF.nc", Project))),
+  ## Consider also if a processed version exists in KF or KFoutput:
+  Fl <- sort (c(Fl, 
+                list.files (sprintf ("%s%s/KF/", DataDirectory (), ProjectDir),
+                            sprintf ("%srf..hKF.nc", Project)),
+                list.files ("KFoutput", sprintf ("%srf..hKF.nc", Project))),
               decreasing = TRUE)[1]
   if (is.na (Fl)) {
     Flight <- 1
@@ -99,7 +107,7 @@ getNextHR <- function(ProjectDir, Project) {
   return (Flight)
 }
 
-if (!interactive()) {  ## can run interactively or via Rscript
+if (!interactive()) {  ## can run interactively or via Rscript; this is for Rscript:
   run.args <- commandArgs (TRUE)
   if (length (run.args) > 0) {
     if (nchar(run.args[1]) > 1) {
@@ -171,7 +179,12 @@ if (!interactive()) {  ## can run interactively or via Rscript
     NSTEP <- as.numeric (run.args[6])
   }
   if (length (run.args) > 6) {
-    GeneratePlots <- run.args[7]
+    outputDirectory <- run.args[7]
+  } else {
+    outputDirectory <- paste0(DataDirectory(), Project, '/KF/')
+  }
+  if (length (run.args) > 7) {
+    GeneratePlots <- run.args[8]
     if (GeneratePlots == 'y' || GeneratePlots == 'Y' || GeneratePlots == 'TRUE') {
       GeneratePlots <- TRUE
     } else {
@@ -224,6 +237,11 @@ if (!interactive()) {  ## can run interactively or via Rscript
   if (nchar(x) > 0 && !is.na(as.numeric(x))) {
     NSTEP <- as.numeric(x)
   }
+  outputDirectory <- paste0(DataDirectory(), Project, '/KF/')
+  x <- readline (sprintf ("Output directory is %s; CR to accept, full path entry to change", outputDirectory))
+  if (nchar(x) > 0) {
+    outputDirectory <- x
+  }
   x <- readline (sprintf ("Generate Plots is %s; CR to accept, Y or T to enable, N or F to disable: ", GeneratePlots))
   if (nchar(x) > 0) 
     GeneratePlots <- ifelse ((grepl('^T', x) || grepl('^Y', x)), TRUE, FALSE)
@@ -231,13 +249,19 @@ if (!interactive()) {  ## can run interactively or via Rscript
 
 print (sprintf ('run controls:  Project: %s;  Flight: %s;  UpdateAKRD: %s;  UpdateSSRD: %s;  SimpleOnly: %s;  Time increment: %d',
                 Project, flight, UpdateAKRD, UpdateSSRD, SimpleOnly, NSTEP))
+if (!SHINY) {
+  print (sprintf ('The output directory will be %s', outputDirectory))
+}
 ## Here is the "ALL" loop:
 if (ALL) {
   Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                           sprintf ("%srf...nc", Project)))
   FlKF <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                             sprintf ("%srf..KF.nc", Project)))
-  FlKF <- sort (c(FlKF, list.files ('KFoutput', 
+  FlKF <- sort (c(FlKF, 
+                  list.files (sprintf ("%s%s/KF/", DataDirectory (), ProjectDir),
+                              sprintf ("%srf..KF.nc", Project)),
+                  list.files ('KFoutput', 
                                     sprintf ("%srf..KF.nc", Project))))
   if (is.na (Fl[1])) {
     print (sprintf ('no files to process for project %s', Project))
@@ -260,7 +284,10 @@ if (ALL) {
                           sprintf ("%srf..h.nc", Project)))
   FlKF <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                             sprintf ("%srf..hKF.nc", Project)))
-  FlKF <- sort (c(FlKF, list.files ('KFoutput', 
+  FlKF <- sort (c(FlKF, 
+                  list.files (sprintf ("%s%s/KF/", DataDirectory (), ProjectDir),
+                              sprintf ("%srf..hKF.nc", Project)),
+                  list.files ('KFoutput', 
                                     sprintf ("%srf..hKF.nc", Project))))
   if (is.na (Fl[1])) {
     print (sprintf ('no files to process for project %s', Project))
@@ -288,7 +315,8 @@ for (flight in Fl) {
     ## Check if the LR KF file exists; if not, branch out of loop
     fcheck <- sub('h.nc', 'KF.nc', fname)
     fcheck2 <- paste0('KFoutput/', sub('.*/', '', sub('h.nc$', 'KF.nc', fname)))
-    if (!file.exists(fcheck) && !file.exists(fcheck2)) {
+    fcheck3 <- sub(Project, paste0(Project, '/KF'), fcheck)
+    if (!file.exists(fcheck) && !file.exists(fcheck2) && !file.exists(fcheck3)) {
       print (sprintf ('LR processed KF file %s or %s not present; skipping file %s', 
                       fcheck, fcheck2, fname))
       next
@@ -296,6 +324,24 @@ for (flight in Fl) {
   } else {
     fname = sprintf("%s%s/%s%s.nc", Directory, ProjectDir, Project, flight)
   }
+  
+  # function to copy attributes from old variable (e.g., PITCH) to new one (e.g., PITCHKF)
+  # (placed here because it is used for both LR and HR processing)
+  copy_attributes <- function (atv, v, nfile) {
+    for (i in 1:length(atv)) {
+      aname <- names(atv[i])
+      if (grepl ('name', aname)) {next}  # skips long and standard names
+      if (grepl ('units', aname)) {next}
+      if (grepl ('Dependencies', aname)) {next}
+      if (grepl ('actual_range', aname)) {next}
+      if (is.numeric (atv[[i]])) {
+        ncatt_put (nfile, v, attname=aname, attval=as.numeric(atv[[i]]))
+      } else {
+        ncatt_put (nfile, v, attname=aname, attval=as.character (atv[[i]]))
+      }
+    }
+  }
+  
   ## There are two main segments, the first for HR and the second for LR.
   ## That permits both to be merged into one script.
   if (HighRate) {
@@ -476,28 +522,21 @@ for (flight in Fl) {
     print (sprintf ('create new netCDF file -- %s', Sys.time()))
     
     fnew <- sub ('h.nc', 'hKF.nc', fname25)
-    if(SHINY) {
+    fnew <- paste0(outputDirectory, sub('.*/', '', fnew))
+    if(SHINY) {  ## for the datavis shiny server, only this output is allowed:
       fnew <- paste0('KFoutput/', sub('.*/', '', fnew))
+    }
+    print (sprintf ('making new netCDF file named %s', fnew))
+    ## Make the directory KF if needed:
+    if (grepl ('/KF/', fnew)) {
+      if (!dir.exists(outputDirectory)) {
+        dr <- dir.create(outputDirectory)
+        print (sprintf ('creating the output directory named %s; return is %s',
+                        outputDirectory, dr))
+      }
     }
     ## beware: overwrites without warning!!
     Z <- file.copy (fname25, fnew, overwrite=TRUE)  ## BEWARE: overwrites without warning!!
-    
-    # function to copy attributes from old variable (e.g., PITCH) to new one (e.g., PITCHKF)
-    copy_attributes <- function (atv, v, nfile) {
-      for (i in 1:length(atv)) {
-        aname <- names(atv[i])
-        if (grepl ('name', aname)) {next}  # skips long and standard names
-        if (grepl ('units', aname)) {next}
-        if (grepl ('Dependencies', aname)) {next}
-        if (grepl ('actual_range', aname)) {next}
-        if (is.numeric (atv[[i]])) {
-          ncatt_put (nfile, v, attname=aname, attval=as.numeric(atv[[i]]))
-        } else {
-          ncatt_put (nfile, v, attname=aname, attval=as.character (atv[[i]]))
-        }
-      }
-    }
-    
     
     ## ----writeCDF, include = FALSE-----------------------------------------------------
     ## modify-new-netcdf.R
@@ -1086,7 +1125,23 @@ for (flight in Fl) {
     ## ----create-new-netcdf, cache=FALSE--------------------------------------
     
     print (sprintf("making new netCDF file -- %s", Sys.time()))
-    source ('chunks/create-new-netcdf.R')
+    # source ('chunks/create-new-netcdf.R')
+    fnew <- sub ('.nc', 'KF.nc', fname)
+    fnew <- paste0(outputDirectory, sub('.*/', '', fnew))
+    if(SHINY) {  ## for the datavis shiny server, only this output is allowed:
+      fnew <- paste0('KFoutput/', sub('.*/', '', fnew))
+    }
+    print (sprintf ('making new netCDF file named %s', fnew))
+    ## Make the directory KF if needed:
+    if (grepl ('/KF/', fnew)) {
+      if (!dir.exists(outputDirectory)) {
+        dr <- dir.create(outputDirectory)
+        print (sprintf ('creating the output directory named %s; return is %s',
+                        outputDirectory, dr))
+      }
+    }
+    ## beware: overwrites without warning!!
+    Z <- file.copy (fname, fnew, overwrite=TRUE)  ## BEWARE: overwrites without warning!!
     
     ## ----modify-new-netcdf, include=TRUE-------------------------------------
     

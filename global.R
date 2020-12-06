@@ -29,6 +29,7 @@ showPlots <- TRUE
 viewPlot <- 1
 genPlot <- TRUE
 firstRun <- TRUE
+outputDirectory <- paste0(DataDirectory(), Project, '/KF/')
 ## See if this is being run as user "shiny":
 SHINY <- ifelse(Sys.info()['user'] == 'shiny', TRUE, FALSE)
 
@@ -77,14 +78,20 @@ getNext <- function(Project) {
   if (HighRate) {
     Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
                             sprintf ("%srf..hKF.nc", Project)), decreasing = TRUE)[1]
-    ## Consider also if a processed version exists in KFoutput:
-    Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..hKF.nc", Project))),
+    ## Consider also if a processed version exists in KF or KFoutput:
+    Fl <- sort (c(Fl, 
+                  list.files (sprintf ("%s%s/KF/", DataDirectory (), Project),
+                              sprintf ("%srf..hKF.nc", Project)),
+                  list.files ("KFoutput", sprintf ("%srf..hKF.nc", Project))),
                 decreasing = TRUE)[1]
   } else {
     Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), Project),
                             sprintf ("%srf..KF.nc", Project)), decreasing = TRUE)[1]
-    ## Consider also if a processed version exists in KFoutput:
-    Fl <- sort (c(Fl, list.files ("KFoutput", sprintf ("%srf..KF.nc", Project))),
+    ## Consider also if a processed version exists in KF or KFoutput:
+    Fl <- sort (c(Fl, 
+                  list.files (sprintf ("%s%s/KF/", DataDirectory (), Project),
+                              sprintf ("%srf..KF.nc", Project)),
+                  list.files ("KFoutput", sprintf ("%srf..KF.nc", Project))),
                 decreasing = TRUE)[1]
   }
   if (is.na (Fl)) {
@@ -264,7 +271,7 @@ runScript <- function (ssn) {
       }
     } else {
       cmd <- sprintf('Rscript KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
-                     Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
+                     Project, Flight, newAK, newSS, simple, NSTEP, outputDirectory, genPlot)
     }
     system (cmd, wait=FALSE)
     ShowProgress (NSTEP, progress, Flight)
@@ -273,14 +280,15 @@ runScript <- function (ssn) {
       progress$set(message = 'read data, initialize', 
                    detail = sprintf('flight rf%02dh', Flight),
                    value=0)
-      cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %s %s %s %s %d %s | tee -a KFlog', 
-                     Project, sprintf('rf%02dh', Flight), newAK, newSS, simple, NSTEP, genPlot)
+      cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %s %s %s %s %d %s %s | tee -a KFlog', 
+                     Project, sprintf('rf%02dh', Flight), newAK, newSS, simple, 
+                     NSTEP, outputDirectory, genPlot)
     } else {
       progress$set(message = 'read data, initialize', 
                    detail = sprintf('flight %d', Flight),
                    value=0)
-      cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %d %s %s %s %d %s | tee -a KFlog', 
-                     Project, Flight, newAK, newSS, simple, NSTEP, genPlot)
+      cmd <- sprintf('nice -10 Rscript KalmanFilter.R %s %d %s %s %s %d %s %s | tee -a KFlog', 
+                     Project, Flight, newAK, newSS, simple, NSTEP, outputDirectory, genPlot)
     }
     system (cmd, wait=FALSE)
     ShowProgress (NSTEP, progress, Flight)

@@ -37,9 +37,12 @@ ui <- fluidPage(
                    column (4, checkboxInput ('genPlot', label='plots?', value=genPlot)),
                    column (4, numericInput ('viewPlot', label='view', value=1,
                                             min=1, max=8, step=1, width='80'))
+                 ), 
+                 fluidRow (
+                   selectInput('dir', 'output', choices=c('KF', 'standard', 'KFoutput/'))
                  )
     ),
-    
+   
     mainPanel(
       textOutput('runPar'),
       plotOutput("resultPlot")

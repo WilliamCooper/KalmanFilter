@@ -23,6 +23,18 @@ server <- function(input, output, session) {
   })
   obsProject <- observe (exprProject, quoted=TRUE)
   
+  exprOutDir <- quote ({
+    if (input$dir == 'KF') {
+      outputDirectory <<- paste0(DataDirectory(), Project, '/KF/')
+    } else if (input$dir == 'standard') {
+      outputDirectory <<- paste0(DataDirectory(), Project, '/')
+    } else {
+      outputDirectory <<- input$dir
+    }
+  })
+  obsOutDir <- observe (exprOutDir, quoted=TRUE)
+  
+  
   exprFlight <- quote ({
     if (input$Flight != Flight) {
       Flight <<- input$Flight
