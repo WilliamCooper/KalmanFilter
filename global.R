@@ -117,8 +117,10 @@ getNext <- function(Project) {
 ShowProgress <- function(NSTEP, progress, Flight) {
   flt <- Flight
   if(is.numeric(Flight)) {
-    flt <- sprintf('rf%02d', Flight)
+    flt <- sprintf('%s%02d', typeFlight, Flight)
   }
+  flt <<- flt
+  rm(flt)
   PLOOP <- 1
   TimeEstimate <- 30 * 9 * 10 / NSTEP  ## for 9-h flight
   while (PLOOP) {

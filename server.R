@@ -37,6 +37,7 @@ server <- function(input, output, session) {
   exprtypeFlight <- quote ({
     if (input$type != typeFlight) {
       typeFlight <<- input$type
+      flt <<- sprintf('%s%02d', typeFlight, Flight)
       progress$set(message = 'ready to run', detail = sprintf('flight %s%02d', 
                                                               typeFlight,Flight))
     }

@@ -279,7 +279,7 @@ if (ALL) {
     print(' ALL loop: These files will be processed:')
     print(Fl)
   }
-} else if(run.args[2] == 'ALLHR') {
+} else if(ALLHR) {
   Fl <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
                           sprintf ("%srf..h.nc", Project)))
   FlKF <- sort (list.files (sprintf ("%s%s/", DataDirectory (), ProjectDir),
@@ -353,8 +353,12 @@ for (flight in Fl) {
                  'PITCHKF', 'ROLLKF', 'THDGKF', 'PSXC', 'GGLAT', 'GGALT', 'ACINS')
     fname1 <- setFileName(Project, paste0(sub('h$', '', flight), 'KF'))
     fname1b <- paste0('KFoutput/', Project, sub('h$', '', flight), 'KF.nc')
+    fname1c <- sub(sprintf('%s/', Project), sprintf('%s/KF/', Project), fname1)
     if(file.exists(fname1b)) {
       fname1 <- fname1b
+    }
+    if(file.exists(fname1c)) {
+      fname1 <- fname1c
     }
     D1 <- getNetCDF(fname1, VarList)
     Rate <- 1
@@ -420,7 +424,7 @@ for (flight in Fl) {
     } else if (SE1[1] < SE25[1]) {
       gap <- nsec(SE25[1]) - nsec(SE1[1])
       Cor <- Cor[(gap+1):nrow(Cor), ]
-    }
+    } 
     if(SE1[2] > SE25[2]) {
       gap <- nsec(SE1[2]) - nsec(SE25[2])
       Cor <- Cor[1:(nrow(Cor) - gap), ]
