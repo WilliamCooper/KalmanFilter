@@ -9,6 +9,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(Ranadu)
+library(shiny)
 ```
 
 ```{r echo = FALSE}
